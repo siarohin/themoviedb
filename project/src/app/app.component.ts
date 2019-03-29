@@ -1,12 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewChecked {
   title = 'Movie';
+  value = '';
 
   constructor() {
 
@@ -14,6 +15,10 @@ export class AppComponent {
 
 
   onInit() {
+  }
+
+  ngAfterViewChecked() {
+
   }
 
   getInputValue(message: string) {
