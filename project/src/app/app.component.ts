@@ -16,7 +16,7 @@ export class AppComponent {
   onInit() {
   }
 
-  onNotifyParent(message: string) {
+  getInputValue(message: string) {
     this.title = message;
   }
 }
