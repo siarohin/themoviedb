@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-custom-form',
@@ -8,18 +8,15 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 export class CustomFormComponent implements OnInit {
 
   @Output()
-  userValue: string;
-
-  @Output()
-  input: EventEmitter<any> = new EventEmitter();
+  notifyParent: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  onInputChange(value: string) {
-    return this.userValue = value;
+  notify(event): void {
+    this.notifyParent.emit(event.target.value);
   }
 
 }

@@ -15,4 +15,8 @@ export class AppComponent {
 
   onInit() {
   }
+
+  onNotifyParent(message: string) {
+    this.title = message;
+  }
 }

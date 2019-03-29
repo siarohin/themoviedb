@@ -1,5 +1,4 @@
 <input
   class="header__input"
-  (input)="onInputChange($event.target.value);"
+  (keyup)="notify($event);"
   placeholder="Search" />
-
