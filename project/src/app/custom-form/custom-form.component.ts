@@ -8,15 +8,15 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class CustomFormComponent implements OnInit {
 
   @Output()
-  notifyParent: EventEmitter<string> = new EventEmitter<string>();
+  changeInputValue: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  notify(event): void {
-    this.notifyParent.emit(event.target.value);
+  onKeyUp(event): void {
+    this.changeInputValue.emit(event.target.value);
   }
 
 }
