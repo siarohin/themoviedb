@@ -1,4 +1,5 @@
 $color-solomon: #fa8072;
+$color-solomon-active: #ff4040;
 $width: 100%;
 
 $border-width: 2px;
@@ -32,6 +33,10 @@ $list-padding: 2rem 2.5rem;
 
 .header__title {
   color: $color-solomon;
+
+  &.active {
+    color: $color-solomon-active;
+  }
 }
 
 .main {

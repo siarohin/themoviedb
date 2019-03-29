@@ -8,6 +8,7 @@ import { Component, OnInit, Input, AfterViewChecked, Output } from '@angular/cor
 export class AppComponent implements AfterViewChecked {
   title = 'Movie';
   value: string;
+  inputFocusActive: boolean = false;
 
   constructor() {
 
@@ -21,6 +22,13 @@ export class AppComponent implements AfterViewChecked {
 
   }
 
+  onInputFocus(event: Event): void {
+    this.inputFocusActive = true;
+  }
+
+  onInputBlur(event: Event): void {
+    this.inputFocusActive = false;
+  }
 
   getInputValue(inputValue: string): void {
     this.value = inputValue;

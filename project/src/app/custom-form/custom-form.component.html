@@ -1,4 +1,9 @@
 <input
-  class="header__input"
+  [ngClass]="{
+    'header__input': true,
+    'active': isActive
+  }"
   (keyup)="onKeyUp($event);"
+  (focus)="onInputFocus($event);"
+  (blur)="onInputBlur($event);"
   placeholder="Search" />

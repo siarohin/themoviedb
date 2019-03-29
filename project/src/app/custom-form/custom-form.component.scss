@@ -1,4 +1,5 @@
 $color-solomon: #fa8072;
+$color-solomon-active: #ff4040;
 $color-grey: #333;
 
 input::-ms-clear {
@@ -24,5 +25,16 @@ input::-ms-clear {
     ::-ms-input-placeholder {
       color: $color-grey;
     }
+
+    &.active {
+      border-color: $color-solomon-active;
+    }
+    &.blur {
+      border-color: $color-solomon;
+    }
 }
+
+
+
+
 
