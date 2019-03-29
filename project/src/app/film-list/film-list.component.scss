@@ -34,18 +34,21 @@ $color-solomon: #fa8072;
   width: 30%;
   margin: 0 1rem;
   order: 1;
+  position: relative;
+  width: 150px;
+  height: 150px;
 }
 
 .list-items__actors {
-  width: calc(70% - 4rem);
   margin: 0 1rem;
   order: 2;
   font-weight: 700;
 }
 
 .item__image {
-  width: 150px;
-  height: 150px;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 }
 
 .actors-data {

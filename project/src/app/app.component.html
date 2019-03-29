@@ -1,4 +1,8 @@
-<div class="wrapper --center-position">
+<div
+  [ngClass]="{
+    'wrapper': true,
+    'center-position': !value
+  } ">
 
   <header class="header">
     <h1 class="header__title">{{ title }}</h1>
@@ -6,7 +10,7 @@
   </header>
 
 
-  <main class="main">
+  <main *ngIf="value" class="main">
     <app-film-list class="main__film-list" [title]="value"></app-film-list>
     <app-film-detail class="main__film-detail"></app-film-detail>
   </main>
