@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, AfterViewChecked, Output } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +7,7 @@ import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
 })
 export class AppComponent implements AfterViewChecked {
   title = 'Movie';
-  value = '';
+  value: string;
 
   constructor() {
 
@@ -21,7 +21,8 @@ export class AppComponent implements AfterViewChecked {
 
   }
 
-  getInputValue(message: string) {
-    this.title = message;
+
+  getInputValue(inputValue: string): void {
+    this.value = inputValue;
   }
 }

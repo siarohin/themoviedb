@@ -46,6 +46,7 @@ $list-padding: 2rem 2.5rem;
   border-right: $border-width solid $color-solomon;
   width: $width * 1/3;
   padding: $list-padding;
+  min-width: 400px;
 }
 
 .main__film-detail {
