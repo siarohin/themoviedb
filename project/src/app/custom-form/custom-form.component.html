@@ -6,4 +6,4 @@
   (keyup)="onKeyUp($event);"
   (focus)="onInputFocus($event);"
   (blur)="onInputBlur($event);"
-  placeholder="Search" />
+  [placeholder]="isActive ? '' : 'Search'" />

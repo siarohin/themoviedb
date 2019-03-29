@@ -33,6 +33,7 @@ $list-padding: 2rem 2.5rem;
 
 .header__title {
   color: $color-solomon;
+  transition: color .5s;
 
   &.active {
     color: $color-solomon-active;
