@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+
+// <!-- Reset default input styles -->
+input,
+label,
+select,
+button,
+textarea {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  display: inline-block;
+  vertical-align: middle;
+  white-space: normal;
+  background: none;
+  line-height: 1;
+
+  font-size:1rem;
+  font-family: 'Lato', Arial, Helvetica, sans-serif;
+}
+
+/* Remove the stupid outer glow in Webkit */
+input:focus {
+  outline:0;
+}
+
+// <!-- // Reset default input styles -->
+
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Lato', Arial, Helvetica, sans-serif;
+  margin: 0;
+}

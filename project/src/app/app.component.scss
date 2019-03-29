@@ -1,0 +1,54 @@
+$color-solomon: #fa8072;
+$width: 100%;
+
+$border-width: 2px;
+$list-padding: 2rem 2.5rem;
+
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  flex-flow: column wrap;
+  top: 0;
+  left: 0;
+}
+
+.center-position {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  overflow: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.header__title {
+  color: $color-solomon;
+}
+
+.main {
+  height: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  border-top: $border-width solid $color-solomon;
+}
+
+.main__list {
+  order: 1;
+  border-right: $border-width solid $color-solomon;
+  width: $width * 1/3;
+  padding: $list-padding;
+}
+
+.main__list-item {
+  order: 2;
+  width: $width * 2/3;
+  padding: $list-padding;
+}
