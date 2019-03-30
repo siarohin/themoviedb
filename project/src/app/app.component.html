@@ -22,7 +22,7 @@
 
 
   <main *ngIf="value" class="main">
-    <app-film-list class="main__film-list" [title]="value"></app-film-list>
+    <app-film-list [films]="filmList" class="main__film-list"></app-film-list>
     <app-film-detail class="main__film-detail"></app-film-detail>
   </main>
 

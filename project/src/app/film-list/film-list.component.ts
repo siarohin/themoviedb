@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class FilmListComponent implements OnInit {
   @Input()
-  title: string;
+  films: object[];
 
   constructor() { }
 
