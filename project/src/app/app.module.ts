@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { CustomFormComponent } from './custom-form/custom-form.component';
 import { FilmListComponent } from './film-list/film-list.component';
 import { FilmDetailComponent } from './film-detail/film-detail.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { FilmDetailComponent } from './film-detail/film-detail.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

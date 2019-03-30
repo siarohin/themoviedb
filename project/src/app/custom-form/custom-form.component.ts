@@ -28,7 +28,7 @@ export class CustomFormComponent implements OnInit {
   }
 
   onKeyUp(event): void {
-    this.changeInputValue.emit(event.target.value);
+    this.changeInputValue.emit(event);
   }
 
   onFocus(event): void {

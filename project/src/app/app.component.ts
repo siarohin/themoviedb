@@ -9,12 +9,13 @@ import { FilmService } from './film.service';
 export class AppComponent {
   title = 'Movie';
   inputFocusActive: boolean = false;
-  filmList: object[];
+  filmList;
 
   constructor(private filmService: FilmService) {
   }
 
-  onInit() {
+  ngOnInit(){
+
   }
 
   onInputFocus(event: Event): void {
@@ -25,7 +26,11 @@ export class AppComponent {
     this.inputFocusActive = false;
   }
 
-  onInputChange(value: string): void {
-    this.filmList = this.filmService.getData(value);
+  onInputChange(event): void {
+    const { value } = event.target;
+    if (value) {
+      this.filmService.getFilmList(value)
+        .subscribe(response => this.filmList = response);
+    }
   }
 }
