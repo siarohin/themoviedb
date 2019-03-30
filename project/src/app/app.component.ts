@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { Component } from '@angular/core';
 import { FilmService } from './film.service';
 
 @Component({
@@ -8,7 +8,6 @@ import { FilmService } from './film.service';
 })
 export class AppComponent {
   title = 'Movie';
-  inputValue: string;
   inputFocusActive: boolean = false;
   filmList: object[];
 
@@ -27,7 +26,6 @@ export class AppComponent {
   }
 
   onInputChange(value: string): void {
-    this.inputValue = value;
     this.filmList = this.filmService.getData(value);
   }
 }

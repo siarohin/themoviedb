@@ -1,7 +1,7 @@
 <div
   [ngClass]="{
     'wrapper': true,
-    'center-position': !inputValue
+    'center-position': !filmList
   } ">
 
   <header class="header">
@@ -21,7 +21,7 @@
   </header>
 
 
-  <main *ngIf="inputValue" class="main">
+  <main *ngIf="filmList" class="main">
     <app-film-list [films]="filmList"></app-film-list>
     <app-film-detail></app-film-detail>
   </main>
