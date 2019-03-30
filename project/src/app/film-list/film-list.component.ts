@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-film-list',
@@ -6,6 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./film-list.component.scss']
 })
 export class FilmListComponent implements OnInit {
+  @HostBinding('class') className = 'main__film-list';
+
   @Input()
   films: object[];
 
