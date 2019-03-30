@@ -1,7 +1,7 @@
 <div
   [ngClass]="{
     'wrapper': true,
-    'center-position': !value
+    'center-position': !inputValue
   } ">
 
   <header class="header">
@@ -16,12 +16,12 @@
       [isActive]="inputFocusActive"
       (getInputFocus)="onInputFocus($event)"
       (getInputBlur)="onInputBlur($event)"
-      (changeInputValue)="getInputValue($event)">
+      (changeInputValue)="onInputChange($event);">
     </app-custom-form>
   </header>
 
 
-  <main *ngIf="value" class="main">
+  <main *ngIf="inputValue" class="main">
     <app-film-list [films]="filmList"></app-film-list>
     <app-film-detail></app-film-detail>
   </main>
