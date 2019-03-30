@@ -28,7 +28,7 @@ export class AppComponent {
 
   onInputChange(event): void {
     const { value } = event.target;
-    if (value) {
+    if (value.length > 2) {
       this.filmService.getFilmList(value)
         .subscribe(response => this.filmList = response);
     }

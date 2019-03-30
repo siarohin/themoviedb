@@ -24,6 +24,17 @@ export class FilmService {
   getFilmList(value: string) {
     return this.httpClient
       .get(this.getURL(value))
-      .pipe(map(res => res.results));
+      .pipe(map(res => res.results))
+      .pipe(map(films => {
+        return films.map(film => {
+          return {
+            'name': film.original_title,
+            'imgURL': film.poster_path ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${film.poster_path}` : '../assets/images/empty.png',
+            'vote': film.vote_average,
+            'release': film.release_date,
+            'overview': film.overview,
+          }
+        })
+      }))
   }
 }
