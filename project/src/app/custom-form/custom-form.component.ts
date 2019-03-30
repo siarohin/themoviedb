@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-custom-form',
@@ -6,6 +6,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
   styleUrls: ['./custom-form.component.scss']
 })
 export class CustomFormComponent implements OnInit {
+  @HostBinding('class') className = 'header__input';
+
   @Input()
   isActive: boolean;
 
@@ -29,11 +31,11 @@ export class CustomFormComponent implements OnInit {
     this.changeInputValue.emit(event.target.value);
   }
 
-  onInputFocus(event): void {
+  onFocus(event): void {
     this.getInputFocus.emit(event);
   }
 
-  onInputBlur(event): void {
+  onBlur(event): void {
     this.getInputBlur.emit(event);
   }
 

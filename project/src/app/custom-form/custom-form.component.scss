@@ -2,11 +2,11 @@ $color-solomon: #fa8072;
 $color-solomon-active: #ff4040;
 $color-grey: #333;
 
-input::-ms-clear {
+:host > input::-ms-clear {
   display: none;
 }
 
-.header__input {
+:host.header__input > input {
   margin: 0 0 0 4rem;
   padding: 0 1rem;
   border: 1px solid $color-solomon;
