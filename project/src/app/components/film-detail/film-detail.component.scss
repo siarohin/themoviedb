@@ -22,10 +22,10 @@ $color-solomon-active: #ff4040;
 
 .film__title::before {
   content: '';
-  width: 6rem;
-  height: 6rem;
+  width: 4rem;
+  height: 4rem;
   position: absolute;
-  left: -4rem;
+  left: -2rem;
   background: $color-white;
   transform: rotate(45deg);
 }
