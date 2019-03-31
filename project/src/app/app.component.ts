@@ -30,11 +30,11 @@ export class AppComponent {
 
   onInputChange(event) {
     const { value } = event.target;
-    this.onSubscribe(value);
+    this.onSubscribeFilmList(value);
     if (this.selectedFilm) this.selectedFilm = this.filmList[0];
   }
 
-  onSubscribe(value) {
+  onSubscribeFilmList(value) {
     if (value.length > 2) {
       return this.filmService.getFilmList(value)
         .subscribe(response => this.filmList = response);

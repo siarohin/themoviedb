@@ -23,6 +23,11 @@ export class FilmService {
     return `${apiURL}movie?api_key=${apiKey}&language=${language}&query=${value}&page=${page}&include_adult=${adult}`;
   }
 
+  getActorList(value: string) {
+    return this.httpClient
+      .get(`https://api.themoviedb.org/3/movie/${value}/credits?api_key=${params.apiKey}`)
+  }
+
   getFilmList(value: string) {
     return this.httpClient
       .get(this.getURL(value))
