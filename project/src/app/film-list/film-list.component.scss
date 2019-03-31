@@ -21,6 +21,11 @@ $color-solomon: #fa8072;
   display: flex;
   flex-flow: row wrap;
   overflow: hidden;
+  cursor: pointer;
+
+  &.active {
+    background: $color-solomon;
+  }
 }
 
 .list-items__title {
