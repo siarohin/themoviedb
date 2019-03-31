@@ -8,7 +8,6 @@ import { FilmInterface } from './interfaces/film.interface';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Movie';
   inputFocusActive: boolean = false;
   filmList: FilmInterface[];
   filmActors: [];
@@ -53,16 +52,21 @@ export class AppComponent {
             })
           },
           error => console.log(`Error: ${error}`),
-          () => console.log('Completed onSubscribeFilmList'));
+          () => console.log(this.filmList));
     }
   }
 
-  onSubscribeFilmActors(value: string) {
-    return this.filmService.getActorList(value)
-      .subscribe(
-        response => console.log(response),
-        error => console.log(`Error: ${error}`),
+  onSubscribeFilmActors() {
+    this.filmList.map(film => {
+      return this.filmService.getActorList(film.id)
+        .subscribe(
+          stream => {
+            const filmListAndActors = Object.assign({}, film, stream);
+            console.log(filmListAndActors);
+          },
+          error => console.log(`Error: ${error}`),
           () => console.log('Completed onSubscribeFilmActors'));
+    })
   }
 
   findFilmDescription(value: string): void {
@@ -73,6 +77,6 @@ export class AppComponent {
   onFilmListClick(event): void {
     const { id } = event.currentTarget;
     this.findFilmDescription(id);
-    this.onSubscribeFilmActors(322740); // TODO Delete DEMO
+    this.onSubscribeFilmActors(); // TODO Delete DEMO
   }
 }

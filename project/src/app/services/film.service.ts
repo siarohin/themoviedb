@@ -20,7 +20,6 @@ export class FilmService {
     return this.httpClient
       .get(`${apiURL}/movie/${value}/credits?api_key=${params.apiKey}`)
       .pipe(map(res => res)) // TODO Add Inerface
-      .pipe(map(res => res.cast))
   }
 
   getFilmList(value: string) {
