@@ -1,14 +1,6 @@
 import { Component } from '@angular/core';
-import { FilmService } from './film.service';
-
-export interface FilmInterface {
-  id: string,
-  name: string,
-  imgURL: string,
-  vote: string,
-  release: string,
-  overview: string
-}
+import { FilmService } from './services/film.service';
+import { FilmInterface } from './interfaces/film.interface';
 
 @Component({
   selector: 'app-root',

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { ApiInterface } from '../interfaces/api.interface';
 
 const params = {
   apiURL: 'https://api.themoviedb.org/3/search/',
@@ -9,19 +10,6 @@ const params = {
   language: 'en-US',
   page: 1,
   adult: false,
-}
-interface ApiInterface {
-  page: number,
-  results: {
-    id: number,
-    original_title: string,
-    poster_path: string,
-    vote_average: string,
-    release_date: string,
-    overview: string
-  }[],
-  total_pages: number,
-  total_results: number,
 }
 
 @Injectable({
@@ -43,12 +31,12 @@ export class FilmService {
       .pipe(map(films => {
         return films.map(film => {
           return {
-            'id': `${film.id}`,
-            'name': film.original_title,
-            'imgURL': film.poster_path ? `${params.imgURL}${film.poster_path}` : '../assets/images/empty.png',
-            'vote': film.vote_average,
-            'release': film.release_date,
-            'overview': film.overview,
+            id: `${film.id}`,
+            name: `${film.original_title}`,
+            imgURL: film.poster_path ? `${params.imgURL}${film.poster_path}` : '../assets/images/empty.png',
+            vote: `${film.vote_average}`,
+            release: `${film.release_date}`,
+            overview: `${film.overview}`
           }
         })
       }))

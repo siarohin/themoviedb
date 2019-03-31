@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, HostBinding } from '@angular/core';
-import { FilmInterface } from '../app.component';
+import { FilmInterface } from '../../interfaces/film.interface';
 
 @Component({
   selector: 'app-film-detail',

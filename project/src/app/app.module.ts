@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CustomFormComponent } from './custom-form/custom-form.component';
-import { FilmListComponent } from './film-list/film-list.component';
-import { FilmDetailComponent } from './film-detail/film-detail.component';
+import { CustomFormComponent } from './components/custom-form/custom-form.component';
+import { FilmListComponent } from './components/film-list/film-list.component';
+import { FilmDetailComponent } from './components/film-detail/film-detail.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
