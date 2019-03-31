@@ -4,12 +4,10 @@ import { map } from 'rxjs/operators';
 import { ApiInterface } from '../interfaces/api.interface';
 
 const params = {
-  apiURL: 'https://api.themoviedb.org/3/search/',
+  apiURL: 'https://api.themoviedb.org/3',
   imgURL: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2',
   apiKey: 'df56cf406d2c44e988b7705490bae759',
-  language: 'en-US',
-  page: 1,
-  adult: false,
+  page: 1
 }
 
 @Injectable({
@@ -19,13 +17,14 @@ export class FilmService {
   constructor(private httpClient: HttpClient) { }
 
   getURL(value: string): string {
-    const { apiURL, apiKey, language, page, adult } = params;
-    return `${apiURL}movie?api_key=${apiKey}&language=${language}&query=${value}&page=${page}&include_adult=${adult}`;
+    const { apiURL, apiKey, page } = params;
+    return `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`;
   }
 
   getActorList(value: string) {
+    const { apiURL } = params;
     return this.httpClient
-      .get(`https://api.themoviedb.org/3/movie/${value}/credits?api_key=${params.apiKey}`)
+      .get(`${apiURL}/movie/${value}/credits?api_key=${params.apiKey}`)
   }
 
   getFilmList(value: string) {
