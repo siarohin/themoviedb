@@ -5,7 +5,6 @@ import { ApiInterface } from '../interfaces/api.interface';
 
 const params = {
   apiURL: 'https://api.themoviedb.org/3',
-  imgURL: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2',
   apiKey: 'df56cf406d2c44e988b7705490bae759',
   page: 1
 }
@@ -20,6 +19,8 @@ export class FilmService {
     const { apiURL } = params;
     return this.httpClient
       .get(`${apiURL}/movie/${value}/credits?api_key=${params.apiKey}`)
+      .pipe(map(res => res)) // TODO Add Inerface
+      .pipe(map(res => res.cast))
   }
 
   getFilmList(value: string) {
@@ -28,18 +29,5 @@ export class FilmService {
       .get(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`)
       .pipe(map(res => res as ApiInterface))
       .pipe(map(res => res.results))
-      .pipe(map(films => {
-        return films.map(film => {
-          return {
-            id: `${film.id}`,
-            name: `${film.title}`,
-            fullName: `${film.original_title}`,
-            imgURL: film.poster_path ? `${params.imgURL}${film.poster_path}` : '../assets/images/empty.png',
-            vote: `${film.vote_average}`,
-            release: `${film.release_date}`,
-            overview: `${film.overview}`
-          }
-        })
-      }))
   }
 }

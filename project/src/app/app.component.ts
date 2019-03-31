@@ -35,16 +35,34 @@ export class AppComponent {
     if (this.selectedFilm) this.selectedFilm = this.filmList[0];
   }
 
-  onSubscribeFilmActors(value) {
-    return this.filmService.getActorList(value)
-      .subscribe(response => console.log(response));
+  onSubscribeFilmList(value: string) {
+    if (value.length > 2) {
+      this.filmService.getFilmList(value)
+        .subscribe(
+          stream => {
+            this.filmList = stream.map(film => {
+              return {
+                id: `${film.id}`,
+                name: `${film.title}`,
+                fullName: `${film.original_title}`,
+                imgURL: film.poster_path ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${film.poster_path}` : '../assets/images/empty.png',
+                vote: `${film.vote_average}`,
+                release: `${film.release_date}`,
+                overview: `${film.overview}`
+              }
+            })
+          },
+          error => console.log(`Error: ${error}`),
+          () => console.log('Completed onSubscribeFilmList'));
+    }
   }
 
-  onSubscribeFilmList(value) {
-    if (value.length > 2) {
-      return this.filmService.getFilmList(value)
-        .subscribe(response => this.filmList = response);
-    }
+  onSubscribeFilmActors(value: string) {
+    return this.filmService.getActorList(value)
+      .subscribe(
+        response => console.log(response),
+        error => console.log(`Error: ${error}`),
+          () => console.log('Completed onSubscribeFilmActors'));
   }
 
   findFilmDescription(value: string): void {
