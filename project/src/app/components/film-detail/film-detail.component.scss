@@ -1,5 +1,42 @@
 $color-solomon: #fa8072;
+$color-white: #fff;
+$color-solomon-active: #ff4040;
 
 :host.main__film-detail {
-  background: $color-solomon;
+
+}
+
+.film__title {
+  margin: -1.5rem -3rem 0 -4.5rem;
+  padding: 0 1rem 0 5rem;
+  background: $color-solomon-active;
+  font-weight: 400;
+  font-size: 2em;
+  position: relative;
+  height: 6rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  transform: rotate(-1.5deg);
+}
+
+.film__title::before {
+  content: '';
+  width: 6rem;
+  height: 6rem;
+  position: absolute;
+  left: -4rem;
+  background: $color-white;
+  transform: rotate(45deg);
+}
+
+.film__overview {
+  padding: 2rem 0;
+  line-height: 1.5rem;
+  transform: rotate(-0.5deg);
+}
+
+.film__image {
+  width: 100%;
+  transform: rotate(-0.5deg);
 }

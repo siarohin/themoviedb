@@ -11,20 +11,25 @@ $color-solomon: #fa8072;
 }
 
 .list-items {
-  margin: -2rem -2.5rem;
+  display: flex;
+  flex-flow: column wrap;
 }
 
 .list-items > li {
   width: 100%;
-  border-bottom: 2px solid $color-solomon;
+  border-bottom: 1px solid $color-solomon;
   padding: 2rem 0;
   display: flex;
   flex-flow: row wrap;
   overflow: hidden;
   cursor: pointer;
+  order: 2;
+  transform: rotate(-0.5deg) scale(0.8);
+  transition: all .5s ease-in-out;
 
   &.active {
-    background: $color-solomon;
+    transform: rotate(-0.5deg) scale(1.01);
+    order: 1;
   }
 }
 
@@ -33,6 +38,7 @@ $color-solomon: #fa8072;
   font-size: 1.25rem;
   font-weight: 700;
   margin: 0 1rem 2rem;
+  z-index: 1;
 }
 
 .list-items__item {

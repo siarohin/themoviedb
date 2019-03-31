@@ -47,7 +47,7 @@ export class AppComponent {
   }
 
   onFilmListClick(event): void {
-    const { id } = event.target;
+    const { id } = event.currentTarget;
     this.findFilmDescription(id);
   }
 }

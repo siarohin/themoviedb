@@ -1,9 +1,9 @@
-<h2 class="list-items__title">{{ film.name }}</h2>
+<h1 class="film__title">{{ film.fullName }}</h1>
 
-<article class="list-items__actors">
+<article class="film__overview">
   {{ film.overview }}
 </article>
 
-<div class="list-items__item">
-  <img [src]="film.imgURL" class="item__image" [alt]="film.name" />
+<div class="film__image">
+  <img [src]="film.imgURL" class="film__image" [alt]="film.name" />
 </div>

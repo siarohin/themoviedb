@@ -1,5 +1,8 @@
-<ul class="reset list-items" (click)="onClick($event);">
-  <li *ngFor="let film of films;" [id]="film.id">
+<ul class="reset list-items">
+  <li *ngFor="let film of films; let i = index" (click)="onClick($event); clicked = film;"
+    [id]="film.id"
+    [class.active]="!clicked ? i === 0 : clicked === film">
+
     <h2 class="list-items__title">{{ film.name }}</h2>
     <div class="list-items__item">
       <img [src]="film.imgURL" class="item__image" [alt]="film.name" />

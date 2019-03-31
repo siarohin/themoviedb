@@ -32,7 +32,8 @@ export class FilmService {
         return films.map(film => {
           return {
             id: `${film.id}`,
-            name: `${film.original_title}`,
+            name: `${film.title}`,
+            fullName: `${film.original_title}`,
             imgURL: film.poster_path ? `${params.imgURL}${film.poster_path}` : '../assets/images/empty.png',
             vote: `${film.vote_average}`,
             release: `${film.release_date}`,

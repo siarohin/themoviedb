@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
+import { FilmInterface } from '../../interfaces/film.interface';
 
 
 @Component({
@@ -10,7 +11,7 @@ export class FilmListComponent implements OnInit {
   @HostBinding('class') className = 'main__film-list';
 
   @Input()
-  films: object[];
+  films: FilmInterface[];
 
   @Output()
   onFilmClick: EventEmitter<string> = new EventEmitter<string>();
@@ -21,9 +22,6 @@ export class FilmListComponent implements OnInit {
   }
 
   onClick(event): void {
-    const filmList = document.querySelectorAll('.list-items > li');
-    filmList.forEach(film => film.classList.remove('active'));
-    event.target.classList.add('active');
     this.onFilmClick.emit(event);
   }
 

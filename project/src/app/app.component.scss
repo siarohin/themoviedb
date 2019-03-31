@@ -32,7 +32,6 @@ $list-padding: 2rem 2.5rem;
   height: 5rem;
   position: fixed;
   background: rgba(255, 255, 255, 0.95);
-  border-bottom: $border-width solid $color-solomon;
   z-index: 1;
 }
 
@@ -55,6 +54,7 @@ $list-padding: 2rem 2.5rem;
   flex-flow: row nowrap;
   position: relative;
   top: 5rem;
+  overflow: hidden;
 }
 
 .main__film-list {
