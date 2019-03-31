@@ -10,6 +10,19 @@ const params = {
   page: 1,
   adult: false,
 }
+interface ApiInterface {
+  page: number,
+  results: {
+    id: number,
+    original_title: string,
+    poster_path: string,
+    vote_average: string,
+    release_date: string,
+    overview: string
+  }[],
+  total_pages: number,
+  total_results: number,
+}
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +38,7 @@ export class FilmService {
   getFilmList(value: string) {
     return this.httpClient
       .get(this.getURL(value))
+      .pipe(map(res => res as ApiInterface))
       .pipe(map(res => res.results))
       .pipe(map(films => {
         return films.map(film => {
