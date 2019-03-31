@@ -16,11 +16,6 @@ const params = {
 export class FilmService {
   constructor(private httpClient: HttpClient) { }
 
-  getURL(value: string): string {
-    const { apiURL, apiKey, page } = params;
-    return `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`;
-  }
-
   getActorList(value: string) {
     const { apiURL } = params;
     return this.httpClient
@@ -28,8 +23,9 @@ export class FilmService {
   }
 
   getFilmList(value: string) {
+    const { apiURL, apiKey, page } = params;
     return this.httpClient
-      .get(this.getURL(value))
+      .get(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`)
       .pipe(map(res => res as ApiInterface))
       .pipe(map(res => res.results))
       .pipe(map(films => {

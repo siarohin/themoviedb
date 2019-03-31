@@ -11,6 +11,7 @@ export class AppComponent {
   title = 'Movie';
   inputFocusActive: boolean = false;
   filmList: FilmInterface[];
+  filmActors: [];
   selectedFilm?: FilmInterface;
 
   constructor(private filmService: FilmService) {
@@ -34,6 +35,11 @@ export class AppComponent {
     if (this.selectedFilm) this.selectedFilm = this.filmList[0];
   }
 
+  onSubscribeFilmActors(value) {
+    return this.filmService.getActorList(value)
+      .subscribe(response => console.log(response));
+  }
+
   onSubscribeFilmList(value) {
     if (value.length > 2) {
       return this.filmService.getFilmList(value)
@@ -49,5 +55,6 @@ export class AppComponent {
   onFilmListClick(event): void {
     const { id } = event.currentTarget;
     this.findFilmDescription(id);
+    this.onSubscribeFilmActors(322740); // TODO Delete DEMO
   }
 }
