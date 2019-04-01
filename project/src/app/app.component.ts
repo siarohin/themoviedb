@@ -13,7 +13,7 @@ export class AppComponent {
   filmList: FilmInterface[];
   actorList?: ActorInterface[];
   selectedFilm?: FilmInterface;
-  filmListWithActors?: object[];
+  filmListWithActors?: FilmInterface[] | ActorInterface[];
 
   constructor(private filmService: FilmService) {
   }
@@ -29,7 +29,9 @@ export class AppComponent {
   onInputChange(event) {
     const { value } = event.target;
     this.onSubscribeFilmList(value);
-    if (this.selectedFilm) { this.selectedFilm = this.filmList[0]; }
+    if (this.selectedFilm) {
+      this.selectedFilm = this.filmList[0];
+    }
   }
 
   onSubscribeFilmList(value: string) {

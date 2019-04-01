@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
 import { FilmInterface } from '../../interfaces/film.interface';
-import { ActorInterface } from '../../interfaces/actor.interface';
 
 
 @Component({
