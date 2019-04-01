@@ -20,8 +20,7 @@ $color-solomon: #fa8072;
   border-bottom: 1px solid $color-solomon;
   padding: 2rem 0;
   display: flex;
-  flex-flow: row wrap;
-  overflow: hidden;
+  flex-flow: row;
   cursor: pointer;
   order: 2;
   transform: rotate(-0.5deg) scale(0.8);
@@ -38,13 +37,15 @@ $color-solomon: #fa8072;
   font-size: 1.25rem;
   font-weight: 700;
   margin: 0 1rem 2rem;
+  position: absolute;
+  top: -1rem;
+  z-index: 1;
 }
 
 .list-items__item {
   width: 30%;
   margin: 0 1rem;
   order: 1;
-  position: relative;
   width: 150px;
   height: 150px;
 }
@@ -75,4 +76,8 @@ $color-solomon: #fa8072;
   height: 2rem;
   display: flex;
   align-items: center;
+}
+
+h3 {
+  margin: 0;
 }
