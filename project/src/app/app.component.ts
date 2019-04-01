@@ -10,7 +10,7 @@ import { FilmInterface } from './interfaces/film.interface';
 export class AppComponent {
   inputFocusActive = false;
   filmList: FilmInterface[];
-  filmActors: [];
+  actorList;
   selectedFilm?: FilmInterface;
 
   constructor(private filmService: FilmService) {
@@ -49,7 +49,8 @@ export class AppComponent {
             });
           },
           error => console.log(`Error: ${error}`),
-          () => console.log(this.filmList));
+          // FilmList complete --> get film actors list
+          () => this.onSubscribeFilmActors());
     }
   }
 
@@ -58,11 +59,12 @@ export class AppComponent {
       return this.filmService.getActorList(film.id)
         .subscribe(
           stream => {
-            const filmListAndActors = Object.assign({}, film, stream);
-            console.log(filmListAndActors);
+            this.actorList = {
+              id: stream.id,
+              actors: stream.cast.map(actor => actor.name),
+            };
           },
-          error => console.log(`Error: ${error}`),
-          () => console.log('Completed onSubscribeFilmActors'));
+          error => console.log(`Error: ${error}`));
     });
   }
 
@@ -74,6 +76,6 @@ export class AppComponent {
   onFilmListClick(event): void {
     const { id } = event.currentTarget;
     this.findFilmDescription(id);
-    this.onSubscribeFilmActors(); // TODO Delete DEMO
+    console.log(this.actorList);
   }
 }
