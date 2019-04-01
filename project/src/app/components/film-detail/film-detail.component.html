@@ -1,9 +1,9 @@
-<h1 class="film__title">{{ film.fullName }}</h1>
+<h1 *ngIf="film" class="film__title">{{ film?.fullName }}</h1>
 
-<article class="film__overview">
-  {{ film.overview }}
+<article *ngIf="film" class="film__overview">
+  {{ film?.overview }}
 </article>
 
-<div class="film__image">
-  <img [src]="film.imgURL" class="film__image" [alt]="film.name" />
+<div *ngIf="film" class="film__image">
+  <img [src]="film?.imgURL" class="film__image" [alt]="film?.name" />
 </div>
