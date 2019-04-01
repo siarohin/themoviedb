@@ -16,11 +16,11 @@ export class AppComponent {
   constructor(private filmService: FilmService) {
   }
 
-  onInputFocus($event: Event): void {
+  onInputFocus($event): void {
     this.inputFocusActive = true;
   }
 
-  onInputBlur($event: Event): void {
+  onInputBlur($event): void {
     this.inputFocusActive = false;
   }
 
@@ -32,15 +32,11 @@ export class AppComponent {
     }
   }
 
-  findFilmDescription(value: string): void {
-    const existingFilm = this.filmList.find(film => film.id === value);
-    if (existingFilm) {
-      this.selectedFilm = existingFilm;
-    }
-  }
-
   onFilmListClick($event): void {
     const { id } = $event.currentTarget;
-    this.findFilmDescription(id);
+    const filmWithDescription = this.filmList.find(film => film.id === id);
+    if (filmWithDescription) {
+      this.selectedFilm = filmWithDescription;
+    }
   }
 }

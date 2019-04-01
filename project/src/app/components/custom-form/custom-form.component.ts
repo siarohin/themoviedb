@@ -27,16 +27,16 @@ export class CustomFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  onKeyUp(event): void {
-    this.changeInputValue.emit(event);
+  onKeyUp($event): void {
+    this.changeInputValue.emit($event);
   }
 
-  onFocus(event): void {
-    this.getInputFocus.emit(event);
+  onFocus($event): void {
+    this.getInputFocus.emit($event);
   }
 
-  onBlur(event): void {
-    this.getInputBlur.emit(event);
+  onBlur($event): void {
+    this.getInputBlur.emit($event);
   }
 
 }
