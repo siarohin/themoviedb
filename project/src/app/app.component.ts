@@ -8,16 +8,12 @@ import { FilmInterface } from './interfaces/film.interface';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  inputFocusActive: boolean = false;
+  inputFocusActive = false;
   filmList: FilmInterface[];
   filmActors: [];
   selectedFilm?: FilmInterface;
 
   constructor(private filmService: FilmService) {
-  }
-
-  ngOnInit(){
-
   }
 
   onInputFocus(event: Event): void {
@@ -31,7 +27,7 @@ export class AppComponent {
   onInputChange(event) {
     const { value } = event.target;
     this.onSubscribeFilmList(value);
-    if (this.selectedFilm) this.selectedFilm = this.filmList[0];
+    if (this.selectedFilm) { this.selectedFilm = this.filmList[0]; }
   }
 
   onSubscribeFilmList(value: string) {
@@ -44,12 +40,13 @@ export class AppComponent {
                 id: `${film.id}`,
                 name: `${film.title}`,
                 fullName: `${film.original_title}`,
+                // tslint:disable-next-line: max-line-length
                 imgURL: film.poster_path ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${film.poster_path}` : '../assets/images/empty.png',
                 vote: `${film.vote_average}`,
                 release: `${film.release_date}`,
                 overview: `${film.overview}`
-              }
-            })
+              };
+            });
           },
           error => console.log(`Error: ${error}`),
           () => console.log(this.filmList));
@@ -66,12 +63,12 @@ export class AppComponent {
           },
           error => console.log(`Error: ${error}`),
           () => console.log('Completed onSubscribeFilmActors'));
-    })
+    });
   }
 
   findFilmDescription(value: string): void {
     const existingFilm = this.filmList.find(film => film.id === value);
-    if (existingFilm) this.selectedFilm = existingFilm;
+    if (existingFilm) { this.selectedFilm = existingFilm; }
   }
 
   onFilmListClick(event): void {
