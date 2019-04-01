@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, mergeMap } from 'rxjs/operators';
-import { ApiInterface } from '../interfaces/api.interface';
+import { map } from 'rxjs/operators';
+import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
 
 const params = {
   apiURL: 'https://api.themoviedb.org/3',
@@ -13,14 +13,12 @@ const params = {
   providedIn: 'root'
 })
 export class FilmService {
-  loadingData;
-
   constructor(private httpClient: HttpClient) { }
 
   getActorList(value: string) {
     const { apiURL } = params;
     return this.httpClient
-      .get(`${apiURL}/movie/${value}/credits?api_key=${params.apiKey}`);
+      .get<ApiActorInterface>(`${apiURL}/movie/${value}/credits?api_key=${params.apiKey}`);
   }
 
   getFilmList(value: string) {

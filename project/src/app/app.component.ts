@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FilmService } from './services/film.service';
 import { FilmInterface } from './interfaces/film.interface';
+import { ActorInterface } from './interfaces/actor.interface';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { FilmInterface } from './interfaces/film.interface';
 export class AppComponent {
   inputFocusActive = false;
   filmList: FilmInterface[];
-  actorList;
+  actorList?: ActorInterface[];
   selectedFilm?: FilmInterface;
 
   constructor(private filmService: FilmService) {
@@ -49,7 +50,7 @@ export class AppComponent {
             });
           },
           error => console.log(`Error: ${error}`),
-          // FilmList complete --> get film actors list
+          // get FilmList complete --> get film actors list
           () => this.onSubscribeFilmActors());
     }
   }
@@ -59,10 +60,11 @@ export class AppComponent {
       return this.filmService.getActorList(film.id)
         .subscribe(
           stream => {
-            this.actorList = {
+            const actor = {
               id: stream.id,
-              actors: stream.cast.map(actor => actor.name),
+              actors: stream.cast.map(person => person.name),
             };
+            this.actorList = this.actorList ? [actor, ...this.actorList] : [actor];
           },
           error => console.log(`Error: ${error}`));
     });
