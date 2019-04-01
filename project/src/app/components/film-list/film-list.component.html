@@ -8,9 +8,9 @@
       <img [src]="film.imgURL" class="item__image" [alt]="film.name" />
     </div>
     <article class="list-items__actors">
-      Actors:
+      <h3 *ngIf="film.actors.length > 0">Actors:</h3>
       <ul class="actors-data">
-        <li *ngFor="let actor of film.actors">{{ actor }}</li>
+        <li *ngFor="let actor of film.actors;">{{ actor }}</li>
       </ul>
     </article>
 

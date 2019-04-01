@@ -1,7 +1,7 @@
 <div
   [ngClass]="{
     'wrapper': true,
-    'center-position': !filmList
+    'center-position': !filmListWithActors
   } ">
 
   <header class="header">
@@ -21,9 +21,9 @@
   </header>
 
 
-  <main *ngIf="filmList" class="main">
-    <app-film-list (onFilmClick)="onFilmListClick($event);" [films]="filmList"></app-film-list>
-    <app-film-detail [film]="selectedFilm ? selectedFilm : filmList[0]"></app-film-detail>
+  <main *ngIf="filmListWithActors" class="main">
+    <app-film-list (onFilmClick)="onFilmListClick($event);" [films]="filmListWithActors"></app-film-list>
+    <app-film-detail [film]="selectedFilm ? selectedFilm : filmListWithActors[0]"></app-film-detail>
   </main>
 
 </div>

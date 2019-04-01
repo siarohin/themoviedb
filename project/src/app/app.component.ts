@@ -13,6 +13,7 @@ export class AppComponent {
   filmList: FilmInterface[];
   actorList?: ActorInterface[];
   selectedFilm?: FilmInterface;
+  filmListWithActors?: object[];
 
   constructor(private filmService: FilmService) {
   }
@@ -50,7 +51,7 @@ export class AppComponent {
             });
           },
           error => console.log(`Error: ${error}`),
-          // get FilmList complete --> get film actors list
+          // FilmList complete --> get film actors list
           () => this.onSubscribeFilmActors());
     }
   }
@@ -61,12 +62,25 @@ export class AppComponent {
         .subscribe(
           stream => {
             const actor = {
-              id: stream.id,
+              id: `${stream.id}`,
               actors: stream.cast.map(person => person.name),
             };
             this.actorList = this.actorList ? [actor, ...this.actorList] : [actor];
           },
-          error => console.log(`Error: ${error}`));
+          error => console.log(`Error: ${error}`),
+          // ActorList complete --> get filmListWithActors
+          () => this.getFilmListWithActors(this.filmList, this.actorList));
+    });
+  }
+
+  getFilmListWithActors(filmList: FilmInterface[], actorList: ActorInterface[]): void {
+    this.filmListWithActors = filmList.map(film => {
+      const existingActor = actorList.find(actor => actor.id === film.id);
+      if (existingActor) {
+        const { actors } = existingActor;
+        return Object.assign(film, { actors: actors.slice(0, 3) });
+      }
+      return Object.assign(film, { actors: '' });
     });
   }
 
@@ -78,6 +92,5 @@ export class AppComponent {
   onFilmListClick(event): void {
     const { id } = event.currentTarget;
     this.findFilmDescription(id);
-    console.log(this.actorList);
   }
 }

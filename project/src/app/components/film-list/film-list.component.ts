@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
 import { FilmInterface } from '../../interfaces/film.interface';
+import { ActorInterface } from '../../interfaces/actor.interface';
 
 
 @Component({
@@ -13,6 +14,7 @@ export class FilmListComponent implements OnInit {
   @Input()
   films: FilmInterface[];
 
+// tslint:disable-next-line: no-output-on-prefix
   @Output()
   onFilmClick: EventEmitter<string> = new EventEmitter<string>();
 
