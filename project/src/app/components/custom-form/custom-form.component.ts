@@ -25,6 +25,8 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
   @Output()
   getInputBlur: EventEmitter<string> = new EventEmitter<string>();
 
+  observerByInput;
+
 
   constructor() { }
 
@@ -37,10 +39,13 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
     const observableInput = fromEvent(this.input.nativeElement, 'keyup')
       .pipe(
         map(($event: any) => $event.target.value),
-        filter(value => value.length > 2),
         debounceTime(500),
         distinctUntilChanged());
-    observableInput.subscribe((value: string) => this.onKeyUp(value));
+    this.observerByInput = observableInput.subscribe((value: string) => this.onKeyUp(value));
+  }
+
+  ngOnDestroy() {
+    this.observerByInput.unsubscribe();
   }
 
   onKeyUp(value): void {
