@@ -24,8 +24,7 @@ export class AppComponent {
     this.inputFocusActive = false;
   }
 
-  onInputChange($event) {
-    const { value } = $event.target;
+  onInputChange(value) {
     this.filmList = this.filmService.getFilmsList(value);
     if (this.selectedFilm) {
       this.selectedFilm = this.filmList[0];

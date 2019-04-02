@@ -1,12 +1,17 @@
-import { Component, OnInit, Output, EventEmitter, Input, HostBinding } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, HostBinding, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { map, debounceTime, filter, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-custom-form',
   templateUrl: './custom-form.component.html',
   styleUrls: ['./custom-form.component.scss']
 })
-export class CustomFormComponent implements OnInit {
+export class CustomFormComponent implements OnInit, AfterViewInit {
   @HostBinding('class') className = 'header__input';
+
+  @ViewChild('input')
+  input: ElementRef;
 
   @Input()
   isActive = false;
@@ -25,10 +30,21 @@ export class CustomFormComponent implements OnInit {
 
 
   ngOnInit() {
+
   }
 
-  onKeyUp($event): void {
-    this.changeInputValue.emit($event);
+  ngAfterViewInit() {
+    const observableInput = fromEvent(this.input.nativeElement, 'keyup')
+      .pipe(
+        map(($event: any) => $event.target.value),
+        filter(value => value.length > 2),
+        debounceTime(500),
+        distinctUntilChanged());
+    observableInput.subscribe((value: string) => this.onKeyUp(value));
+  }
+
+  onKeyUp(value): void {
+    this.changeInputValue.emit(value);
   }
 
   onFocus($event): void {

@@ -35,31 +35,29 @@ export class FilmService {
   }
 
   onSubscribeFilmList(value: string): void {
-    if (value.length > 2) {
-      this.getFilmList(value)
-        .pipe(map(res => res.results))
-        .subscribe(
-          stream => {
-            this.filmList = stream.map(film => {
-              return {
-                id: `${film.id}`,
-                name: `${film.title}`,
-                fullName: `${film.original_title}`,
-                // tslint:disable-next-line: max-line-length
-                imgURL: film.poster_path ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${film.poster_path}` : '../assets/images/empty.png',
-                vote: `${film.vote_average}`,
-                release: `${film.release_date}`,
-                overview: `${film.overview}`
-              };
-            });
-          },
-          error => console.log(`Error: ${error}`),
-          // FilmList complete --> get film actors list
-          () => {
-            this.actorList = [];
-            this.onSubscribeFilmActors();
-        });
-    }
+    this.getFilmList(value)
+      .pipe(map(res => res.results))
+      .subscribe(
+        stream => {
+          this.filmList = stream.map(film => {
+            return {
+              id: `${film.id}`,
+              name: `${film.title}`,
+              fullName: `${film.original_title}`,
+              // tslint:disable-next-line: max-line-length
+              imgURL: film.poster_path ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${film.poster_path}` : '../assets/images/empty.png',
+              vote: `${film.vote_average}`,
+              release: `${film.release_date}`,
+              overview: `${film.overview}`
+            };
+          });
+        },
+        error => console.log(`Error: ${error}`),
+        // FilmList complete --> get film actors list
+        () => {
+          this.actorList = [];
+          this.onSubscribeFilmActors();
+      });
   }
 
   onSubscribeFilmActors(): void {
