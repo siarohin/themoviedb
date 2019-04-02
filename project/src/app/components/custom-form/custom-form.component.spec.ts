@@ -22,4 +22,12 @@ describe('CustomFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should has its property isActive', () => {
+    expect(component.isActive).toBeFalsy();
+  });
+
+  it('should has className=`header__input`', () => {
+    expect(component.className).toContain('header__input');
+  });
 });

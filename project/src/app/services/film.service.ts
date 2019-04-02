@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
 import { FilmInterface } from '../interfaces/film.interface';
 import { ActorInterface } from '../interfaces/actor.interface';
+import { Observable } from 'rxjs';
 
 const params = {
   apiURL: 'https://api.themoviedb.org/3',
@@ -21,22 +22,22 @@ export class FilmService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getActorList(value: string) {
+  getActorList(value: string): Observable<ApiActorInterface> {
     const { apiURL } = params;
     return this.httpClient
       .get<ApiActorInterface>(`${apiURL}/movie/${value}/credits?api_key=${params.apiKey}`);
   }
 
-  getFilmList(value: string) {
+  getFilmList(value: string): Observable<ApiInterface> {
     const { apiURL, apiKey, page } = params;
     return this.httpClient
-      .get<ApiInterface>(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`)
-      .pipe(map(res => res.results));
+      .get<ApiInterface>(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`);
   }
 
   onSubscribeFilmList(value: string): void {
     if (value.length > 2) {
       this.getFilmList(value)
+        .pipe(map(res => res.results))
         .subscribe(
           stream => {
             this.filmList = stream.map(film => {
@@ -54,7 +55,10 @@ export class FilmService {
           },
           error => console.log(`Error: ${error}`),
           // FilmList complete --> get film actors list
-          () => this.onSubscribeFilmActors());
+          () => {
+            this.actorList = [];
+            this.onSubscribeFilmActors();
+        });
     }
   }
 

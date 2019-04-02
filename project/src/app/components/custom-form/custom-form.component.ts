@@ -9,7 +9,7 @@ export class CustomFormComponent implements OnInit {
   @HostBinding('class') className = 'header__input';
 
   @Input()
-  isActive: boolean;
+  isActive = false;
 
   @Output()
   changeInputValue: EventEmitter<string> = new EventEmitter<string>();
