@@ -15,14 +15,8 @@ const params = {
   providedIn: 'root'
 })
 export class FilmService {
-  private list;
 
   constructor(private httpClient: HttpClient) { }
-
-  getList(filmList) {
-    filmList = this.list;
-    return filmList;
-  }
 
   onSubscribeFilmList(value: string) {
     if (value && value.length > 2) {
@@ -39,7 +33,7 @@ export class FilmService {
               });
               return response.results;
             })
-          ).subscribe(stream => this.list = stream);
+          );
     }
   }
 
