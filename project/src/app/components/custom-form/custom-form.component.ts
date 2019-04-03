@@ -1,13 +1,26 @@
-import { Component, OnInit, Output, EventEmitter, Input, HostBinding, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import {
+        Component,
+        OnInit,
+        AfterViewInit,
+        OnDestroy,
+        Output,
+        EventEmitter,
+        Input,
+        HostBinding,
+        ViewChild,
+        ElementRef
+      } from '@angular/core';
+
 import { fromEvent } from 'rxjs';
 import { map, debounceTime, filter, distinctUntilChanged } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-custom-form',
   templateUrl: './custom-form.component.html',
   styleUrls: ['./custom-form.component.scss']
 })
-export class CustomFormComponent implements OnInit, AfterViewInit {
+export class CustomFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @HostBinding('class') className = 'header__input';
 
   @ViewChild('input')
@@ -40,8 +53,12 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
       .pipe(
         map(($event: any) => $event.target.value),
         debounceTime(500),
-        distinctUntilChanged());
-    this.observerByInput = observableInput.subscribe((value: string) => this.onKeyUp(value));
+        distinctUntilChanged(),
+        map(x => {
+          console.log(x);
+          return x;
+        }));
+    this.observerByInput = observableInput.subscribe((value) => this.onKeyUp(value));
   }
 
   ngOnDestroy() {
