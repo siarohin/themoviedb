@@ -1,9 +1,9 @@
-<h1 *ngIf="film" class="film__title">{{ film?.fullName }}</h1>
+<h1 *ngIf="film" class="film__title">{{ film?.original_title }}</h1>
 
 <article *ngIf="film" class="film__overview">
   {{ film?.overview }}
 </article>
 
 <div *ngIf="film" class="film__image">
-  <img [src]="film?.imgURL" class="film__image" [alt]="film?.name" />
+  <img *ngIf="film.poster_path" [src]="'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + film.poster_path" class="film__image" [alt]="film?.original_title" />
 </div>

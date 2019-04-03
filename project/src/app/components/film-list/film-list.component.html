@@ -3,12 +3,12 @@
     [id]="film.id"
     [class.active]="!clicked ? i === 0 : clicked === film">
 
-    <h2 class="list-items__title">{{ film.name }}</h2>
+    <h2 class="list-items__title">{{ film.title }}</h2>
     <div class="list-items__item">
-      <img [src]="film.imgURL" class="item__image" [alt]="film.name" />
+      <img *ngIf="film.poster_path" [src]="'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + film.poster_path" class="item__image" [alt]="film.title" />
     </div>
     <article class="list-items__actors">
-      <h3 *ngIf="film.actors.length > 0">Actors:</h3>
+      <h3 *ngIf="film.actors">Actors:</h3>
       <ul class="actors-data">
         <li *ngFor="let actor of film.actors;">{{ actor }}</li>
       </ul>
