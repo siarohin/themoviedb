@@ -4,6 +4,11 @@
   {{ film?.overview }}
 </article>
 
-<div *ngIf="film" class="film__image">
+<div *ngIf="film" class="film__image wrapper">
   <img *ngIf="film.poster_path" [src]="'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + film.poster_path" class="film__image" [alt]="film?.original_title" />
 </div>
+
+<ul *ngIf="film.actors" class="actors-data actors">
+  <h2 *ngIf="film" class="film__title actors">Actors</h2>
+  <li *ngFor="let actor of film.actors" class="actors-item">{{ actor }}</li>
+</ul>

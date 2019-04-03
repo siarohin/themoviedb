@@ -1,10 +1,7 @@
 $color-solomon: #fa8072;
 $color-white: #fff;
 $color-solomon-active: #ff4040;
-
-:host.main__film-detail {
-
-}
+$color-orange: #f60;
 
 .film__title {
   margin: -1.5rem -3rem 0 -4.5rem;
@@ -18,6 +15,37 @@ $color-solomon-active: #ff4040;
   display: flex;
   align-items: center;
   transform: rotate(-1.5deg);
+
+  &.actors {
+    margin-top: -2.5rem;
+    transform: rotate(-2.5deg);
+    background: $color-orange;
+  }
+}
+
+.actors-data {
+  &.actors {
+    margin-right: -4rem;
+  }
+}
+
+.actors-item {
+  list-style-type: 0;
+  list-style-type: none;
+  transform: rotate(-2deg);
+  line-height: 2.5rem;
+  display: inline-flex;
+  flex-flow: row wrap;
+  margin-right: 2.5rem;
+
+  &:nth-child(2n) {
+    font-weight: 700;
+    font-size: 1.1em;
+  }
+
+  &:nth-child(3n) {
+    font-size: 0.9em;
+  }
 }
 
 .film__title::before {
@@ -37,6 +65,17 @@ $color-solomon-active: #ff4040;
 }
 
 .film__image {
+  transform: rotate(-1.5deg);
   width: 100%;
-  transform: rotate(-0.5deg);
+  object-fit: cover;
+
+  &.wrapper {
+    width: 100%;
+    height: 500px;
+    overflow: hidden
+  }
+}
+
+.actors-data li:first-of-type {
+  margin-top: 2rem;
 }
