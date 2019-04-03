@@ -34,7 +34,7 @@ export class AppComponent {
 
   onFilmListClick($event): void {
     const { id } = $event.currentTarget;
-    const filmWithDescription = this.filmList.find(film => film.id === id);
+    const filmWithDescription = this.filmList.find(film => film.id.toString() === id);
     if (filmWithDescription) {
       this.selectedFilm = filmWithDescription;
     }

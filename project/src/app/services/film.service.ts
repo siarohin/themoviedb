@@ -15,7 +15,7 @@ const params = {
   providedIn: 'root'
 })
 export class FilmService {
-  list;
+  private list;
 
   constructor(private httpClient: HttpClient) { }
 
