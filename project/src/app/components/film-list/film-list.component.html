@@ -10,7 +10,7 @@
     <article class="list-items__actors">
       <h3 *ngIf="film.actors">Actors:</h3>
       <ul class="actors-data">
-        <li *ngFor="let actor of film.actors;">{{ actor }}</li>
+        <li *ngFor="let actor of film.actors | slice:0:3;">{{ actor }}</li>
       </ul>
     </article>
 
