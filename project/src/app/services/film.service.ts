@@ -4,7 +4,6 @@ import { map } from 'rxjs/operators';
 import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
 import { FilmInterface } from '../interfaces/film.interface';
 import { ActorInterface } from '../interfaces/actor.interface';
-import { Observable } from 'rxjs';
 
 const params = {
   apiURL: 'https://api.themoviedb.org/3',
@@ -16,52 +15,31 @@ const params = {
   providedIn: 'root'
 })
 export class FilmService {
-  filmList: FilmInterface[];
-  actorList?: ActorInterface[];
-  filmListWithActors?: (FilmInterface | ActorInterface)[];
+  filmList: (FilmInterface | ActorInterface)[];
 
   constructor(private httpClient: HttpClient) { }
 
-  observableActorList(value: string): Observable<ApiActorInterface> {
-    const { apiURL } = params;
-    return this.httpClient
-      .get<ApiActorInterface>(`${apiURL}/movie/${value}/credits?api_key=${params.apiKey}`);
-  }
 
-  observableFilmList(value: string): Observable<ApiInterface> {
+  onSubscribeFilmList(value: string) {
     const { apiURL, apiKey, page } = params;
     return this.httpClient
-      .get<ApiInterface>(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`);
+      .get<ApiInterface>(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`)
+        .pipe(
+          map(response => {
+            response.results.map(result => {
+              this.httpClient.get<ApiActorInterface>(`${apiURL}/movie/${result.id}/credits?api_key=${params.apiKey}`)
+                .pipe(map(actor => {
+                  return actor.cast.map(person => Object.assign(result, { actors: [person.name, ...result.actors] }));
+                }))
+                .subscribe(substream => substream);
+            });
+            return response.results;
+          })
+        )
+        .subscribe((stream) => console.log(stream));
   }
 
-  onSubscribeFilmList(value: string): void {
-    this.observableFilmList(value)
-      .pipe(map(res => res.results))
-      .subscribe(
-        stream => this.filmList = this.addFilmToList(stream),
-        () => {},
-        // FilmList complete --> get film actors list
-        () => this.onSubscribeFilmActors());
-  }
-
-  onSubscribeFilmActors(): void {
-    this.filmList.map(film => {
-      return this.observableActorList(film.id)
-        .subscribe(
-          stream => {
-            const actor = {
-              id: `${stream.id}`,
-              actors: stream.cast.map(person => person.name),
-            };
-            this.actorList = this.actorList ? [actor, ...this.actorList] : [actor];
-          },
-          () => {},
-          // ActorList complete --> get filmListWithActors
-          () => this.getFilmListWithActors(this.filmList, this.actorList));
-    });
-  }
-
-  addFilmToList(stream): FilmInterface[] {
+  transformFilmList(stream) {
     return stream.map(film => {
       return {
         id: `${film.id}`,
@@ -71,24 +49,9 @@ export class FilmService {
         imgURL: film.poster_path ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${film.poster_path}` : '../assets/images/empty.png',
         vote: `${film.vote_average}`,
         release: `${film.release_date}`,
-        overview: `${film.overview}`
+        overview: `${film.overview}`,
+        actors: `${film.actors}`,
       };
     });
-  }
-
-  getFilmListWithActors(filmList: FilmInterface[], actorList: ActorInterface[]): void {
-    this.filmListWithActors = filmList.map(film => {
-      const existingActor = actorList.find(actor => actor.id === film.id);
-      if (existingActor) {
-        const { actors } = existingActor;
-        return Object.assign(film, { actors: actors.slice(0, 3) });
-      }
-      return Object.assign(film, { actors: '' });
-    });
-  }
-
-  getFilmsList(value: string): (FilmInterface | ActorInterface)[] {
-    this.onSubscribeFilmList(value);
-    return this.filmListWithActors;
   }
 }

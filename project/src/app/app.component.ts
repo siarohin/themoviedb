@@ -26,7 +26,7 @@ export class AppComponent {
 
   onInputChange(value) {
     if (value.length > 0) {
-      this.filmList = this.filmService.getFilmsList(value);
+      this.filmList = this.filmService.onSubscribeFilmList(value);
     }
     if (this.selectedFilm) {
       this.selectedFilm = this.filmList[0];
