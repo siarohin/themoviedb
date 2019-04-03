@@ -52,7 +52,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnDestroy {
     const observableInput = fromEvent(this.input.nativeElement, 'keyup')
       .pipe(
         map(($event: any) => $event.target.value.trim()),
-        debounceTime(500),
+        debounceTime(1000),
         distinctUntilChanged());
     this.observerByInput = observableInput.subscribe((value) => this.onKeyUp(value));
   }
