@@ -22,36 +22,38 @@ export class FilmService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getActorList(value: string): Observable<ApiActorInterface> {
+  observableActorList(value: string): Observable<ApiActorInterface> {
     const { apiURL } = params;
     return this.httpClient
       .get<ApiActorInterface>(`${apiURL}/movie/${value}/credits?api_key=${params.apiKey}`);
   }
 
-  getFilmList(value: string): Observable<ApiInterface> {
+  observableFilmList(value: string): Observable<ApiInterface> {
     const { apiURL, apiKey, page } = params;
     return this.httpClient
       .get<ApiInterface>(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`);
   }
 
+  addFilmToList(stream): FilmInterface[] {
+    return stream.map(film => {
+      return {
+        id: `${film.id}`,
+        name: `${film.title}`,
+        fullName: `${film.original_title}`,
+        // tslint:disable-next-line: max-line-length
+        imgURL: film.poster_path ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${film.poster_path}` : '../assets/images/empty.png',
+        vote: `${film.vote_average}`,
+        release: `${film.release_date}`,
+        overview: `${film.overview}`
+      };
+    });
+  }
+
   onSubscribeFilmList(value: string): void {
-    this.getFilmList(value)
+    this.observableFilmList(value)
       .pipe(map(res => res.results))
       .subscribe(
-        stream => {
-          this.filmList = stream.map(film => {
-            return {
-              id: `${film.id}`,
-              name: `${film.title}`,
-              fullName: `${film.original_title}`,
-              // tslint:disable-next-line: max-line-length
-              imgURL: film.poster_path ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${film.poster_path}` : '../assets/images/empty.png',
-              vote: `${film.vote_average}`,
-              release: `${film.release_date}`,
-              overview: `${film.overview}`
-            };
-          });
-        },
+        stream => this.filmList = this.addFilmToList(stream),
         error => console.log(`Error: ${error}`),
         // FilmList complete --> get film actors list
         () => {
@@ -62,7 +64,7 @@ export class FilmService {
 
   onSubscribeFilmActors(): void {
     this.filmList.map(film => {
-      return this.getActorList(film.id)
+      return this.observableActorList(film.id)
         .subscribe(
           stream => {
             const actor = {

@@ -24,8 +24,11 @@ export class AppComponent {
     this.inputFocusActive = false;
   }
 
+
   onInputChange(value) {
-    this.filmList = this.filmService.getFilmsList(value);
+    if (value.length > 0) {
+      this.filmList = this.filmService.getFilmsList(value);
+    }
     if (this.selectedFilm) {
       this.selectedFilm = this.filmList[0];
     }
