@@ -27,10 +27,10 @@ export class AppComponent {
   onInputChange(value) {
     const subscriber = this.filmService.onSubscribeFilmList(value);
     if (subscriber) {
-      subscriber.subscribe(stream => this.filmList = stream);
-    }
-    if (this.selectedFilm) {
-      this.selectedFilm = this.filmList[0];
+      subscriber.subscribe(stream => {
+        this.filmList = stream;
+        this.selectedFilm = this.filmList[0];
+      });
     }
   }
 
