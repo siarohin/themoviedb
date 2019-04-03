@@ -34,32 +34,14 @@ export class FilmService {
       .get<ApiInterface>(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`);
   }
 
-  addFilmToList(stream): FilmInterface[] {
-    return stream.map(film => {
-      return {
-        id: `${film.id}`,
-        name: `${film.title}`,
-        fullName: `${film.original_title}`,
-        // tslint:disable-next-line: max-line-length
-        imgURL: film.poster_path ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${film.poster_path}` : '../assets/images/empty.png',
-        vote: `${film.vote_average}`,
-        release: `${film.release_date}`,
-        overview: `${film.overview}`
-      };
-    });
-  }
-
   onSubscribeFilmList(value: string): void {
     this.observableFilmList(value)
       .pipe(map(res => res.results))
       .subscribe(
         stream => this.filmList = this.addFilmToList(stream),
-        error => console.log(`Error: ${error}`),
+        () => {},
         // FilmList complete --> get film actors list
-        () => {
-          this.actorList = [];
-          this.onSubscribeFilmActors();
-      });
+        () => this.onSubscribeFilmActors());
   }
 
   onSubscribeFilmActors(): void {
@@ -73,9 +55,24 @@ export class FilmService {
             };
             this.actorList = this.actorList ? [actor, ...this.actorList] : [actor];
           },
-          error => console.log(`Error: ${error}`),
+          () => {},
           // ActorList complete --> get filmListWithActors
           () => this.getFilmListWithActors(this.filmList, this.actorList));
+    });
+  }
+
+  addFilmToList(stream): FilmInterface[] {
+    return stream.map(film => {
+      return {
+        id: `${film.id}`,
+        name: `${film.title}`,
+        fullName: `${film.original_title}`,
+        // tslint:disable-next-line: max-line-length
+        imgURL: film.poster_path ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2${film.poster_path}` : '../assets/images/empty.png',
+        vote: `${film.vote_average}`,
+        release: `${film.release_date}`,
+        overview: `${film.overview}`
+      };
     });
   }
 
