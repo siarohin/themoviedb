@@ -31,7 +31,7 @@ export class FilmService {
                 this.httpClient.get<ApiActorInterface[]>(`${apiURL}/movie/${result.id}/credits?api_key=${params.apiKey}`)
                   .pipe(
                     catchError((error: any) => error),
-                    map(actor => {
+                    map((actor: ApiActorInterface) => {
                     return actor.cast.map(person => Object.assign(result, { actors: [person.name, ...result.actors] }));
                   })).subscribe(substream => substream);
               });
