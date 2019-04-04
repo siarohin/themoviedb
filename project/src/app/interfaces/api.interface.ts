@@ -1,5 +1,5 @@
 export interface ApiInterface {
-  page: number,
+  page: number;
   results: {
     adult: boolean,
     backdrop_path: string,
@@ -15,9 +15,9 @@ export interface ApiInterface {
     video: boolean,
     vote_average: number,
     vote_count: number
-  }[],
-  total_pages: number,
-  total_results: number,
+  }[];
+  total_pages: number;
+  total_results: number;
 }
 
 export interface ApiActorInterface {
@@ -30,7 +30,7 @@ export interface ApiActorInterface {
     name: string,
     order: number,
     profile_path: string,
-  }[],
+  }[];
   crew: {
     credit_id: string,
     department: string,
@@ -39,6 +39,6 @@ export interface ApiActorInterface {
     job: string,
     name: string,
     profile_path: string,
-  }[],
-  id: number,
+  }[];
+  id: number;
 }

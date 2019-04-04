@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FilmService } from './services/film.service';
 import { FilmInterface } from './interfaces/film.interface';
 import { ActorInterface } from './interfaces/actor.interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +11,8 @@ import { ActorInterface } from './interfaces/actor.interface';
 })
 export class AppComponent {
   inputFocusActive = false;
-  selectedFilm?: FilmInterface | ActorInterface;
-  filmList?: (FilmInterface | ActorInterface)[];
+  selectedFilm?: FilmInterface;
+  filmList?: FilmInterface[];
 
   constructor(private filmService: FilmService) {
   }
