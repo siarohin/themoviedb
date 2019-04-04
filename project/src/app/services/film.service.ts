@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
 import { FilmInterface } from '../interfaces/film.interface';
-import { ActorInterface } from '../interfaces/actor.interface';
 import { Observable } from 'rxjs';
 
 const params = {
@@ -19,14 +18,14 @@ export class FilmService {
 
   constructor(private httpClient: HttpClient) { }
 
-  onSubscribeFilmList(value: string) {
+  onSubscribeFilmList(value: string): Observable<FilmInterface[]> {
     if (value && value.length > 2) {
       const { apiURL, apiKey, page } = params;
       return this.httpClient
         .get<ApiInterface[]>(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`)
           .pipe(
             catchError((error: any) => error),
-            map((response: ApiInterface[]) => {
+            map((response: any) => {
               response.results.map(result => {
                 this.httpClient.get<ApiActorInterface[]>(`${apiURL}/movie/${result.id}/credits?api_key=${params.apiKey}`)
                   .pipe(

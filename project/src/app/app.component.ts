@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { FilmService } from './services/film.service';
 import { FilmInterface } from './interfaces/film.interface';
-import { ActorInterface } from './interfaces/actor.interface';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,15 +15,15 @@ export class AppComponent {
   constructor(private filmService: FilmService) {
   }
 
-  onInputFocus($event): void {
+  onInputFocus($event: Event): void {
     this.inputFocusActive = true;
   }
 
-  onInputBlur($event): void {
+  onInputBlur($event: Event): void {
     this.inputFocusActive = false;
   }
 
-  onInputChange(value) {
+  onInputChange(value: string) {
     const subscriber = this.filmService.onSubscribeFilmList(value);
     if (subscriber) {
       subscriber.subscribe(stream => {
@@ -35,8 +33,8 @@ export class AppComponent {
     }
   }
 
-  onFilmListClick($event): void {
-    const { id } = $event.currentTarget;
+  onFilmListClick($event: MouseEvent): void {
+    const { id } = $event.currentTarget as HTMLInputElement;
     const filmWithDescription = this.filmList.find(film => film.id.toString() === id);
     if (filmWithDescription) {
       this.selectedFilm = filmWithDescription;
