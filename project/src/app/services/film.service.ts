@@ -26,7 +26,7 @@ export class FilmService {
         .get<ApiInterface[]>(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`)
           .pipe(
             catchError((error: any) => error),
-            map((response: FilmInterface[]) => {
+            map((response: ApiInterface[]) => {
               response.results.map(result => {
                 this.httpClient.get<ApiActorInterface[]>(`${apiURL}/movie/${result.id}/credits?api_key=${params.apiKey}`)
                   .pipe(
