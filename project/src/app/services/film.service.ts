@@ -20,18 +20,16 @@ export class FilmService {
   constructor(private httpClient: HttpClient) { }
 
   onSubscribeFilmList(value: string): Observable<FilmInterface[]> {
-    if (value && value.length > 2) {
-      const { apiURL, apiKey, page } = params;
-      return this.httpClient
-        .get<ApiInterface[]>(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`)
-          .pipe(
-            catchError((error: any) => error),
-            map((response: any) => {
-              response.results.map(result => this.onSubscribeActorList(result));
-              return response.results;
-            })
-          );
-    }
+    const { apiURL, apiKey, page } = params;
+    return this.httpClient
+      .get<ApiInterface[]>(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`)
+        .pipe(
+          catchError((error: any) => error),
+          map((response: any) => {
+            response.results.map(result => this.onSubscribeActorList(result));
+            return response.results;
+          })
+        );
   }
 
   onSubscribeActorList(result) {
