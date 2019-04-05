@@ -15,6 +15,7 @@ const params = {
   providedIn: 'root'
 })
 export class FilmService {
+  private subscriberOnActorList;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -26,18 +27,28 @@ export class FilmService {
           .pipe(
             catchError((error: any) => error),
             map((response: any) => {
-              response.results.map(result => {
-                this.httpClient.get<ApiActorInterface[]>(`${apiURL}/movie/${result.id}/credits?api_key=${params.apiKey}`)
-                  .pipe(
-                    catchError((error: any) => error),
-                    map((actor: ApiActorInterface) => {
-                    return actor.cast.map(person => Object.assign(result, { actors: [person.name, ...result.actors] }));
-                  })).subscribe(substream => substream);
-              });
+              response.results.map(result => this.onSubscribeActorList(result));
               return response.results;
             })
           );
     }
+  }
+
+  onSubscribeActorList(result) {
+    const { apiURL, apiKey } = params;
+    this.subscriberOnActorList = this.httpClient
+      .get<ApiActorInterface[]>(`${apiURL}/movie/${result.id}/credits?api_key=${apiKey}`)
+        .pipe(
+          catchError((error: any) => error),
+          map((actor: ApiActorInterface) => {
+          return actor.cast.map(person => Object.assign(result, { actors: [person.name, ...result.actors] }));
+          })
+        ).subscribe(substream => substream);
+    return this.subscriberOnActorList;
+  }
+
+  unsubscribeOnActorList() {
+    this.subscriberOnActorList.unsubscribe();
   }
 
 }
