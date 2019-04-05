@@ -47,7 +47,7 @@ export class FilmService {
     return this.subscriberOnActorList;
   }
 
-  unsubscribeOnActorList() {
+  unSubscribeActorList() {
     this.subscriberOnActorList.unsubscribe();
   }
 

@@ -33,8 +33,8 @@ export class AppComponent {
         },
         () => {}, // onError
         () => {
-          this.filmService.unsubscribeOnActorList();
           subscription.unsubscribe();
+          this.filmService.unSubscribeActorList();
         }
       );
     }
