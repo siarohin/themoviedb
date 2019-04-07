@@ -4,6 +4,7 @@ import { map, catchError } from 'rxjs/operators';
 import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
 import { FilmInterface } from '../interfaces/film.interface';
 import { Observable } from 'rxjs';
+import { ActorInterface } from '../interfaces/actor.interface';
 
 const params = {
   apiURL: 'https://api.themoviedb.org/3',
@@ -38,19 +39,19 @@ export class FilmService implements OnInit {
       .pipe(
         map((response: any) => response.results),
         map(result => {
-          result.map(res=> this.getActorList(res));
+          result.map(res => this.getActorList(res));
           return result;
         }),
       )
     return films$;
   }
 
-  getActorList(result) {
+  getActorList(result): Observable<ActorInterface[]> {
     const { apiURL, apiKey } = params;
     const http$ = this.createHTTPObservable(`${apiURL}/movie/${result.id}/credits?api_key=${apiKey}`);
     const actors$ = http$
       .pipe(
-        map((actor: ApiActorInterface) => actor.cast),
+        map((response: ApiActorInterface) => response.cast),
         map(cast => cast.map(person => Object.assign(result, { actors: [person.name, ...result.actors] })))
       )
     this.subscribeOnActorList(actors$);

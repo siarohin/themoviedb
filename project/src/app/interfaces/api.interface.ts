@@ -15,7 +15,7 @@ export interface ApiInterface {
     video: boolean,
     vote_average: number,
     vote_count: number
-  };
+  }[];
   total_pages: number;
   total_results: number;
 }
