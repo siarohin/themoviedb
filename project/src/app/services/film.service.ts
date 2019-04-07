@@ -15,7 +15,7 @@ const params = {
   providedIn: 'root'
 })
 export class FilmService implements OnInit {
-  private subscribeOnActorList;
+  private subscriptionOnActorList;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -31,21 +31,21 @@ export class FilmService implements OnInit {
       );
   }
 
-  onSubscribeFilmList(value: string): Observable<FilmInterface[]> {
+  getFilmList(value: string): Observable<FilmInterface[]> {
     const { apiURL, apiKey, page } = params;
     const http$ = this.createHTTPObservable(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`);
     const films$ = http$
       .pipe(
         map((response: any) => response.results),
         map(result => {
-          result.map(res=> this.onSubscribeActorList(res));
+          result.map(res=> this.getActorList(res));
           return result;
         }),
       )
     return films$;
   }
 
-  onSubscribeActorList(result) {
+  getActorList(result) {
     const { apiURL, apiKey } = params;
     const http$ = this.createHTTPObservable(`${apiURL}/movie/${result.id}/credits?api_key=${apiKey}`);
     const actors$ = http$
@@ -53,12 +53,16 @@ export class FilmService implements OnInit {
         map((actor: ApiActorInterface) => actor.cast),
         map(cast => cast.map(person => Object.assign(result, { actors: [person.name, ...result.actors] })))
       )
-    this.subscribeOnActorList = actors$.subscribe(substream => substream);
+    this.subscribeOnActorList(actors$);
     return actors$;
   }
 
+  subscribeOnActorList(actors$) {
+    this.subscriptionOnActorList = actors$.subscribe(substream => substream);
+  }
+
   unsubscribeActorList() {
-    this.subscribeOnActorList.unsubscribe();
+    this.subscriptionOnActorList.unsubscribe();
   }
 
 }
