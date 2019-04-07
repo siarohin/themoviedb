@@ -39,14 +39,14 @@ export class FilmService implements OnInit {
       .pipe(
         map((response: any) => response.results),
         map(result => {
-          result.map(res => this.getActorList(res));
+          result.map(res => this.addActorList(res));
           return result;
-        }),
+        })
       )
     return films$;
   }
 
-  getActorList(result): Observable<ActorInterface[]> {
+  addActorList(result): Observable<ActorInterface[]> {
     const { apiURL, apiKey } = params;
     const { id } = result;
     const http$ = this.createHTTPObservable(`${apiURL}/movie/${id}/credits?api_key=${apiKey}`);
