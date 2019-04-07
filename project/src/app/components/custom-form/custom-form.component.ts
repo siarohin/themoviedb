@@ -11,9 +11,8 @@ import {
         ElementRef
       } from '@angular/core';
 
-import { fromEvent } from 'rxjs';
+import { fromEvent, Observable, Subscription, ObservableInput } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { noop } from 'rxjs';
 
 
 @Component({
@@ -39,7 +38,7 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output()
   getInputBlur: EventEmitter<string> = new EventEmitter<string>();
 
-  observerByInput;
+  onInputKeyupSubscription: Subscription;
 
 
   constructor() { }
@@ -50,23 +49,19 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    const observableInput = fromEvent(this.input.nativeElement, 'keyup')
+    this.onInputKeyupSubscription = fromEvent(this.input.nativeElement, 'keyup')
       .pipe(
         map(($event: any) => $event.target.value.trim()),
         debounceTime(1000),
-        distinctUntilChanged()
-      );
-    this.observerByInput = observableInput.subscribe(
-      value => this.onKeyUp(value)
-      );
+        distinctUntilChanged(),
+      )
+      .subscribe(value => {
+        this.changeInputValue.emit(value);
+      });
   }
 
   ngOnDestroy() {
-    this.observerByInput.unsubscribe();
-  }
-
-  onKeyUp(value): void {
-    this.changeInputValue.emit(value);
+    this.onInputKeyupSubscription.unsubscribe();
   }
 
   onFocus($event): void {
