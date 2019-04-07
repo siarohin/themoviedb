@@ -53,7 +53,8 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
       .pipe(
         map(($event: any) => $event.target.value.trim()),
         debounceTime(1000),
-        distinctUntilChanged());
+        distinctUntilChanged()
+      );
     this.observerByInput = observableInput.subscribe(
       value => this.onKeyUp(value),
       noop,
