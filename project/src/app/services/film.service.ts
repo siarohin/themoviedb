@@ -15,7 +15,7 @@ const params = {
   providedIn: 'root'
 })
 export class FilmService implements OnInit {
-  private subscriberOnActorList;
+  private subscribeOnActorList;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -53,12 +53,12 @@ export class FilmService implements OnInit {
         map((actor: ApiActorInterface) => actor.cast),
         map(cast => cast.map(person => Object.assign(result, { actors: [person.name, ...result.actors] })))
       )
-    this.subscriberOnActorList = actors$.subscribe(substream => substream);
+    this.subscribeOnActorList = actors$.subscribe(substream => substream);
     return actors$;
   }
 
-  unSubscribeActorList() {
-    this.subscriberOnActorList.unsubscribe();
+  unsubscribeActorList() {
+    this.subscribeOnActorList.unsubscribe();
   }
 
 }
