@@ -50,7 +50,8 @@ export class FilmService implements OnInit {
     const http$ = this.createHTTPObservable(`${apiURL}/movie/${result.id}/credits?api_key=${apiKey}`);
     const actors$ = http$
       .pipe(
-        map((actor: ApiActorInterface) => actor.cast.map(person => Object.assign(result, { actors: [person.name, ...result.actors] })))
+        map((actor: ApiActorInterface) => actor.cast),
+        map(cast => cast.map(person => Object.assign(result, { actors: [person.name, ...result.actors] })))
       )
     this.subscriberOnActorList = actors$.subscribe(substream => substream);
     return actors$;
