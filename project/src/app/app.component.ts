@@ -25,19 +25,19 @@ export class AppComponent {
   }
 
   onInputChange(value: string) {
-    const subscriber = this.filmService.getFilmList(value);
-    if (subscriber && value && value.length > 2) {
-      const subscription = subscriber.subscribe(
-        stream => {
-          this.filmList = stream;
-          this.selectedFilm = this.filmList[0];
-        },
-      noop,
-        () => {
-          subscription.unsubscribe();
-          this.filmService.unsubscribeActorList();
-        }
-      );
+    if (value && value.length > 2) {
+      const subscription = this.filmService.getFilmList(value)
+        .subscribe(
+          stream => {
+            this.filmList = stream;
+            this.selectedFilm = this.filmList[0];
+          },
+          noop,
+          () => {
+            subscription.unsubscribe();
+            this.filmService.unsubscribeActorList();
+          }
+        );
     }
   }
 
