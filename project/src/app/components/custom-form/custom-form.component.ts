@@ -2,7 +2,6 @@ import {
         Component,
         OnInit,
         AfterViewInit,
-        OnDestroy,
         Output,
         EventEmitter,
         Input,
@@ -12,7 +11,8 @@ import {
       } from '@angular/core';
 
 import { fromEvent } from 'rxjs';
-import { map, debounceTime, filter, distinctUntilChanged } from 'rxjs/operators';
+import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { noop } from 'rxjs';
 
 
 @Component({
@@ -20,7 +20,7 @@ import { map, debounceTime, filter, distinctUntilChanged } from 'rxjs/operators'
   templateUrl: './custom-form.component.html',
   styleUrls: ['./custom-form.component.scss']
 })
-export class CustomFormComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CustomFormComponent implements OnInit, AfterViewInit {
   @HostBinding('class') className = 'header__input';
 
   @ViewChild('input')
@@ -54,11 +54,11 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnDestroy {
         map(($event: any) => $event.target.value.trim()),
         debounceTime(1000),
         distinctUntilChanged());
-    this.observerByInput = observableInput.subscribe((value) => this.onKeyUp(value));
-  }
-
-  ngOnDestroy() {
-    this.observerByInput.unsubscribe();
+    this.observerByInput = observableInput.subscribe(
+      value => this.onKeyUp(value),
+      noop,
+      () => this.observerByInput.unsubscribe()
+      );
   }
 
   onKeyUp(value): void {
