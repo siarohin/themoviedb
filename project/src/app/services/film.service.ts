@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
@@ -14,22 +14,33 @@ const params = {
 @Injectable({
   providedIn: 'root'
 })
-export class FilmService {
+export class FilmService implements OnInit {
   private subscriberOnActorList;
 
   constructor(private httpClient: HttpClient) { }
 
+  ngOnInit() {
+
+  }
+
+  createHTTPObservable(url: string) {
+    return this.httpClient.get(url)
+      .pipe(
+        map(response => response),
+        catchError((error: any) => error)
+      );
+  }
+
   onSubscribeFilmList(value: string): Observable<FilmInterface[]> {
     const { apiURL, apiKey, page } = params;
-    return this.httpClient
-      .get<ApiInterface[]>(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`)
-        .pipe(
-          catchError((error: any) => error),
-          map((response: any) => {
-            response.results.map(result => this.onSubscribeActorList(result));
-            return response.results;
-          })
-        );
+    const http$ = this.createHTTPObservable(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`);
+    const films$ = http$
+      .pipe(map((response: any) => {
+          response.results.map(result => this.onSubscribeActorList(result));
+          return response.results;
+        })
+      );
+    return films$;
   }
 
   onSubscribeActorList(result) {
