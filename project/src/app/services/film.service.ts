@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
 import { FilmInterface } from '../interfaces/film.interface';
-import { Observable, noop } from 'rxjs';
+import { Observable, noop, Subscription } from 'rxjs';
 import { ActorInterface } from '../interfaces/actor.interface';
 
 const params = {
@@ -16,7 +16,7 @@ const params = {
   providedIn: 'root'
 })
 export class FilmService implements OnInit {
-  private subscriptionOnActorList;
+  private subscriptionOnActors: Subscription;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -46,25 +46,20 @@ export class FilmService implements OnInit {
     return films$;
   }
 
-  addActorList(result): Observable<ActorInterface[]> {
+  addActorList(result) {
     const { apiURL, apiKey } = params;
     const { id } = result;
     const http$ = this.createHTTPObservable(`${apiURL}/movie/${id}/credits?api_key=${apiKey}`);
-    const actors$ = http$
+    this.subscriptionOnActors = http$
       .pipe(
         map((response: ApiActorInterface) => response.cast),
         map(cast => cast.map(person => Object.assign(result, { actors: [person.name, ...result.actors] })))
       )
-    this.subscribeOnActorList(actors$);
-    return actors$;
+      .subscribe(substream => substream)
   }
 
-  subscribeOnActorList(actors$) {
-    this.subscriptionOnActorList = actors$.subscribe(substream => substream);
-  }
-
-  unsubscribeActorList() {
-    this.subscriptionOnActorList.unsubscribe();
+  unsubscribeFromActors() {
+    this.subscriptionOnActors.unsubscribe();
   }
 
 }

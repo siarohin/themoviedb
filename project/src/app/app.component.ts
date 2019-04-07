@@ -34,7 +34,7 @@ export class AppComponent {
         noop,
         () => {
           subscriptionOnFilmList.unsubscribe();
-          this.filmService.unsubscribeActorList();
+          this.filmService.unsubscribeFromActors();
         }
       );
     }
