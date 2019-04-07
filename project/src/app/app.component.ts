@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FilmService } from './services/film.service';
 import { FilmInterface } from './interfaces/film.interface';
+import { noop } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +32,7 @@ export class AppComponent {
           this.filmList = stream;
           this.selectedFilm = this.filmList[0];
         },
-        () => {}, // onError
+      noop,
         () => {
           subscription.unsubscribe();
           this.filmService.unSubscribeActorList();
