@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
 import { FilmInterface } from '../interfaces/film.interface';
-import { Observable } from 'rxjs';
+import { Observable, noop } from 'rxjs';
 import { ActorInterface } from '../interfaces/actor.interface';
 
 const params = {
