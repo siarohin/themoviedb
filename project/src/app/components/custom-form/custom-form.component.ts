@@ -2,6 +2,7 @@ import {
         Component,
         OnInit,
         AfterViewInit,
+        OnDestroy,
         Output,
         EventEmitter,
         Input,
@@ -20,7 +21,7 @@ import { noop } from 'rxjs';
   templateUrl: './custom-form.component.html',
   styleUrls: ['./custom-form.component.scss']
 })
-export class CustomFormComponent implements OnInit, AfterViewInit {
+export class CustomFormComponent implements OnInit, AfterViewInit, OnDestroy {
   @HostBinding('class') className = 'header__input';
 
   @ViewChild('input')
@@ -56,10 +57,12 @@ export class CustomFormComponent implements OnInit, AfterViewInit {
         distinctUntilChanged()
       );
     this.observerByInput = observableInput.subscribe(
-      value => this.onKeyUp(value),
-      noop,
-      () => this.observerByInput.unsubscribe()
+      value => this.onKeyUp(value)
       );
+  }
+
+  ngOnDestroy() {
+    this.observerByInput.unsubscribe();
   }
 
   onKeyUp(value): void {
