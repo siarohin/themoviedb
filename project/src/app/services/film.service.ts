@@ -35,18 +35,20 @@ export class FilmService implements OnInit {
     const { apiURL, apiKey, page } = params;
     const http$ = this.createHTTPObservable(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`);
     const films$ = http$
-      .pipe(map((response: any) => {
-          response.results.map(result => this.onSubscribeActorList(result));
-          return response.results;
-        })
-      );
+      .pipe(
+        map((response: any) => response.results),
+        map(result => {
+          result.map(res=> this.onSubscribeActorList(res));
+          return result;
+        }),
+      )
     return films$;
   }
 
   onSubscribeActorList(result) {
     const { apiURL, apiKey } = params;
-    this.subscriberOnActorList = this.httpClient
-      .get<ApiActorInterface[]>(`${apiURL}/movie/${result.id}/credits?api_key=${apiKey}`)
+    const http$ = this.createHTTPObservable(`${apiURL}/movie/${result.id}/credits?api_key=${apiKey}`);
+    this.subscriberOnActorList = http$
         .pipe(
           catchError((error: any) => error),
           map((actor: ApiActorInterface) => {
