@@ -107,5 +107,13 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('main')).toBeTruthy();
   });
 
+  it(`shouldn draw 'input form' container on init`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('input')).toBeTruthy();
+  });
+
 
 });
