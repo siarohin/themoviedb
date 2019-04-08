@@ -5,6 +5,8 @@ import { CustomFormComponent } from './components/custom-form/custom-form.compon
 import { FilmListComponent } from './components/film-list/film-list.component';
 import { FilmDetailComponent } from './components/film-detail/film-detail.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FilmService } from './services/film.service';
+import { of } from 'rxjs';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -112,6 +114,54 @@ describe('AppComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('input')).toBeTruthy();
     expect(compiled.querySelector('main')).toBeTruthy();
+  });
+
+  it(`should callFake getFilmList method 1 times`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    const filmService = fixture.debugElement.injector.get(FilmService);
+    const filmList = [{
+      actors: ['John'],
+      id: 913516,
+      original_title: 'Marvel Film',
+      title: 'Marvel',
+    }];
+    const spy = spyOn(filmService, 'getFilmList').and.callFake(() => of(filmList));
+    spyOn(filmService, 'unsubscribeFromActors');
+    app.onInputChange('marvel');
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it(`should set property 'filmList' after call 'onInputChange' method`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    const filmService = fixture.debugElement.injector.get(FilmService);
+    const filmList = [{
+      actors: ['John'],
+      id: 913516,
+      original_title: 'Marvel Film',
+      title: 'Marvel',
+    }];
+    const spy = spyOn(filmService, 'getFilmList').and.callFake(() => of(filmList));
+    spyOn(filmService, 'unsubscribeFromActors');
+    app.onInputChange('marvel');
+    expect(app.filmList).toEqual(filmList);
+  });
+
+  it(`should set property 'selectedFilm' = 'filmList[0]' after call 'onInputChange' method`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    const filmService = fixture.debugElement.injector.get(FilmService);
+    const filmList = [{
+      actors: ['John'],
+      id: 913516,
+      original_title: 'Marvel Film',
+      title: 'Marvel',
+    }];
+    const spy = spyOn(filmService, 'getFilmList').and.callFake(() => of(filmList));
+    spyOn(filmService, 'unsubscribeFromActors');
+    app.onInputChange('marvel');
+    expect(app.selectedFilm).toEqual(filmList[0]);
   });
 
 

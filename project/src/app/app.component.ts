@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FilmService } from './services/film.service';
 import { FilmInterface } from './interfaces/film.interface';
-import { noop } from 'rxjs';
+import { noop, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +13,7 @@ export class AppComponent {
   selectedFilm?: FilmInterface;
   filmList?: FilmInterface[];
   title = 'Movie';
+  subscriptionOnFilmList: Subscription;
 
   constructor(private filmService: FilmService) {
   }
@@ -27,14 +28,14 @@ export class AppComponent {
 
   onInputChange(value: string) {
     if (value && value.length > 2) {
-      const subscriptionOnFilmList = this.filmService.getFilmList(value).subscribe(
+      this.subscriptionOnFilmList = this.filmService.getFilmList(value).subscribe(
         stream => {
           this.filmList = stream;
           this.selectedFilm = this.filmList[0];
         },
         noop,
         () => {
-          subscriptionOnFilmList.unsubscribe();
+          // this.subscriptionOnFilmList.unsubscribe();
           this.filmService.unsubscribeFromActors();
         }
       );
