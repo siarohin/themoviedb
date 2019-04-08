@@ -32,7 +32,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     fixture.detectChanges();
-    expect(app.title).toEqual('project');
+    expect(app.title).toEqual('Movie');
   });
 
   it('should render title in a h1 tag', () => {

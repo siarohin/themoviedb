@@ -12,6 +12,7 @@ export class AppComponent {
   inputFocusActive = false;
   selectedFilm?: FilmInterface;
   filmList?: FilmInterface[];
+  title = 'Movie';
 
   constructor(private filmService: FilmService) {
   }
