@@ -51,4 +51,33 @@ describe('AppComponent', () => {
     expect(app.onInputChange).toBeDefined();
   });
 
+  it(`should have a property 'inputFocusActive' to be false`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
+    expect(app.inputFocusActive).toBeDefined();
+    expect(app.inputFocusActive).toBeFalsy();
+  });
+
+  it(`method 'onInputFocus' should change a property 'inputFocusActive' to be true`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
+    app.inputFocusActive = false;
+    app.onInputFocus();
+    expect(app.inputFocusActive).toBeTruthy();
+  });
+
+  it(`method 'onInputBlur' should change a property 'inputFocusActive' to be false`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
+    app.inputFocusActive = true;
+    app.onInputBlur();
+    expect(app.inputFocusActive).toBeFalsy();
+  });
+
+
+
+
 });
