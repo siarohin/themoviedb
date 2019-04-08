@@ -28,7 +28,7 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'project'`, () => {
+  it(`should have as title 'Movie'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     fixture.detectChanges();
@@ -41,4 +41,14 @@ describe('AppComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain('Movie');
   });
+
+  it(`should have a methods 'onInputFocus', 'onInputBlur', 'onInputChange'`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
+    expect(app.onInputFocus).toBeDefined();
+    expect(app.onInputBlur).toBeDefined();
+    expect(app.onInputChange).toBeDefined();
+  });
+
 });
