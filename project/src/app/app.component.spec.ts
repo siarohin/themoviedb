@@ -1,4 +1,4 @@
-import { TestBed, async, inject  } from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { CustomFormComponent } from './components/custom-form/custom-form.component';
@@ -87,13 +87,19 @@ describe('AppComponent', () => {
 
   it(`shouldn't draw 'main' container on init`, () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('main')).toBeFalsy();
   });
 
-  it(`should draw 'main' container after reseived filmList`, () => {
+  it(`should draw 'input form' container on init`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('input')).toBeTruthy();
+  });
+
+  it(`should draw 'input', main' container after reseived filmList`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     app.filmList = [{
@@ -104,15 +110,8 @@ describe('AppComponent', () => {
     }];
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('main')).toBeTruthy();
-  });
-
-  it(`shouldn draw 'input form' container on init`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('input')).toBeTruthy();
+    expect(compiled.querySelector('main')).toBeTruthy();
   });
 
 
