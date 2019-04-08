@@ -34,6 +34,7 @@ export class FilmService implements OnInit {
 
   getFilmList(value: string): Observable<FilmInterface[]> {
     const { apiURL, apiKey, page } = params;
+    // tslint:disable-next-line: max-line-length
     const http$ = this.createHTTPObservable(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`);
     const films$ = http$
       .pipe(
@@ -42,7 +43,7 @@ export class FilmService implements OnInit {
           result.map(res => this.addActorList(res));
           return result;
         })
-      )
+      );
     return films$;
   }
 
@@ -55,7 +56,7 @@ export class FilmService implements OnInit {
         map((response: ApiActorInterface) => response.cast),
         map(cast => cast.map(person => Object.assign(result, { actors: [person.name, ...result.actors] })))
       )
-      .subscribe(substream => substream)
+      .subscribe(substream => substream);
   }
 
   unsubscribeFromActors() {
