@@ -152,12 +152,20 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     const filmService = fixture.debugElement.injector.get(FilmService);
-    const filmList = [{
-      actors: ['John'],
-      id: 913516,
-      original_title: 'Marvel Film',
-      title: 'Marvel',
-    }];
+    const filmList = [
+      {
+        actors: ['John'],
+        id: 913516,
+        original_title: 'Marvel Film',
+        title: 'Marvel',
+      },
+      {
+        actors: ['John Dall'],
+        id: 913517,
+        original_title: 'Marvel Document',
+        title: 'Document',
+      }
+    ];
     const spy = spyOn(filmService, 'getFilmList').and.callFake(() => of(filmList));
     spyOn(filmService, 'unsubscribeFromActors');
     app.onInputChange('marvel');
