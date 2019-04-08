@@ -77,7 +77,35 @@ describe('AppComponent', () => {
     expect(app.inputFocusActive).toBeFalsy();
   });
 
+  it(`shouldn't have a properties 'filmList', selectedFilm' on init`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
+    expect(app.filmList).toBeUndefined();
+    expect(app.selectedFilm).toBeUndefined();
+  });
 
+  it(`shouldn't draw 'main' container on init`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('main')).toBeFalsy();
+  });
+
+  it(`should draw 'main' container after reseived filmList`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    app.filmList = [{
+      actors: ['John'],
+      id: 913516,
+      original_title: 'Marvel Film',
+      title: 'Marvel',
+    }];
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('main')).toBeTruthy();
+  });
 
 
 });
