@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { EventEmitter } from '@angular/core';
 
 import { CustomFormComponent } from './custom-form.component';
 import { By } from '@angular/platform-browser';
@@ -55,6 +56,20 @@ describe('CustomFormComponent', () => {
     component.isActive = true;
     fixture.detectChanges();
     expect(input.nativeElement.className).toContain('active');
+  });
+
+  it('should be called getInputFocus `onFocus` 1 times with event', () => {
+    spyOn(component.getInputFocus, 'emit');
+    component.onFocus('event');
+    expect(component.getInputFocus.emit).toHaveBeenCalledTimes(1);
+    expect(component.getInputFocus.emit).toHaveBeenCalledWith('event');
+  });
+
+  it('should be called getInputBlur `onBlur` 1 times with event', () => {
+    spyOn(component.getInputBlur, 'emit');
+    component.onBlur('event');
+    expect(component.getInputBlur.emit).toHaveBeenCalledTimes(1);
+    expect(component.getInputBlur.emit).toHaveBeenCalledWith('event');
   });
 });
 
