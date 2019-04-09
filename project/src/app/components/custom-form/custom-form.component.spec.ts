@@ -43,6 +43,17 @@ describe('CustomFormComponent', () => {
     fixture.detectChanges();
     expect(input.placeholder).toEqual('');
   });
+
+  it('should toogle className `active`', () => {
+    const compiled = fixture.debugElement.nativeElement;
+    fixture.detectChanges();
+    const input = compiled.querySelector('input');
+    component.isActive = false;
+    expect(input.className).not.toContain('active');
+    component.isActive = true;
+    fixture.detectChanges();
+    expect(input.className).toContain('active');
+  });
 });
 
 
