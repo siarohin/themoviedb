@@ -1,10 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CustomFormComponent } from './custom-form.component';
+import { By } from '@angular/platform-browser';
 
 describe('CustomFormComponent', () => {
   let component: CustomFormComponent;
   let fixture: ComponentFixture<CustomFormComponent>;
+  let debugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -16,6 +18,7 @@ describe('CustomFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomFormComponent);
     component = fixture.componentInstance;
+    debugElement = fixture.debugElement;
     fixture.detectChanges();
   });
 
@@ -31,28 +34,27 @@ describe('CustomFormComponent', () => {
     expect(component.className).toContain('header__input');
   });
 
-  it('should has toogle placeholder=`Search` to ``', () => {
-    const compiled = fixture.debugElement.nativeElement;
-    fixture.detectChanges();
-    const input = compiled.querySelector('input');
-    expect(input.placeholder).toBeDefined();
+  it('should toogle placeholder `Search`', () => {
+    const input = debugElement.query(By.css('input'));
+    expect(input.nativeElement.placeholder).toBeDefined();
+
     component.isActive = false;
     fixture.detectChanges();
-    expect(input.placeholder).toEqual('Search');
+    expect(input.nativeElement.placeholder).toEqual('Search');
+
     component.isActive = true;
     fixture.detectChanges();
-    expect(input.placeholder).toEqual('');
+    expect(input.nativeElement.placeholder).toEqual('');
   });
 
   it('should toogle className `active`', () => {
-    const compiled = fixture.debugElement.nativeElement;
-    fixture.detectChanges();
-    const input = compiled.querySelector('input');
+    const input = debugElement.query(By.css('input'));
     component.isActive = false;
-    expect(input.className).not.toContain('active');
+    expect(input.nativeElement.className).not.toContain('active');
+
     component.isActive = true;
     fixture.detectChanges();
-    expect(input.className).toContain('active');
+    expect(input.nativeElement.className).toContain('active');
   });
 });
 
