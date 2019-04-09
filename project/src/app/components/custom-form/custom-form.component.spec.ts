@@ -30,6 +30,19 @@ describe('CustomFormComponent', () => {
   it('should has className=`header__input`', () => {
     expect(component.className).toContain('header__input');
   });
+
+  it('should has toogle placeholder=`Search` to ``', () => {
+    const compiled = fixture.debugElement.nativeElement;
+    fixture.detectChanges();
+    const input = compiled.querySelector('input');
+    expect(input.placeholder).toBeDefined();
+    component.isActive = false;
+    fixture.detectChanges();
+    expect(input.placeholder).toEqual('Search');
+    component.isActive = true;
+    fixture.detectChanges();
+    expect(input.placeholder).toEqual('');
+  });
 });
 
 
