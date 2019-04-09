@@ -71,6 +71,7 @@ describe('CustomFormComponent', () => {
     expect(component.getInputBlur.emit).toHaveBeenCalledTimes(1);
     expect(component.getInputBlur.emit).toHaveBeenCalledWith('event');
   });
+
 });
 
 
