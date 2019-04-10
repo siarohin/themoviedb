@@ -114,7 +114,7 @@ describe('FilmDetailComponent', () => {
     expect(li).toBeNull();
   });
 
-  it('should add all films to template', () => {
+  it('should add all films data to template', () => {
     component.film = {
         actors: ['John', 'Doll'],
         id: 913516,
