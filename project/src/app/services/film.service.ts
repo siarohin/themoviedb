@@ -1,9 +1,18 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import {
+  map,
+  catchError,
+  switchMap,
+  mergeMap,
+  tap,
+  toArray,
+  concatMap,
+  scan
+} from 'rxjs/operators';
 import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
 import { FilmInterface } from '../interfaces/film.interface';
-import { Observable, noop, Subscription } from 'rxjs';
+import { Observable, noop, Subscription, from } from 'rxjs';
 import { ActorInterface } from '../interfaces/actor.interface';
 
 const params = {
@@ -15,52 +24,38 @@ const params = {
 @Injectable({
   providedIn: 'root'
 })
-export class FilmService implements OnInit {
-  private subscriptionOnActors: Subscription;
-
-  constructor(private httpClient: HttpClient) { }
-
-  ngOnInit() {
-
-  }
+export class FilmService {
+  constructor(private httpClient: HttpClient) {}
 
   createHTTPObservable(url: string) {
-    return this.httpClient.get(url)
-      .pipe(
-        map(response => response),
-        catchError((error: any) => error)
-      );
+    return this.httpClient.get(url).pipe(
+      map(response => response),
+      catchError((error: any) => error)
+    );
   }
 
   getFilmList(value: string): Observable<FilmInterface[]> {
     const { apiURL, apiKey, page } = params;
     // tslint:disable-next-line: max-line-length
-    const http$ = this.createHTTPObservable(`${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`);
-    const films$ = http$
-      .pipe(
-        map((response: any) => response.results),
-        map(result => {
-          result.map(res => this.addActorList(res));
-          return result;
-        })
-      );
-    return films$;
-  }
-
-  addActorList(result) {
-    const { apiURL, apiKey } = params;
-    const { id } = result;
-    const http$ = this.createHTTPObservable(`${apiURL}/movie/${id}/credits?api_key=${apiKey}`);
-    this.subscriptionOnActors = http$
-      .pipe(
-        map((response: ApiActorInterface) => response.cast),
-        map(cast => cast.map(person => Object.assign(result, { actors: [person.name, ...result.actors] })))
+    const http$ = this.createHTTPObservable(
+      `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`
+    );
+    return http$.pipe(
+      map((response: any) => response.results),
+      switchMap(films =>
+        from(films).pipe(
+          mergeMap((film: any) =>
+            this.createHTTPObservable(
+              `${apiURL}/movie/${film.id}/credits?api_key=${apiKey}`
+            ).pipe(
+              map(actorNames => {
+                return Object.assign(film, { actors: [...actorNames.cast] });
+              })
+            )
+          ),
+          toArray()
+        )
       )
-      .subscribe(substream => substream);
+    );
   }
-
-  unsubscribeFromActors() {
-    this.subscriptionOnActors.unsubscribe();
-  }
-
 }
