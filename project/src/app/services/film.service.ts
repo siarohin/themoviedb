@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, catchError, switchMap, mergeMap, toArray } from 'rxjs/operators';
 import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
 import { FilmInterface } from '../interfaces/film.interface';
-import { Observable, noop, Subscription, from } from 'rxjs';
-import { ActorInterface } from '../interfaces/actor.interface';
+import { Observable, from } from 'rxjs';
 
 const params = {
     apiURL: 'https://api.themoviedb.org/3',
@@ -32,7 +31,7 @@ export class FilmService {
             `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`
         );
         return http$.pipe(
-            map((response: any) => response.results),
+            map((response: ApiInterface) => response.results),
             switchMap(films =>
                 from(films).pipe(
                     mergeMap((film: any) =>
@@ -41,7 +40,7 @@ export class FilmService {
                                 film.id
                             }/credits?api_key=${apiKey}`
                         ).pipe(
-                            map(actorNames => {
+                            map((actorNames: ApiActorInterface) => {
                                 return Object.assign(film, {
                                     actors: [...actorNames.cast]
                                 });
