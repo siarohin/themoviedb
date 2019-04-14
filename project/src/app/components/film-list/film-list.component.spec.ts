@@ -21,4 +21,17 @@ describe('FilmListComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('should emit `onClick`', () => {
+        const spy = spyOn(component.onFilmClick, 'emit');
+        component.onClick('click');
+        expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return value', () => {
+        const value = 'click';
+        const spy = spyOn(component.onFilmClick, 'emit').and.returnValue(value);
+        component.onClick('click');
+        expect(spy).toHaveBeenCalledWith(value);
+    });
 });
