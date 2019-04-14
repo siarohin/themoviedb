@@ -1,5 +1,3 @@
-import { ApiActorInterface } from './api.interface';
-
 export interface FilmInterface {
   actors?: {name: string}[];
   adult: boolean;

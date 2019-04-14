@@ -17,11 +17,11 @@ export class AppComponent {
 
     constructor(private filmService: FilmService) {}
 
-    onInputFocus($event: Event): void {
+    onInputFocus(): void {
         this.inputFocusActive = true;
     }
 
-    onInputBlur($event: Event): void {
+    onInputBlur(): void {
         this.inputFocusActive = false;
     }
 
