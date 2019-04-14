@@ -26,15 +26,16 @@ export class FilmService {
 
     getFilmList(value: string): Observable<FilmInterface[]> {
         const { apiURL, apiKey, page } = params;
-        // tslint:disable-next-line: max-line-length
         const http$ = this.createHTTPObservable(
-            `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`
+            `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${
+                value
+            }&page=${page}&include_adult=false`
         );
         return http$.pipe(
             map((response: ApiInterface) => response.results),
             switchMap(films =>
                 from(films).pipe(
-                    mergeMap((film: any) =>
+                    mergeMap((film: FilmInterface) =>
                         this.createHTTPObservable(
                             `${apiURL}/movie/${
                                 film.id
