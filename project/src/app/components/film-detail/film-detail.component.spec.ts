@@ -116,8 +116,10 @@ describe('FilmDetailComponent', () => {
 
   it('should add all films data to template', () => {
     component.film = {
-        actors: ['John', 'Doll'],
-        id: 913516,
+        actors: [
+            { name: 'John' },
+            { name: 'Doll' }
+        ],
         original_title: 'Marvel Film',
         title: 'Marvel',
         adult: false,

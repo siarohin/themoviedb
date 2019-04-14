@@ -35,25 +35,25 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
-    app = fixture.debugElement.componentInstance;
-    filmService = fixture.debugElement.injector.get(FilmService);
+    app = debugElement.componentInstance;
+    filmService = debugElement.injector.get(FilmService);
     fixture.detectChanges();
   });
 
-  it('should create the app', () => {
+  it('should create', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'Movie'`, () => {
+  it(`should have a title`, () => {
     expect(app.title).toEqual('Movie');
   });
 
   it('should render title in a h1 tag', () => {
-    const compiled = fixture.debugElement.nativeElement;
+    const compiled = debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain(app.title);
   });
 
-  it(`should have a methods 'onInputFocus', 'onInputBlur', 'onInputChange'`, () => {
+  it(`should have 'onInputFocus', 'onInputBlur', 'onInputChange'`, () => {
     expect(app.onInputFocus).toBeDefined();
     expect(app.onInputBlur).toBeDefined();
     expect(app.onInputChange).toBeDefined();
@@ -76,7 +76,7 @@ describe('AppComponent', () => {
     expect(app.inputFocusActive).toBeFalsy();
   });
 
-  it(`shouldn't have a properties 'filmList', selectedFilm' on init`, () => {
+  it(`shouldn't have a properties 'filmList', 'selectedFilm' on init`, () => {
     expect(app.filmList).toBeUndefined();
     expect(app.selectedFilm).toBeUndefined();
   });
@@ -109,7 +109,6 @@ describe('AppComponent', () => {
       title: 'Marvel',
     }];
     const spy = spyOn(filmService, 'getFilmList').and.callFake(() => of(filmList));
-    spyOn(filmService, 'unsubscribeFromActors');
     app.onInputChange('marvel');
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -121,8 +120,7 @@ describe('AppComponent', () => {
       original_title: 'Marvel Film',
       title: 'Marvel',
     }];
-    const spy = spyOn(filmService, 'getFilmList').and.callFake(() => of(filmList));
-    spyOn(filmService, 'unsubscribeFromActors');
+    spyOn(filmService, 'getFilmList').and.callFake(() => of(filmList));
     app.onInputChange('marvel');
     expect(app.filmList).toEqual(filmList);
   });
@@ -142,8 +140,7 @@ describe('AppComponent', () => {
         title: 'Document',
       }
     ];
-    const spy = spyOn(filmService, 'getFilmList').and.callFake(() => of(filmList));
-    spyOn(filmService, 'unsubscribeFromActors');
+    spyOn(filmService, 'getFilmList').and.callFake(() => of(filmList));
     app.onInputChange('marvel');
     expect(app.selectedFilm).toEqual(filmList[0]);
   });
