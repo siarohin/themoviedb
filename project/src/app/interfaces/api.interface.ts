@@ -31,7 +31,7 @@ export interface ApiActorInterface {
     order: number,
     profile_path: string,
   }[];
-  crew: {
+  crew?: {
     credit_id: string,
     department: string,
     gender: number,
@@ -40,5 +40,5 @@ export interface ApiActorInterface {
     name: string,
     profile_path: string,
   }[];
-  id: number;
+  id?: number;
 }

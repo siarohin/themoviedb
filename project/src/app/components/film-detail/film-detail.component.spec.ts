@@ -50,7 +50,7 @@ describe('FilmDetailComponent', () => {
 
   it('should render template after receive `films` and elements should have classList', () => {
     component.film = {
-        actors: ['John'],
+        actors: [{name: 'John'}],
         id: 913516,
         original_title: 'Marvel Film',
         title: 'Marvel',
@@ -133,6 +133,7 @@ describe('FilmDetailComponent', () => {
         video: false,
         vote_average: 18,
         vote_count: 91,
+        id: 220,
       };
     fixture.detectChanges();
     const article = debugElement.query(By.css('article')).nativeElement;

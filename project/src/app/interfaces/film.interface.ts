@@ -1,5 +1,7 @@
+import { ApiActorInterface } from './api.interface';
+
 export interface FilmInterface {
-  actors: string[];
+  actors?: {name: string}[];
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
