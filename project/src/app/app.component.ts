@@ -32,6 +32,9 @@ export class AppComponent {
             let newRequest = false;
             this.value === value ? (newRequest = false) : (newRequest = true);
             this.value = value;
+            if (newRequest) {
+                this.filmService.resetPage();
+            }
             this.subscriptionOnFilmList = this.filmService
                 .getFilmList(value)
                 .subscribe(
