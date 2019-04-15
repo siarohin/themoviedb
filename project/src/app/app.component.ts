@@ -16,6 +16,7 @@ export class AppComponent {
     filmList?: FilmInterface[];
     title = 'Movie';
     subscriptionOnFilmList: Subscription;
+    value: string;
 
     constructor(private filmService: FilmService) {}
 
@@ -30,12 +31,13 @@ export class AppComponent {
     onInputChange(value: string) {
         this.filmService.count = 0;
         if (value && value.length > 2) {
+            this.value = value;
             this.subscriptionOnFilmList = this.filmService
                 .getFilmList(value)
                 .subscribe(
                     stream => {
                         this.filmList = stream;
-                        this.selectedFilm = this.filmList[0];
+                        this.getSelectedFilm(this.filmList[0]);
                     },
                     noop,
                     this.subscriptionOnFilmList
@@ -45,32 +47,47 @@ export class AppComponent {
         }
     }
 
-    buttonClick($event: MouseEvent) {
+    onButtonFilmClick($event: MouseEvent): void {
         const { resultsOnPage } = params;
         this.filmService.count += resultsOnPage;
         if (this.filmService.count <= 20) {
-            this.subscriptionOnFilmList = this.filmService
-                .getPartialFilmList()
-                .subscribe(
-                    stream => {
-                        this.filmList = stream;
-                        this.selectedFilm = this.filmList[0];
-                    },
-                    noop,
-                    this.subscriptionOnFilmList
-                        ? () => this.subscriptionOnFilmList.unsubscribe()
-                        : noop
-                );
+            this.getExistFilms();
+        } else {
+            this.getNewFilms();
         }
     }
 
     onFilmListClick($event: MouseEvent): void {
         const { id } = $event.currentTarget as HTMLInputElement;
-        const filmWithDescription = this.filmList.find(
+        const activeFilm = this.filmList.find(
             film => film.id.toString() === id
         );
-        if (filmWithDescription) {
-            this.selectedFilm = filmWithDescription;
+        if (activeFilm) {
+            this.getSelectedFilm(activeFilm);
         }
+    }
+
+    getExistFilms() {
+        this.subscriptionOnFilmList = this.filmService
+            .getPartialFilmList()
+            .subscribe(
+                stream => {
+                    this.filmList = stream;
+                    this.getSelectedFilm(this.filmList[0]);
+                },
+                noop,
+                this.subscriptionOnFilmList
+                    ? () => this.subscriptionOnFilmList.unsubscribe()
+                    : noop
+            );
+    }
+
+    getNewFilms() {
+        this.filmService.page += 1;
+        this.onInputChange(this.value);
+    }
+
+    getSelectedFilm(film) {
+        return (this.selectedFilm = film);
     }
 }

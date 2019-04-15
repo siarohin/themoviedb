@@ -17,7 +17,6 @@ import { Observable, from } from 'rxjs';
 export const params = {
     apiURL: 'https://api.themoviedb.org/3',
     apiKey: 'df56cf406d2c44e988b7705490bae759',
-    page: 1,
     resultsOnPage: 5
 };
 
@@ -27,6 +26,7 @@ export const params = {
 export class FilmService {
     filmList: FilmInterface[];
     count = 0;
+    page = 1;
 
     constructor(private httpClient: HttpClient) {}
 
@@ -38,9 +38,11 @@ export class FilmService {
     }
 
     getFilmList(value: string): Observable<FilmInterface[]> {
-        const { apiURL, apiKey, page } = params;
+        const { apiURL, apiKey } = params;
         const http$ = this.createHTTPObservable(
-            `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`
+            `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${
+                this.page
+            }&include_adult=false`
         );
         return http$.pipe(
             map((response: ApiInterface) => {
@@ -53,8 +55,8 @@ export class FilmService {
     getPartialFilmList() {
         const { apiURL, apiKey, resultsOnPage } = params;
         return from(this.filmList).pipe(
-            take(resultsOnPage),
             startWith(this.filmList[this.count]),
+            take(resultsOnPage),
             mergeMap((film: FilmInterface) =>
                 this.createHTTPObservable(
                     `${apiURL}/movie/${film.id}/credits?api_key=${apiKey}`

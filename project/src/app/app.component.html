@@ -26,7 +26,7 @@
     <main *ngIf="filmList" class="main">
         <app-film-list
             (onFilmClick)="onFilmListClick($event)"
-            (onButtonClick)="buttonClick($event)"
+            (onButtonClick)="onButtonFilmClick($event)"
             [films]="filmList"
         ></app-film-list>
         <app-film-detail
