@@ -46,7 +46,8 @@ export class FilmService {
     }
 
     incrementCount() {
-        this.count += params.resultsOnPage;
+        const { resultsOnPage } = params;
+        this.count += resultsOnPage;
     }
 
     getCount() {
@@ -70,7 +71,7 @@ export class FilmService {
         return this.value;
     }
 
-    getFilmList(value?: string) {
+    getFilmList(value: string) {
         this.isNewRequest(value);
         if (this.newRequest) {
             this.resetCount();

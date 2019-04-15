@@ -27,7 +27,7 @@ export class AppComponent {
 
     onInputChange(value?: string) {
         if (value && value.length > 2) {
-            let newRequest = this.filmService.isNewRequest(value);
+            let newRequest: boolean = this.filmService.isNewRequest(value);
             this.subscriptionOnFilmList = this.filmService
                 .getFilmList(value)
                 .subscribe(
