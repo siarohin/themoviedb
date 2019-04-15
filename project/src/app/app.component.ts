@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FilmService } from './services/film.service';
 import { FilmInterface } from './interfaces/film.interface';
-import { noop, Subscription } from 'rxjs';
+import { noop, Subscription, from } from 'rxjs';
 
 @Component({
     selector: 'app-root',

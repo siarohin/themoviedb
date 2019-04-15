@@ -8,7 +8,6 @@ import {
     toArray,
     tap,
     take,
-    startWith,
     skip
 } from 'rxjs/operators';
 import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
@@ -28,6 +27,27 @@ export class FilmService {
     filmList: FilmInterface[];
     count = 0;
     page = 1;
+    totalResults: number;
+
+    resetCount() {
+        this.count = 0;
+    }
+
+    incrementCount() {
+        this.count += params.resultsOnPage;
+    }
+
+    getCount() {
+        return this.count;
+    }
+
+    resetPage() {
+        this.page = 1;
+    }
+
+    incrementPage() {
+        this.page += 1;
+    }
 
     constructor(private httpClient: HttpClient) {}
 
@@ -47,6 +67,7 @@ export class FilmService {
         );
         return http$.pipe(
             map((response: ApiInterface) => {
+                this.totalResults = response.total_results;
                 return (this.filmList = response.results);
             }),
             switchMap(() => this.getPartialFilmList())
@@ -72,25 +93,5 @@ export class FilmService {
             ),
             toArray()
         );
-    }
-
-    resetCount() {
-        this.count = 0;
-    }
-
-    incrementCount() {
-        this.count += params.resultsOnPage;
-    }
-
-    getCount() {
-        return this.count;
-    }
-
-    resetPage() {
-        this.page = 1;
-    }
-
-    incrementPage() {
-        this.page += 1;
     }
 }
