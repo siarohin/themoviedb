@@ -29,7 +29,7 @@ export class AppComponent {
     }
 
     onInputChange(value: string) {
-        this.filmService.count = 0;
+        this.filmService.resetCount();
         if (value && value.length > 2) {
             this.value = value;
             this.subscriptionOnFilmList = this.filmService
@@ -48,13 +48,9 @@ export class AppComponent {
     }
 
     onButtonFilmClick($event: MouseEvent): void {
-        const { resultsOnPage } = params;
-        this.filmService.count += resultsOnPage;
-        if (this.filmService.count <= 20) {
-            this.getExistFilms();
-        } else {
-            this.getNewFilms();
-        }
+        this.filmService.incrementCount();
+        const count = this.filmService.getCount();
+        count < 20 ? this.getExistFilms() : this.getNewFilms();
     }
 
     onFilmListClick($event: MouseEvent): void {
@@ -83,7 +79,7 @@ export class AppComponent {
     }
 
     getNewFilms() {
-        this.filmService.page += 1;
+        this.filmService.incrementPage();
         this.onInputChange(this.value);
     }
 

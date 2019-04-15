@@ -8,7 +8,8 @@ import {
     toArray,
     tap,
     take,
-    startWith
+    startWith,
+    skip
 } from 'rxjs/operators';
 import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
 import { FilmInterface } from '../interfaces/film.interface';
@@ -55,7 +56,7 @@ export class FilmService {
     getPartialFilmList() {
         const { apiURL, apiKey, resultsOnPage } = params;
         return from(this.filmList).pipe(
-            startWith(this.filmList[this.count]),
+            skip(this.count),
             take(resultsOnPage),
             mergeMap((film: FilmInterface) =>
                 this.createHTTPObservable(
@@ -71,5 +72,25 @@ export class FilmService {
             ),
             toArray()
         );
+    }
+
+    resetCount() {
+        this.count = 0;
+    }
+
+    incrementCount() {
+        this.count += params.resultsOnPage;
+    }
+
+    getCount() {
+        return this.count;
+    }
+
+    resetPage() {
+        this.page = 1;
+    }
+
+    incrementPage() {
+        this.page += 1;
     }
 }
