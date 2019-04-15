@@ -35,7 +35,9 @@ export class AppComponent {
                         this.selectedFilm = this.filmList[0];
                     },
                     noop,
-                    this.subscriptionOnFilmList ? () => this.subscriptionOnFilmList.unsubscribe() : noop
+                    this.subscriptionOnFilmList
+                        ? () => this.subscriptionOnFilmList.unsubscribe()
+                        : noop
                 );
         }
     }

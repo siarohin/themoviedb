@@ -27,9 +27,7 @@ export class FilmService {
     getFilmList(value: string): Observable<FilmInterface[]> {
         const { apiURL, apiKey, page } = params;
         const http$ = this.createHTTPObservable(
-            `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${
-                value
-            }&page=${page}&include_adult=false`
+            `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${page}&include_adult=false`
         );
         return http$.pipe(
             map((response: ApiInterface) => response.results),

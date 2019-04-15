@@ -1,31 +1,37 @@
 <div
-  [ngClass]="{
-    'wrapper': true,
-    'center-position': !filmList
-  } ">
+    [ngClass]="{
+        wrapper: true,
+        'center-position': !filmList
+    }"
+>
+    <header class="header">
+        <h1
+            [ngClass]="{
+                header__title: true,
+                active: inputFocusActive
+            }"
+        >
+            {{ title }}
+        </h1>
 
-  <header class="header">
-    <h1 [ngClass]="{
-      'header__title': true,
-      'active': inputFocusActive
-    }">
-      {{ title }}
-    </h1>
+        <app-custom-form
+            [isActive]="inputFocusActive"
+            (getInputFocus)="onInputFocus($event)"
+            (getInputBlur)="onInputBlur($event)"
+            (changeInputValue)="onInputChange($event)"
+        >
+        </app-custom-form>
+    </header>
 
-    <app-custom-form
-      [isActive]="inputFocusActive"
-      (getInputFocus)="onInputFocus($event)"
-      (getInputBlur)="onInputBlur($event)"
-      (changeInputValue)="onInputChange($event);">
-    </app-custom-form>
-  </header>
-
-
-  <main *ngIf="filmList" class="main">
-    <app-film-list (onFilmClick)="onFilmListClick($event);" [films]="filmList"></app-film-list>
-    <app-film-detail [film]="selectedFilm ? selectedFilm : filmList[0]"></app-film-detail>
-  </main>
-
+    <main *ngIf="filmList" class="main">
+        <app-film-list
+            (onFilmClick)="onFilmListClick($event)"
+            [films]="filmList"
+        ></app-film-list>
+        <app-film-detail
+            [film]="selectedFilm ? selectedFilm : filmList[0]"
+        ></app-film-detail>
+    </main>
 </div>
 
 <router-outlet></router-outlet>
