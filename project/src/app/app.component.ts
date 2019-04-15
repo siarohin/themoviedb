@@ -29,14 +29,14 @@ export class AppComponent {
     onInputChange(value: string) {
         this.filmService.resetCount();
         if (value && value.length > 2) {
-            let newReq = false;
-            this.value === value ? (newReq = false) : (newReq = true);
+            let newRequest = false;
+            this.value === value ? (newRequest = false) : (newRequest = true);
             this.value = value;
             this.subscriptionOnFilmList = this.filmService
                 .getFilmList(value)
                 .subscribe(
                     stream => {
-                        this.filmList && !newReq
+                        this.filmList && !newRequest
                             ? (this.filmList = [...this.filmList, ...stream])
                             : (this.filmList = stream);
                         this.getSelectedFilm(this.filmList[0]);
