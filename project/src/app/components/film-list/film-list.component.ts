@@ -23,11 +23,19 @@ export class FilmListComponent implements OnInit {
     @Output()
     onFilmClick: EventEmitter<string> = new EventEmitter<string>();
 
+    // tslint:disable-next-line: no-output-on-prefix
+    @Output()
+    onButtonClick: EventEmitter<string> = new EventEmitter<string>();
+
     constructor() {}
 
     ngOnInit() {}
 
     onClick(event): void {
         this.onFilmClick.emit(event);
+    }
+
+    buttonClick(event): void {
+        this.onButtonClick.emit(event);
     }
 }
