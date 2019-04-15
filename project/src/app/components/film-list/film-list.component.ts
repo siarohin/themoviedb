@@ -1,11 +1,18 @@
 import {
     Component,
     OnInit,
+    AfterViewInit,
+    OnDestroy,
     Input,
     HostBinding,
     Output,
-    EventEmitter
+    ViewChild,
+    EventEmitter,
+    ElementRef
 } from '@angular/core';
+import { fromEvent, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+
 import { FilmInterface } from '../../interfaces/film.interface';
 
 @Component({
@@ -13,8 +20,13 @@ import { FilmInterface } from '../../interfaces/film.interface';
     templateUrl: './film-list.component.html',
     styleUrls: ['./film-list.component.scss']
 })
-export class FilmListComponent implements OnInit {
+export class FilmListComponent implements OnInit, AfterViewInit, OnDestroy {
     @HostBinding('class') className = 'main__film-list';
+
+    onButtonPressSubscription: Subscription;
+
+    @ViewChild('btn')
+    btn: ElementRef;
 
     @Input()
     films: FilmInterface[];
@@ -31,11 +43,24 @@ export class FilmListComponent implements OnInit {
 
     ngOnInit() {}
 
-    onClick(event): void {
-        this.onFilmClick.emit(event);
+    ngAfterViewInit() {
+        this.onButtonPressSubscription = fromEvent(
+            this.btn.nativeElement,
+            'click'
+        )
+            .pipe(
+                debounceTime(1000)
+            )
+            .subscribe(() => {
+                this.onButtonClick.emit();
+            });
     }
 
-    buttonClick(event): void {
-        this.onButtonClick.emit(event);
+    ngOnDestroy() {
+        this.onButtonPressSubscription.unsubscribe();
+    }
+
+    onClick(event): void {
+        this.onFilmClick.emit(event);
     }
 }

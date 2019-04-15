@@ -24,10 +24,19 @@ export const params = {
     providedIn: 'root'
 })
 export class FilmService {
-    filmList: FilmInterface[];
-    count = 0;
-    page = 1;
-    totalResults: number;
+    private filmList: FilmInterface[];
+    private count = 0;
+    private page = 1;
+    private totalResults: number;
+
+    constructor(private httpClient: HttpClient) {}
+
+    createHTTPObservable(url: string) {
+        return this.httpClient.get(url).pipe(
+            map(response => response),
+            catchError((error: any) => error)
+        );
+    }
 
     resetCount() {
         this.count = 0;
@@ -47,15 +56,6 @@ export class FilmService {
 
     incrementPage() {
         this.page += 1;
-    }
-
-    constructor(private httpClient: HttpClient) {}
-
-    createHTTPObservable(url: string) {
-        return this.httpClient.get(url).pipe(
-            map(response => response),
-            catchError((error: any) => error)
-        );
     }
 
     getFilmList(value: string): Observable<FilmInterface[]> {

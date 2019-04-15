@@ -11,7 +11,7 @@ import {
     ElementRef
 } from '@angular/core';
 
-import { fromEvent, Observable, Subscription, ObservableInput } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
