@@ -36,7 +36,9 @@ export class AppComponent {
                 .getFilmList(value)
                 .subscribe(
                     stream => {
-                        this.filmList = stream;
+                        this.filmList
+                            ? (this.filmList = [...this.filmList, ...stream])
+                            : (this.filmList = stream);
                         this.getSelectedFilm(this.filmList[0]);
                     },
                     noop,
@@ -68,7 +70,7 @@ export class AppComponent {
             .getPartialFilmList()
             .subscribe(
                 stream => {
-                    this.filmList = stream;
+                    this.filmList = [...this.filmList, ...stream];
                     this.getSelectedFilm(this.filmList[0]);
                 },
                 noop,
