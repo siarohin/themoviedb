@@ -17,7 +17,8 @@ import { Observable, from } from 'rxjs';
 export const params = {
     apiURL: 'https://api.themoviedb.org/3',
     apiKey: 'df56cf406d2c44e988b7705490bae759',
-    resultsOnPage: 5
+    resultsOnPage: 5,
+    maxApiResults: 20
 };
 
 @Injectable({
@@ -28,6 +29,8 @@ export class FilmService {
     private count = 0;
     private page = 1;
     private totalResults: number;
+    private value: string;
+    private newRequest = false;
 
     constructor(private httpClient: HttpClient) {}
 
@@ -58,7 +61,37 @@ export class FilmService {
         this.page += 1;
     }
 
-    getFilmList(value: string): Observable<FilmInterface[]> {
+    isNewRequest(value?): boolean {
+        this.value === value ? (this.newRequest = false) : (this.newRequest = true);
+        return this.newRequest;
+    }
+
+    getValue() {
+        return this.value;
+    }
+
+    getFilmList(value?: string) {
+        this.isNewRequest(value);
+        if (this.newRequest) {
+            this.resetCount();
+            this.resetPage();
+            this.value = value;
+            return this.addNewFilmList(value);
+        }
+        else {
+            this.incrementCount();
+            const { maxApiResults } = params;
+                if (this.count < maxApiResults) {
+                    return this.searchFromFilmList();
+                } else {
+                    this.resetCount();
+                    this.incrementPage();
+                    return this.addNewFilmList(this.value);
+            }
+        }
+    }
+
+    addNewFilmList(value: string): Observable<FilmInterface[]> {
         const { apiURL, apiKey } = params;
         const http$ = this.createHTTPObservable(
             `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${value}&page=${
@@ -70,11 +103,11 @@ export class FilmService {
                 this.totalResults = response.total_results;
                 return (this.filmList = response.results);
             }),
-            switchMap(() => this.getPartialFilmList())
+            switchMap(() => this.searchFromFilmList())
         );
     }
 
-    getPartialFilmList() {
+    searchFromFilmList() {
         const { apiURL, apiKey, resultsOnPage } = params;
         return from(this.filmList).pipe(
             skip(this.count),

@@ -14,7 +14,6 @@ export class AppComponent {
     filmList?: FilmInterface[];
     title = 'Movie';
     subscriptionOnFilmList: Subscription;
-    value: string;
 
     constructor(private filmService: FilmService) {}
 
@@ -26,15 +25,9 @@ export class AppComponent {
         this.inputFocusActive = false;
     }
 
-    onInputChange(value: string) {
-        this.filmService.resetCount();
+    onInputChange(value?: string) {
         if (value && value.length > 2) {
-            let newRequest = false;
-            this.value === value ? (newRequest = false) : (newRequest = true);
-            this.value = value;
-            if (newRequest) {
-                this.filmService.resetPage();
-            }
+            let newRequest = this.filmService.isNewRequest(value);
             this.subscriptionOnFilmList = this.filmService
                 .getFilmList(value)
                 .subscribe(
@@ -53,9 +46,8 @@ export class AppComponent {
     }
 
     onButtonFilmClick($event: MouseEvent): void {
-        this.filmService.incrementCount();
-        const count = this.filmService.getCount();
-        count < 20 ? this.getExistFilms() : this.getNewFilms();
+        const value = this.filmService.getValue();
+        this.onInputChange(value);
     }
 
     onFilmListClick($event: MouseEvent): void {
@@ -66,26 +58,6 @@ export class AppComponent {
         if (activeFilm) {
             this.getSelectedFilm(activeFilm);
         }
-    }
-
-    getExistFilms() {
-        this.subscriptionOnFilmList = this.filmService
-            .getPartialFilmList()
-            .subscribe(
-                stream => {
-                    this.filmList = [...this.filmList, ...stream];
-                    this.getSelectedFilm(this.filmList[0]);
-                },
-                noop,
-                this.subscriptionOnFilmList
-                    ? () => this.subscriptionOnFilmList.unsubscribe()
-                    : noop
-            );
-    }
-
-    getNewFilms() {
-        this.filmService.incrementPage();
-        this.onInputChange(this.value);
     }
 
     getSelectedFilm(film) {
