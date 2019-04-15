@@ -3,8 +3,6 @@ import { FilmService } from './services/film.service';
 import { FilmInterface } from './interfaces/film.interface';
 import { noop, Subscription } from 'rxjs';
 
-import { params } from './services/film.service';
-
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -31,12 +29,14 @@ export class AppComponent {
     onInputChange(value: string) {
         this.filmService.resetCount();
         if (value && value.length > 2) {
+            let newReq = false;
+            this.value === value ? (newReq = false) : (newReq = true);
             this.value = value;
             this.subscriptionOnFilmList = this.filmService
                 .getFilmList(value)
                 .subscribe(
                     stream => {
-                        this.filmList
+                        this.filmList && !newReq
                             ? (this.filmList = [...this.filmList, ...stream])
                             : (this.filmList = stream);
                         this.getSelectedFilm(this.filmList[0]);
