@@ -63,7 +63,9 @@ export class FilmService {
     }
 
     isNewRequest(value?): boolean {
-        this.value === value ? (this.newRequest = false) : (this.newRequest = true);
+        this.value === value
+            ? (this.newRequest = false)
+            : (this.newRequest = true);
         return this.newRequest;
     }
 
@@ -78,16 +80,15 @@ export class FilmService {
             this.resetPage();
             this.value = value;
             return this.addNewFilmList(value);
-        }
-        else {
+        } else {
             this.incrementCount();
             const { maxApiResults } = params;
-                if (this.count < maxApiResults) {
-                    return this.searchFromFilmList();
-                } else {
-                    this.resetCount();
-                    this.incrementPage();
-                    return this.addNewFilmList(this.value);
+            if (this.count < maxApiResults) {
+                return this.searchFromFilmList();
+            } else {
+                this.resetCount();
+                this.incrementPage();
+                return this.addNewFilmList(this.value);
             }
         }
     }

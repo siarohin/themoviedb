@@ -27,27 +27,13 @@ export class AppComponent {
 
     onInputChange(value?: string) {
         if (value && value.length > 2) {
-            let newRequest: boolean = this.filmService.isNewRequest(value);
-            this.subscriptionOnFilmList = this.filmService
-                .getFilmList(value)
-                .subscribe(
-                    stream => {
-                        this.filmList && !newRequest
-                            ? (this.filmList = [...this.filmList, ...stream])
-                            : (this.filmList = stream);
-                        this.getSelectedFilm(this.filmList[0]);
-                    },
-                    noop,
-                    this.subscriptionOnFilmList
-                        ? () => this.subscriptionOnFilmList.unsubscribe()
-                        : noop
-                );
+            this.getFilm(value);
         }
     }
 
     onButtonFilmClick($event: MouseEvent): void {
         const value = this.filmService.getValue();
-        this.onInputChange(value);
+        this.getFilm(value);
     }
 
     onFilmListClick($event: MouseEvent): void {
@@ -58,6 +44,24 @@ export class AppComponent {
         if (activeFilm) {
             this.getSelectedFilm(activeFilm);
         }
+    }
+
+    getFilm(value?: string) {
+        const newRequest: boolean = this.filmService.isNewRequest(value);
+        return (this.subscriptionOnFilmList = this.filmService
+            .getFilmList(value)
+            .subscribe(
+                stream => {
+                    this.filmList && !newRequest
+                        ? (this.filmList = [...this.filmList, ...stream])
+                        : (this.filmList = stream);
+                    this.getSelectedFilm(this.filmList[0]);
+                },
+                noop,
+                this.subscriptionOnFilmList
+                    ? () => this.subscriptionOnFilmList.unsubscribe()
+                    : noop
+            ));
     }
 
     getSelectedFilm(film) {
