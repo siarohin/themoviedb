@@ -1,6 +1,5 @@
 import {
     Component,
-    OnInit,
     AfterViewInit,
     OnDestroy,
     Input,
@@ -10,6 +9,7 @@ import {
     EventEmitter,
     ElementRef
 } from '@angular/core';
+
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -20,47 +20,44 @@ import { FilmInterface } from '../../interfaces/film.interface';
     templateUrl: './film-list.component.html',
     styleUrls: ['./film-list.component.scss']
 })
-export class FilmListComponent implements OnInit, AfterViewInit, OnDestroy {
-    @HostBinding('class') className = 'main__film-list';
-
-    onButtonPressSubscription: Subscription;
+export class FilmListComponent implements AfterViewInit, OnDestroy {
+    private onButtonPressSubscription: Subscription;
 
     @ViewChild('btn')
-    btn: ElementRef;
+    private btn: ElementRef;
+
+    @HostBinding('class')
+    public className = 'main__film-list';
 
     @Input()
-    films: FilmInterface[];
+    public films: FilmInterface[];
 
     // tslint:disable-next-line: no-output-on-prefix
     @Output()
-    onFilmClick: EventEmitter<string> = new EventEmitter<string>();
+    public onFilmClick: EventEmitter<string> = new EventEmitter<string>();
 
     // tslint:disable-next-line: no-output-on-prefix
     @Output()
-    onButtonClick: EventEmitter<string> = new EventEmitter<string>();
+    public onButtonClick: EventEmitter<string> = new EventEmitter<string>();
 
     constructor() {}
 
-    ngOnInit() {}
-
-    ngAfterViewInit() {
+    public ngAfterViewInit() {
         this.onButtonPressSubscription = fromEvent(
             this.btn.nativeElement,
             'click'
         )
-            .pipe(
-                debounceTime(1000)
-            )
+            .pipe(debounceTime(1000))
             .subscribe(() => {
                 this.onButtonClick.emit();
             });
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.onButtonPressSubscription.unsubscribe();
     }
 
-    onClick(event): void {
+    public onClick(event): void {
         this.onFilmClick.emit(event);
     }
 }

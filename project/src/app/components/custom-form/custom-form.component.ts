@@ -1,6 +1,5 @@
 import {
     Component,
-    OnInit,
     AfterViewInit,
     OnDestroy,
     Output,
@@ -19,31 +18,30 @@ import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
     templateUrl: './custom-form.component.html',
     styleUrls: ['./custom-form.component.scss']
 })
-export class CustomFormComponent implements OnInit, AfterViewInit, OnDestroy {
-    @HostBinding('class') className = 'header__input';
+export class CustomFormComponent implements AfterViewInit, OnDestroy {
+    private onInputKeyupSubscription: Subscription;
 
     @ViewChild('input')
-    input: ElementRef;
+    private input: ElementRef;
+
+    @HostBinding('class')
+    public className = 'header__input';
 
     @Input()
-    isActive = false;
+    public isActive = false;
 
     @Output()
-    changeInputValue: EventEmitter<string> = new EventEmitter<string>();
+    public changeInputValue: EventEmitter<string> = new EventEmitter<string>();
 
     @Output()
-    getInputFocus: EventEmitter<string> = new EventEmitter<string>();
+    public getInputFocus: EventEmitter<string> = new EventEmitter<string>();
 
     @Output()
-    getInputBlur: EventEmitter<string> = new EventEmitter<string>();
-
-    onInputKeyupSubscription: Subscription;
+    public getInputBlur: EventEmitter<string> = new EventEmitter<string>();
 
     constructor() {}
 
-    ngOnInit() {}
-
-    ngAfterViewInit() {
+    public ngAfterViewInit() {
         this.onInputKeyupSubscription = fromEvent(
             this.input.nativeElement,
             'keyup'
@@ -58,15 +56,15 @@ export class CustomFormComponent implements OnInit, AfterViewInit, OnDestroy {
             });
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.onInputKeyupSubscription.unsubscribe();
     }
 
-    onFocus($event): void {
+    public onFocus($event): void {
         this.getInputFocus.emit($event);
     }
 
-    onBlur($event): void {
+    public onBlur($event): void {
         this.getInputBlur.emit($event);
     }
 }

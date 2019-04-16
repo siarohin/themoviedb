@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+
+import { noop, Subscription } from 'rxjs';
+
 import { FilmService } from './services/film.service';
 import { FilmInterface } from './interfaces/film.interface';
-import { noop, Subscription, from } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -9,34 +11,38 @@ import { noop, Subscription, from } from 'rxjs';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    inputFocusActive = false;
-    selectedFilm?: FilmInterface;
-    filmList?: FilmInterface[];
-    title = 'Movie';
-    subscriptionOnFilmList: Subscription;
+    private filmService: FilmService;
+    private subscriptionOnFilmList: Subscription;
 
-    constructor(private filmService: FilmService) {}
+    public inputFocusActive = false;
+    public selectedFilm?: FilmInterface;
+    public filmList?: FilmInterface[];
+    public title = 'Movie';
 
-    onInputFocus(): void {
+    constructor(filmService: FilmService) {
+        this.filmService = filmService;
+    }
+
+    public onInputFocus(): void {
         this.inputFocusActive = true;
     }
 
-    onInputBlur(): void {
+    public onInputBlur(): void {
         this.inputFocusActive = false;
     }
 
-    onInputChange(value?: string) {
+    public onInputChange(value?: string) {
         if (value && value.length > 2) {
             this.getFilm(value);
         }
     }
 
-    onButtonFilmClick($event: MouseEvent): void {
+    public onButtonFilmClick(): void {
         const value = this.filmService.getValue();
         this.getFilm(value);
     }
 
-    onFilmListClick($event: MouseEvent): void {
+    public onFilmListClick($event: MouseEvent): void {
         const { id } = $event.currentTarget as HTMLInputElement;
         const activeFilm = this.filmList.find(
             film => film.id.toString() === id
@@ -46,7 +52,7 @@ export class AppComponent {
         }
     }
 
-    getFilm(value?: string) {
+    public getFilm(value?: string) {
         const newRequest: boolean = this.filmService.isNewRequest(value);
         return (this.subscriptionOnFilmList = this.filmService
             .getFilmList(value)
@@ -64,7 +70,7 @@ export class AppComponent {
             ));
     }
 
-    getSelectedFilm(film) {
+    public getSelectedFilm(film) {
         return (this.selectedFilm = film);
     }
 }

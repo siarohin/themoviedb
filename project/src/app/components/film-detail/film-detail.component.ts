@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
+
 import { FilmInterface } from '../../interfaces/film.interface';
 
 @Component({
@@ -6,13 +7,12 @@ import { FilmInterface } from '../../interfaces/film.interface';
     templateUrl: './film-detail.component.html',
     styleUrls: ['./film-detail.component.scss']
 })
-export class FilmDetailComponent implements OnInit {
-    @HostBinding('class') className = 'main__film-detail';
+export class FilmDetailComponent {
+    @HostBinding('class')
+    public className = 'main__film-detail';
 
     @Input()
-    film: FilmInterface;
+    public film: FilmInterface;
 
     constructor() {}
-
-    ngOnInit() {}
 }
