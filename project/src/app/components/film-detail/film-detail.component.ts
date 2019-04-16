@@ -8,9 +8,16 @@ import { FilmInterface } from '../../interfaces/film.interface';
     styleUrls: ['./film-detail.component.scss']
 })
 export class FilmDetailComponent {
+    /**
+     * add class to <app-film-detail /> component
+     */
     @HostBinding('class')
     public className = 'main__film-detail';
 
+    /**
+     * get film with description from App component
+     * render into template
+     */
     @Input()
     public film: FilmInterface;
 
