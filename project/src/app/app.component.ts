@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { publishReplay, refCount, map } from 'rxjs/operators';
 
 import { FilmService } from './services/film.service';
 import { FilmInterface } from './interfaces/film.interface';
-import { publishReplay, refCount, map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-root',
