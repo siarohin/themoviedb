@@ -1,7 +1,7 @@
 <div
     [ngClass]="{
         wrapper: true,
-        'center-position': !filmList
+        'center-position': !(filmsList$ | async)
     }"
 >
     <header class="header">
@@ -23,15 +23,13 @@
         </app-custom-form>
     </header>
 
-    <main *ngIf="filmList" class="main">
+    <main *ngIf="(filmsList$ | async)" class="main">
         <app-film-list
             (onFilmClick)="onFilmListClick($event)"
             (onButtonClick)="onButtonFilmClick($event)"
-            [films]="filmList"
+            [films]="filmsList$ | async"
         ></app-film-list>
-        <app-film-detail
-            [film]="selectedFilm ? selectedFilm : filmList[0]"
-        ></app-film-detail>
+        <app-film-detail [film]="activeFilm$ | async"></app-film-detail>
     </main>
 </div>
 

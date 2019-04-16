@@ -1,18 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { noop, Subscription } from 'rxjs';
+import { noop, Subscription, Observable } from 'rxjs';
 
 import { FilmService } from './services/film.service';
 import { FilmInterface } from './interfaces/film.interface';
+import { publishReplay, refCount, map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
     private filmService: FilmService;
     private subscriptionOnFilmList: Subscription;
+
+    public filmsList$: Observable<Array<FilmInterface>>;
 
     /**
      * param (true | false) for <header /> and <app-custom-form />
@@ -32,6 +35,8 @@ export class AppComponent {
      */
     public filmList?: FilmInterface[];
 
+    public activeFilm$: Observable<any>;
+
     /**
      * param {{ title }} uses in template into <header />
      */
@@ -39,6 +44,15 @@ export class AppComponent {
 
     constructor(filmService: FilmService) {
         this.filmService = filmService;
+    }
+
+    public ngOnInit(): void {
+        this.filmsList$ = this.filmService.getFilmList().pipe(
+            publishReplay(1),
+            refCount()
+        );
+
+        this.activeFilm$ = this.filmsList$.pipe(map(films => films[0]));
     }
 
     /**
@@ -66,7 +80,8 @@ export class AppComponent {
      */
     public onInputChange(value?: string) {
         if (value && value.length > 2) {
-            this.getFilm(value);
+            console.log('set query', value); // this.getFilm(value);
+            this.filmService.setQuery(value);
         }
     }
 
@@ -76,8 +91,9 @@ export class AppComponent {
      * method call service with new or existing value
      */
     public onButtonFilmClick(): void {
-        const value = this.filmService.getValue();
-        this.getFilm(value);
+        // const value = this.filmService.getValue();
+        // this.getFilm(value);
+        this.filmService.setPage();
     }
 
     /**

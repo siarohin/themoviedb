@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, from } from 'rxjs';
+import { Observable, from, Subject, combineLatest } from 'rxjs';
 import {
     map,
     catchError,
@@ -10,7 +10,10 @@ import {
     mergeMap,
     toArray,
     take,
-    skip
+    skip,
+    startWith,
+    scan,
+    debounceTime
 } from 'rxjs/operators';
 
 import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
@@ -33,6 +36,12 @@ export class FilmService {
     private value: string;
     private newRequest = false;
     private httpClient: HttpClient;
+
+    private querySubject: Subject<string> = new Subject();
+    private nextDetailsPageSubject: Subject<any> = new Subject();
+    private nextPageSubject: Subject<number> = new Subject();
+    private currentDetailsPage: number;
+    private currentPage: number;
 
     constructor(httpClient: HttpClient) {
         this.httpClient = httpClient;
@@ -58,41 +67,92 @@ export class FilmService {
         return this.value;
     }
 
+    public setQuery(query: string): void {
+        this.currentDetailsPage = 0;
+        this.currentPage = 1;
+        this.querySubject.next(query);
+    }
+
+    public setPage(): void {
+        if (
+            this.currentDetailsPage >=
+            params.maxApiResults / params.resultsOnPage
+        ) {
+            this.currentDetailsPage = 0;
+            this.currentPage += 1;
+            this.nextPageSubject.next(this.currentPage);
+        } else {
+            this.currentDetailsPage += 1;
+            this.nextDetailsPageSubject.next(this.currentDetailsPage);
+        }
+    }
+
     /**
      * api contoller
      */
-    public getFilmList(value: string) {
-        // return (true | false)
-        this.isNewRequest(value);
+    public getFilmList() {
+        return this.querySubject.asObservable().pipe(
+            debounceTime(1000),
+            switchMap(query =>
+                this.nextPageSubject.asObservable().pipe(
+                    startWith(1),
+                    switchMap(page =>
+                        this.createFilmsRequest(query, page).pipe(
+                            map(response => response.results),
+                            mergeMap(films =>
+                                this.nextDetailsPageSubject.asObservable().pipe(
+                                    debounceTime(1000),
+                                    startWith(0),
+                                    switchMap(index =>
+                                        this.getFilsmDetails(films, index)
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    scan(
+                        (filmsList, filmsWithDetails) => [
+                            ...filmsList,
+                            ...filmsWithDetails
+                        ],
+                        []
+                    )
+                )
+            )
+        );
+    }
 
-        // if it`s new request (with new value)
-        if (this.newRequest) {
-            // reset all counts and change existing value to new value
-            this.resetCount();
-            this.resetPage();
-            this.value = value;
-            // send request to 1st Api and return new filmList (array without actors)
-            // then get 5 films and send request to 2nd Api and return films with actors
-            return this.addNewFilmList(value);
+    private createFilmsRequest(query: string, page: number): Observable<any> {
+        const { apiURL, apiKey } = params;
+        const http$ = this.createHTTPObservable(
+            `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${query}&page=${page}&include_adult=false`
+        );
 
-            // else it`s old request (with existing value | value didn`t change)
-        } else {
-            // count +5
-            this.incrementCount();
-            const { maxApiResults } = params;
-            // if count < 20, get existing array with films without actors
-            // send request to 2nd Api and return and return films with actors
-            if (this.count < maxApiResults) {
-                return this.searchFromFilmList();
-            } else {
-                // if count > 20, reset count and increment page + 1,
-                // send request to 1st Api and return new filmList (array without actors)
-                // then get 5 films and send request to 2nd Api and return films with actors
-                this.resetCount();
-                this.incrementPage();
-                return this.addNewFilmList(this.value);
-            }
-        }
+        return http$;
+    }
+
+    private getFilsmDetails(films: Array<any>, index: number): any {
+        const { apiURL, apiKey } = params;
+        const sliceFrom: number = index * params.resultsOnPage;
+        const sliceTo: number = (index + 1) * params.resultsOnPage;
+
+        const filmsToGetDetails: Array<any> = films.slice(sliceFrom, sliceTo);
+
+        return from(filmsToGetDetails).pipe(
+            mergeMap((film: FilmInterface) =>
+                this.createHTTPObservable(
+                    `${apiURL}/movie/${film.id}/credits?api_key=${apiKey}`
+                ).pipe(
+                    // return films with actors
+                    map((actorNames: ApiActorInterface) => {
+                        return Object.assign(film, {
+                            actors: [...actorNames.cast]
+                        });
+                    })
+                )
+            ),
+            toArray()
+        );
     }
 
     /**
@@ -120,7 +180,7 @@ export class FilmService {
      */
     public searchFromFilmList() {
         const { apiURL, apiKey, resultsOnPage } = params;
-        return from(this.filmList).pipe(
+        from(this.filmList).pipe(
             // slice 5 films
             skip(this.count),
             take(resultsOnPage),
