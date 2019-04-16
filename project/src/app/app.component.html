@@ -1,6 +1,6 @@
-<div class="wrapper" [ngClass]="{ 'center-position': !(filmsList$ | async) }">
+<div class="wrapper" [class.center-position]="!(filmsList$ | async)">
     <header class="header">
-        <h1 class="header__title" [ngClass]="{ active: inputFocusActive }">
+        <h1 class="header__title" [class.active]="inputFocusActive">
             {{ title }}
         </h1>
 
