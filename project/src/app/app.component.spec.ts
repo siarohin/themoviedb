@@ -1,12 +1,15 @@
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { By } from '@angular/platform-browser';
+
+import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+
 import { CustomFormComponent } from './components/custom-form/custom-form.component';
 import { FilmListComponent } from './components/film-list/film-list.component';
 import { FilmDetailComponent } from './components/film-detail/film-detail.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FilmService } from './services/film.service';
-import { By } from '@angular/platform-browser';
+
 import { of } from 'rxjs';
 
 describe('AppComponent', () => {

@@ -82,7 +82,7 @@ export class AppComponent implements OnInit {
      * binding input`s value Onchange
      * method send value to service
      */
-    public onInputChange(value?: string) {
+    public onInputChange(value?: string): void {
         if (value && value.length > 2) {
             this.filmService.setQuery(value);
         }

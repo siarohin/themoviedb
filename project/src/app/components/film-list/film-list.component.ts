@@ -41,7 +41,7 @@ export class FilmListComponent implements AfterViewInit, OnDestroy {
      * render <li /> with films in template
      */
     @Input()
-    public films: FilmInterface[];
+    public films: Array<FilmInterface>;
 
     /**
      * binding new event from click on <li /> with film
@@ -64,7 +64,7 @@ export class FilmListComponent implements AfterViewInit, OnDestroy {
     /**
      * subscription for button`s click event
      */
-    public ngAfterViewInit() {
+    public ngAfterViewInit(): void {
         this.onButtonPressSubscription = fromEvent(
             this.btn.nativeElement,
             'click'
@@ -79,7 +79,7 @@ export class FilmListComponent implements AfterViewInit, OnDestroy {
     /**
      * unsubscribe from button`s click event
      */
-    public ngOnDestroy() {
+    public ngOnDestroy(): void {
         this.onButtonPressSubscription.unsubscribe();
     }
 

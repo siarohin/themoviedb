@@ -7,7 +7,8 @@ import {
     Input,
     HostBinding,
     ViewChild,
-    ElementRef
+    ElementRef,
+    ChangeDetectionStrategy
 } from '@angular/core';
 
 import { fromEvent, Subscription } from 'rxjs';
@@ -16,7 +17,8 @@ import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 @Component({
     selector: 'app-custom-form',
     templateUrl: './custom-form.component.html',
-    styleUrls: ['./custom-form.component.scss']
+    styleUrls: ['./custom-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomFormComponent implements AfterViewInit, OnDestroy {
     private onInputKeyupSubscription: Subscription;
@@ -68,7 +70,7 @@ export class CustomFormComponent implements AfterViewInit, OnDestroy {
      * subscription for keyUp event
      * get input`s value
      */
-    public ngAfterViewInit() {
+    public ngAfterViewInit(): void {
         this.onInputKeyupSubscription = fromEvent(
             this.input.nativeElement,
             'keyup'
@@ -89,7 +91,7 @@ export class CustomFormComponent implements AfterViewInit, OnDestroy {
     /**
      * unsubscribe for keyUp event
      */
-    public ngOnDestroy() {
+    public ngOnDestroy(): void {
         this.onInputKeyupSubscription.unsubscribe();
     }
 

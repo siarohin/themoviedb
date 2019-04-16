@@ -1,8 +1,8 @@
 export interface FilmInterface {
-    actors?: { name: string }[];
+    actors?: Array<{ name: string }>;
     adult: boolean;
     backdrop_path: string;
-    genre_ids: number[];
+    genre_ids: Array<number>;
     id: number;
     original_language: string;
     original_title: string;
