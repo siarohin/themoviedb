@@ -1,16 +1,6 @@
-<div
-    [ngClass]="{
-        wrapper: true,
-        'center-position': !(filmsList$ | async)
-    }"
->
+<div class="wrapper" [ngClass]="{ 'center-position': !(filmsList$ | async) }">
     <header class="header">
-        <h1
-            [ngClass]="{
-                header__title: true,
-                active: inputFocusActive
-            }"
-        >
+        <h1 class="header__title" [ngClass]="{ active: inputFocusActive }">
             {{ title }}
         </h1>
 
@@ -26,7 +16,7 @@
     <main *ngIf="(filmsList$ | async)" class="main">
         <app-film-list
             (onFilmClick)="onFilmListClick($event)"
-            (onButtonClick)="onButtonFilmClick($event)"
+            (onButtonClick)="onButtonFilmClick()"
             [films]="filmsList$ | async"
         ></app-film-list>
         <app-film-detail [film]="activeFilm$ | async"></app-film-detail>

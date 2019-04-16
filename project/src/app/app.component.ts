@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { noop, Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { FilmService } from './services/film.service';
 import { FilmInterface } from './interfaces/film.interface';
@@ -13,8 +13,10 @@ import { publishReplay, refCount, map } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit {
     private filmService: FilmService;
-    private subscriptionOnFilmList: Subscription;
 
+    /**
+     * observable filmList from service
+     */
     public filmsList$: Observable<Array<FilmInterface>>;
 
     /**
@@ -33,9 +35,11 @@ export class AppComponent implements OnInit {
      * param with film`s array which have got from service
      * include from 5 to 20 films
      */
-    public filmList?: FilmInterface[];
 
-    public activeFilm$: Observable<any>;
+    /**
+     * observable film by click event from <li />
+     */
+    public activeFilm$: Observable<FilmInterface>;
 
     /**
      * param {{ title }} uses in template into <header />
@@ -80,7 +84,6 @@ export class AppComponent implements OnInit {
      */
     public onInputChange(value?: string) {
         if (value && value.length > 2) {
-            console.log('set query', value); // this.getFilm(value);
             this.filmService.setQuery(value);
         }
     }
@@ -91,8 +94,6 @@ export class AppComponent implements OnInit {
      * method call service with new or existing value
      */
     public onButtonFilmClick(): void {
-        // const value = this.filmService.getValue();
-        // this.getFilm(value);
         this.filmService.setPage();
     }
 
@@ -103,48 +104,8 @@ export class AppComponent implements OnInit {
      */
     public onFilmListClick($event: MouseEvent): void {
         const { id } = $event.currentTarget as HTMLInputElement;
-        const activeFilm = this.filmList.find(
-            film => film.id.toString() === id
+        this.activeFilm$ = this.filmsList$.pipe(
+            map(films => films.find(film => film.id.toString() === id))
         );
-        if (activeFilm) {
-            this.getSelectedFilm(activeFilm);
-        }
-    }
-
-    /**
-     * send request to service
-     * method using by this.methods 'onButtonFilmClick' and  'onInputChange'
-     * return subscription to film`s array, set this.filmList
-     */
-    public getFilm(value?: string) {
-        // get newRequest (true | false) from service
-        // if new value !== value, return new filmList
-        // if new value === value, add films to existing filmList
-        const newRequest: boolean = this.filmService.isNewRequest(value);
-        return (this.subscriptionOnFilmList = this.filmService
-            .getFilmList(value)
-            .subscribe(
-                stream => {
-                    this.filmList && !newRequest
-                        ? (this.filmList = [...this.filmList, ...stream])
-                        : (this.filmList = stream);
-                    this.getSelectedFilm(this.filmList[0]);
-                },
-                // error
-                noop,
-                // subscription complite --> unsubscribe
-                this.subscriptionOnFilmList
-                    ? () => this.subscriptionOnFilmList.unsubscribe()
-                    : noop
-            ));
-    }
-
-    /**
-     * method using by this.methods 'onFilmListClick' and  'getFilm'
-     * return selected film by 'click' event or first film from array
-     * set param selectedFilm
-     */
-    public getSelectedFilm(film) {
-        return (this.selectedFilm = film);
     }
 }
