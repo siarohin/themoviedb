@@ -20,7 +20,13 @@
             (onButtonClick)="onButtonFilmClick()"
             [films]="filmsList$ | async"
         ></app-film-list>
-        <app-film-detail [film]="activeFilm$ | async"></app-film-detail>
+        <app-film-detail
+            [film]="
+                (activeFilm$ | async)
+                    ? (activeFilm$ | async)
+                    : (getActiveFilm() | async)
+            "
+        ></app-film-detail>
     </main>
 </div>
 

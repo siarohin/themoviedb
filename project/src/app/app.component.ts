@@ -55,8 +55,12 @@ export class AppComponent implements OnInit {
             publishReplay(1),
             refCount()
         );
+    }
 
-        this.activeFilm$ = this.filmsList$.pipe(map(films => films[0]));
+    public getActiveFilm() {
+        return (this.activeFilm$ = this.filmsList$.pipe(
+            map(films => films[0])
+        ));
     }
 
     /**
