@@ -1,18 +1,11 @@
 import {
     Component,
-    AfterViewInit,
-    OnDestroy,
     Output,
     EventEmitter,
     Input,
     HostBinding,
-    ViewChild,
-    ElementRef,
     ChangeDetectionStrategy
 } from '@angular/core';
-
-import { fromEvent, Subscription } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
     selector: 'app-custom-form',
@@ -20,28 +13,17 @@ import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
     styleUrls: ['./custom-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CustomFormComponent implements AfterViewInit, OnDestroy {
-    private onInputKeyupSubscription: Subscription;
-
-    /**
-     * Element Ref
-     * get input form from template
-     */
-    @ViewChild('input')
-    private input: ElementRef;
-
-    /**
-     * add class to <app-custom-form /> component
-     */
-    @HostBinding('class')
-    public className = 'header__input';
+export class CustomFormComponent {
+    @HostBinding('class.active') public active: boolean;
 
     /**
      * get param from App component
      * using to change classList of input
      */
     @Input()
-    public isActive = false;
+    public set isActive(value: boolean) {
+        this.active = value;
+    }
 
     /**
      * emit new event on input change
@@ -67,32 +49,12 @@ export class CustomFormComponent implements AfterViewInit, OnDestroy {
     constructor() {}
 
     /**
-     * subscription for keyUp event
-     * get input`s value
+     * emit keyUp event from input form
+     * using by controler from App component
      */
-    public ngAfterViewInit(): void {
-        this.onInputKeyupSubscription = fromEvent(
-            this.input.nativeElement,
-            'keyup'
-        )
-            .pipe(
-                // trim tabs from begin and end
-                map(($event: any) => $event.target.value.trim()),
-                // emit from 1s
-                debounceTime(1000),
-                // emit only new value
-                distinctUntilChanged()
-            )
-            .subscribe(value => {
-                this.changeInputValue.emit(value);
-            });
-    }
-
-    /**
-     * unsubscribe for keyUp event
-     */
-    public ngOnDestroy(): void {
-        this.onInputKeyupSubscription.unsubscribe();
+    public onChange($event): void {
+        const { value } = $event.target as HTMLInputElement;
+        this.changeInputValue.emit(value);
     }
 
     /**

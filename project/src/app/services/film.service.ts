@@ -11,11 +11,12 @@ import {
     toArray,
     startWith,
     scan,
-    debounceTime
+    debounceTime,
+    distinctUntilChanged
 } from 'rxjs/operators';
 
-import { ApiInterface, ApiActorInterface } from '../interfaces/api.interface';
-import { FilmInterface } from '../interfaces/film.interface';
+import { ApiInterface, ApiActorInterface } from '../models/api.interface';
+import { FilmInterface } from '../models/film.interface';
 
 export const params = {
     apiURL: 'https://api.themoviedb.org/3',
@@ -24,9 +25,7 @@ export const params = {
     maxApiResults: 20
 };
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class FilmService {
     private httpClient: HttpClient;
     private querySubject: Subject<string> = new Subject();
@@ -39,7 +38,11 @@ export class FilmService {
         this.httpClient = httpClient;
     }
 
+    /**
+     * get value from input
+     */
     public setQuery(query: string): void {
+        // init state, reset counts
         this.currentDetailsPage = 0;
         this.currentPage = 1;
         this.querySubject.next(query);
@@ -61,7 +64,9 @@ export class FilmService {
 
     public getFilmList(): Observable<Array<FilmInterface>> {
         return this.querySubject.asObservable().pipe(
-            debounceTime(1000),
+            debounceTime(500),
+            map(value => value.trim()),
+            distinctUntilChanged(),
             switchMap(query =>
                 this.nextPageSubject.asObservable().pipe(
                     startWith(1),
@@ -70,7 +75,7 @@ export class FilmService {
                             map(response => response.results),
                             mergeMap(films =>
                                 this.nextDetailsPageSubject.asObservable().pipe(
-                                    debounceTime(1000),
+                                    debounceTime(500),
                                     startWith(0),
                                     switchMap(index =>
                                         this.getFilmsDetails(films, index)

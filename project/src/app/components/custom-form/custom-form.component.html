@@ -1,7 +1,6 @@
 <input
-    #input
-    [class.active]="isActive"
+    [placeholder]="isActive ? '' : 'Search'"
     (focus)="onFocus($event)"
     (blur)="onBlur($event)"
-    [placeholder]="isActive ? '' : 'Search'"
+    (keyup)="onChange($event)"
 />

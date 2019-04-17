@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { publishReplay, refCount, map } from 'rxjs/operators';
 
 import { FilmService } from './services/film.service';
-import { FilmInterface } from './interfaces/film.interface';
+import { FilmInterface } from './models/film.interface';
 
 @Component({
     selector: 'app-root',

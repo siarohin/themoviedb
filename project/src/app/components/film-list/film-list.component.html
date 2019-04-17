@@ -1,7 +1,7 @@
 <ul class="reset list-items">
     <li
         *ngFor="let film of films; let i = index"
-        (click)="onClick($event); clicked = film"
+        (click)="filmClick($event); clicked = film"
         [id]="film.id"
         [class.active]="!clicked ? i === 0 : clicked === film"
     >
@@ -26,5 +26,5 @@
             </ul>
         </article>
     </li>
-    <button #btn class="next">Next</button>
+    <button (click)="buttonClick($event)" class="next">Next</button>
 </ul>

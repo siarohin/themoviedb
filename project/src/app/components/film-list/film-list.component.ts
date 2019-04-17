@@ -1,7 +1,5 @@
 import {
     Component,
-    AfterViewInit,
-    OnDestroy,
     Input,
     HostBinding,
     Output,
@@ -10,19 +8,14 @@ import {
     ElementRef
 } from '@angular/core';
 
-import { fromEvent, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
-
-import { FilmInterface } from '../../interfaces/film.interface';
+import { FilmInterface } from '../../models/film.interface';
 
 @Component({
     selector: 'app-film-list',
     templateUrl: './film-list.component.html',
     styleUrls: ['./film-list.component.scss']
 })
-export class FilmListComponent implements AfterViewInit, OnDestroy {
-    private onButtonPressSubscription: Subscription;
-
+export class FilmListComponent {
     /**
      * add class to <app-film-list /> component
      */
@@ -62,31 +55,16 @@ export class FilmListComponent implements AfterViewInit, OnDestroy {
     constructor() {}
 
     /**
-     * subscription for button`s click event
-     */
-    public ngAfterViewInit(): void {
-        this.onButtonPressSubscription = fromEvent(
-            this.btn.nativeElement,
-            'click'
-        )
-            // binding click from 1s
-            .pipe(debounceTime(1000))
-            .subscribe(() => {
-                this.onButtonClick.emit();
-            });
-    }
-
-    /**
-     * unsubscribe from button`s click event
-     */
-    public ngOnDestroy(): void {
-        this.onButtonPressSubscription.unsubscribe();
-    }
-
-    /**
      * emit event on click <li /> with film
      */
-    public onClick(event): void {
-        this.onFilmClick.emit(event);
+    public filmClick($event): void {
+        this.onFilmClick.emit($event);
+    }
+
+    /**
+     * emit event on button <li /> with film
+     */
+    public buttonClick($event): void {
+        this.onButtonClick.emit($event);
     }
 }

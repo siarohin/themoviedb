@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { CustomFormComponent } from './components/custom-form/custom-form.component';
 import { FilmListComponent } from './components/film-list/film-list.component';
 import { FilmDetailComponent } from './components/film-detail/film-detail.component';
+import { FilmService } from './services/film.service';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,7 @@ import { FilmDetailComponent } from './components/film-detail/film-detail.compon
         FilmDetailComponent
     ],
     imports: [BrowserModule, AppRoutingModule, HttpClientModule],
-    providers: [],
+    providers: [FilmService],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
