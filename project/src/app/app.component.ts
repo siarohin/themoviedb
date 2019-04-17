@@ -26,12 +26,6 @@ export class AppComponent implements OnInit {
     public inputFocusActive = false;
 
     /**
-     * param with film`s details for <app-film-detail />
-     * change description for selected film
-     */
-    public selectedFilm?: FilmInterface;
-
-    /**
      * param with film`s array which have got from service
      * include from 5 to 20 films
      */
@@ -57,7 +51,10 @@ export class AppComponent implements OnInit {
         );
     }
 
-    public getActiveFilm() {
+    /**
+     * method return first film from filmList
+     */
+    public getfirstFilm(): Observable<FilmInterface> {
         return (this.activeFilm$ = this.filmsList$.pipe(
             map(films => films[0])
         ));

@@ -24,7 +24,7 @@
             [film]="
                 (activeFilm$ | async)
                     ? (activeFilm$ | async)
-                    : (getActiveFilm() | async)
+                    : (getfirstFilm() | async)
             "
         ></app-film-detail>
     </main>
