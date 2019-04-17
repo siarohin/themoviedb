@@ -1,12 +1,4 @@
-import {
-    Component,
-    Input,
-    HostBinding,
-    Output,
-    ViewChild,
-    EventEmitter,
-    ElementRef
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { FilmInterface } from '../../models/film.interface';
 
@@ -16,19 +8,6 @@ import { FilmInterface } from '../../models/film.interface';
     styleUrls: ['./film-list.component.scss']
 })
 export class FilmListComponent {
-    /**
-     * add class to <app-film-list /> component
-     */
-    @HostBinding('class')
-    public className = 'main__film-list';
-
-    /**
-     * Element Ref
-     * get button from template
-     */
-    @ViewChild('btn')
-    public btn: ElementRef;
-
     /**
      * get film`s array from App component
      * render <li /> with films in template

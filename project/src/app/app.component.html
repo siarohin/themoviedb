@@ -15,6 +15,7 @@
 
     <main *ngIf="(filmsList$ | async)" class="main">
         <app-film-list
+            class="main__film-list"
             (onFilmClick)="onFilmListClick($event)"
             (onButtonClick)="onButtonFilmClick()"
             [films]="filmsList$ | async"
