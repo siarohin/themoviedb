@@ -1,0 +1,6 @@
+<input
+    [placeholder]="isActive ? '' : 'Search'"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    (keyup)="onChange($event)"
+/>

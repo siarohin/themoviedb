@@ -1,0 +1,36 @@
+$color-solomon: #fa8072;
+$color-solomon-active: #ff4040;
+$color-grey: #333;
+
+:host > input::-ms-clear {
+    display: none;
+}
+
+:host > input {
+    margin: 0 0 0 4rem;
+    padding: 0 1rem;
+    border: 1px solid $color-solomon;
+    height: 2.5rem;
+    width: calc(100vw / 2);
+    color: $color-grey;
+    font-size: 1em;
+    transition: border 0.5s;
+
+    ::placeholder {
+        color: $color-grey;
+        opacity: 1;
+    }
+    :-ms-input-placeholder {
+        color: $color-grey;
+    }
+    ::-ms-input-placeholder {
+        color: $color-grey;
+    }
+
+    &.active {
+        border-color: $color-solomon-active;
+    }
+    &.blur {
+        border-color: $color-solomon;
+    }
+}

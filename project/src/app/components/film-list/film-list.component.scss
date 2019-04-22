@@ -1,0 +1,124 @@
+$color-solomon: #fa8072;
+$color-solomon-active: #ff4040;
+
+.reset,
+.reset li,
+.reset ul li {
+    margin: 0;
+    padding: 0;
+    text-indent: 0;
+    list-style-type: 0;
+    list-style-type: none;
+}
+
+.list-items {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+}
+
+.list-items > li {
+    width: 100%;
+    border-bottom: 1px solid $color-solomon;
+    padding: 2rem 0;
+    display: flex;
+    flex-flow: row;
+    cursor: pointer;
+    order: 2;
+    transform: rotate(-0.5deg) scale(0.8);
+    transition: all 0.5s ease-in-out;
+
+    &.active {
+        transform: rotate(-0.5deg) scale(1.01);
+        order: 1;
+    }
+}
+
+.list-items__title {
+    width: 100%;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 1rem 2rem;
+    position: absolute;
+    top: -1rem;
+    z-index: 1;
+}
+
+.list-items__item {
+    width: 30%;
+    margin: 0 1rem;
+    order: 1;
+    width: 150px;
+    height: 150px;
+}
+
+.list-items__actors {
+    margin: 0 1rem;
+    order: 2;
+    font-weight: 700;
+}
+
+.item__image {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.actors-data {
+    margin: 0;
+    padding: 0.5rem;
+}
+
+.actors-data:first-child {
+    margin-top: 0.5rem;
+}
+
+.actors-data > li {
+    font-weight: 400;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+h3 {
+    margin: 0;
+}
+
+.next {
+    width: 80%;
+    outline: none;
+    cursor: pointer;
+    height: 3rem;
+    background: $color-solomon-active;
+    order: 3;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1.5;
+    transform: rotate(-1.5deg);
+    transition: 0.2s;
+    &:hover {
+        transform: scale(1.1) rotate(-1.5deg);
+    }
+}
+
+.next::before {
+    content: "";
+    width: 3rem;
+    height: 3rem;
+    background: #fff;
+    transform: rotate(10deg);
+    position: absolute;
+    top: 0;
+    left: -1.5rem;
+}
+
+.next::after {
+    content: "";
+    width: 1rem;
+    height: 4rem;
+    background: #fff;
+    transform: rotate(10deg);
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+}
