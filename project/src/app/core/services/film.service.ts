@@ -16,10 +16,9 @@ import {
 } from 'rxjs/operators';
 
 import { ApiInterface, ApiActorInterface, FilmInterface } from '../../core';
+import { getFilmUrl, getActorUrl } from '../utils';
 
 export const params = {
-    apiURL: 'https://api.themoviedb.org/3',
-    apiKey: 'df56cf406d2c44e988b7705490bae759',
     resultsOnPage: 5,
     maxApiResults: 20
 };
@@ -103,10 +102,7 @@ export class FilmService {
     }
 
     private createFilmsRequest(query: string, page: number): Observable<any> {
-        const { apiURL, apiKey } = params;
-        const http$ = this.createHTTPObservable(
-            `${apiURL}/search/movie?api_key=${apiKey}&language=en-US&query=${query}&page=${page}&include_adult=false`
-        );
+        const http$ = this.createHTTPObservable(getFilmUrl(query, page));
 
         return http$;
     }
@@ -115,7 +111,6 @@ export class FilmService {
         films: Array<ApiInterface>,
         index: number
     ): Observable<Array<FilmInterface>> {
-        const { apiURL, apiKey } = params;
         const sliceFrom: number = index * params.resultsOnPage;
         const sliceTo: number = (index + 1) * params.resultsOnPage;
 
@@ -123,9 +118,7 @@ export class FilmService {
 
         return from(filmsToGetDetails).pipe(
             mergeMap((film: FilmInterface) =>
-                this.createHTTPObservable(
-                    `${apiURL}/movie/${film.id}/credits?api_key=${apiKey}`
-                ).pipe(
+                this.createHTTPObservable(getActorUrl(film)).pipe(
                     // return films with actors
                     map((actorNames: ApiActorInterface) => {
                         return Object.assign(film, {
