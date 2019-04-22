@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CustomFormComponent } from './components/custom-form/custom-form.component';
 import { FilmListComponent } from './components/film-list/film-list.component';
 import { FilmDetailComponent } from './components/film-detail/film-detail.component';
-import { FilmService } from './services/film.service';
+import { FilmService } from './core/services/film.service';
 
 import { of } from 'rxjs';
 

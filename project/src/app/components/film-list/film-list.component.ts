@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { FilmInterface } from '../../models/film.interface';
+import { FilmInterface } from '../../core';
 
 @Component({
     selector: 'app-film-list',
