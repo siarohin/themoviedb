@@ -15,8 +15,7 @@ import {
     distinctUntilChanged
 } from 'rxjs/operators';
 
-import { ApiInterface, ApiActorInterface } from '../models/api.interface';
-import { FilmInterface } from '../models/film.interface';
+import { ApiInterface, ApiActorInterface, FilmInterface } from '../../core';
 
 export const params = {
     apiURL: 'https://api.themoviedb.org/3',
