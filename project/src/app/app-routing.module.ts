@@ -1,7 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+import { ScheduleListComponent } from './components/schedule-list/schedule-list.component';
+import { SearchListComponent } from './components/search-list/search-list.component';
+
+const routes: Routes = [
+    { path: 'list', component: ScheduleListComponent },
+    { path: '', component: SearchListComponent },
+    { path: '**', redirectTo: '', pathMatch: 'full' }
+];
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
