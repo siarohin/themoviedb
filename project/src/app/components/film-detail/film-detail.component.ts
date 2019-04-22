@@ -1,6 +1,6 @@
 import { Component, Input, HostBinding } from '@angular/core';
 
-import { FilmInterface } from '../../core';
+import { FilmInterface } from '../../core/index';
 
 @Component({
     selector: 'app-film-detail',

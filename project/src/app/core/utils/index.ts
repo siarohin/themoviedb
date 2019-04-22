@@ -1,1 +1,1 @@
-export * from './getBaseUrl';
+export { getFilmUrl, getActorUrl } from './getBaseUrl';

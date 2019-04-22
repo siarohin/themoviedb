@@ -1,1 +1,1 @@
-export { params, FilmService } from './film.service';
+export { FilmService } from './film.service';

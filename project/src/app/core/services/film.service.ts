@@ -15,10 +15,15 @@ import {
     distinctUntilChanged
 } from 'rxjs/operators';
 
-import { ApiInterface, ApiActorInterface, FilmInterface } from '../../core';
-import { getFilmUrl, getActorUrl } from '../utils';
+import {
+    ApiInterface,
+    ApiActorInterface,
+    FilmInterface
+} from '../models/index';
 
-export const params = {
+import { getFilmUrl, getActorUrl } from '../utils/index';
+
+const params = {
     resultsOnPage: 5,
     maxApiResults: 20
 };

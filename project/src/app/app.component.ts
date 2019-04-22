@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { publishReplay, refCount, map } from 'rxjs/operators';
 
-import { FilmService, FilmInterface } from './core';
+import { FilmService, FilmInterface } from './core/index';
 
 @Component({
     selector: 'app-root',
