@@ -10,6 +10,7 @@ import { FilmService } from './core/index';
 
 import { ScheduleListModule } from './components/schedule-list/schedule-list.module';
 import { SearchListModule } from './components/search-list/search-list.module';
+import { CoreStoreModule } from './core/store/core-store.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -18,7 +19,8 @@ import { SearchListModule } from './components/search-list/search-list.module';
         AppRoutingModule,
         HttpClientModule,
         ScheduleListModule,
-        SearchListModule
+        SearchListModule,
+        CoreStoreModule
     ],
     providers: [FilmService],
     bootstrap: [AppComponent]

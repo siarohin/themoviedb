@@ -1,6 +1,6 @@
 export interface ApiInterface {
-    page: number;
-    results: Array<{
+    page?: number;
+    results?: Array<{
         adult: boolean;
         backdrop_path: string;
         genre_ids: Array<number>;
@@ -16,20 +16,20 @@ export interface ApiInterface {
         vote_average: number;
         vote_count: number;
     }>;
-    total_pages: number;
-    total_results: number;
+    total_pages?: number;
+    total_results?: number;
 }
 
 export interface ApiActorInterface {
     cast: Array<{
-        cast_id: number;
-        character: string;
-        credit_id: string;
-        gender: number;
-        id: number;
-        name: string;
-        order: number;
-        profile_path: string;
+        cast_id?: number;
+        character?: string;
+        credit_id?: string;
+        gender?: number;
+        id?: number;
+        name?: string;
+        order?: number;
+        profile_path?: string;
     }>;
     id?: number;
 }

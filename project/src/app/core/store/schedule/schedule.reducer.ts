@@ -1,11 +1,11 @@
 import { ScheduleActionTypes, ScheduleActions } from './schedule.actions';
 import { ScheduleState, InitialScheduleState } from './schedule.state';
 
-export function scheduleReduccer(
+export function scheduleReducer(
     state = InitialScheduleState,
     action: ScheduleActions
 ): ScheduleState {
-    console.log(`Action come in ${action.type}`);
+    console.log(`Reducer: Action come in ${action.type}`);
 
     switch (action.type) {
         case ScheduleActionTypes.GET_FILMS: {

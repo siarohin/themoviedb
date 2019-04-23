@@ -5,5 +5,5 @@ export interface ScheduleState {
 }
 
 export const InitialScheduleState: ScheduleState = {
-    data: []
+    data: [{ original_title: 'aaa', id: 2, title: 'aaa' }]
 };

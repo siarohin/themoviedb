@@ -5,12 +5,23 @@ import { publishReplay, refCount, map } from 'rxjs/operators';
 
 import { FilmService, FilmInterface } from '../../core/index';
 
+import { Store } from '@ngrx/store';
+import { AppState } from '../../core/store/index';
+
 @Component({
     selector: 'app-search-list',
     templateUrl: './search-list.component.html',
     styleUrls: ['./search-list.component.scss']
 })
 export class SearchListComponent implements OnInit {
+    /**
+     * add state
+     */
+    private store: Store<AppState>;
+
+    /**
+     * add service
+     */
     private filmService: FilmService;
 
     /**
@@ -34,11 +45,13 @@ export class SearchListComponent implements OnInit {
      */
     public title = 'Movie';
 
-    constructor(filmService: FilmService) {
+    constructor(filmService: FilmService, store: Store<AppState>) {
         this.filmService = filmService;
+        this.store = store;
     }
 
     public ngOnInit(): void {
+        console.log('We have a store!', this.store);
         this.filmsList$ = this.filmService.getFilmList().pipe(
             publishReplay(1),
             refCount()
