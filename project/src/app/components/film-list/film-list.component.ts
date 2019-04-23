@@ -21,7 +21,9 @@ export class FilmListComponent {
      */
     // tslint:disable-next-line: no-output-on-prefix
     @Output()
-    public onFilmClick: EventEmitter<string> = new EventEmitter<string>();
+    public onFilmClick: EventEmitter<FilmInterface> = new EventEmitter<
+        FilmInterface
+    >();
 
     /**
      * binding new event from click on <button /> Next
@@ -36,8 +38,8 @@ export class FilmListComponent {
     /**
      * emit event on click <li /> with film
      */
-    public filmClick($event): void {
-        this.onFilmClick.emit($event);
+    public filmClick(film: FilmInterface): void {
+        this.onFilmClick.emit(film);
     }
 
     /**

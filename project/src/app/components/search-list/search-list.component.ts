@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { publishReplay, refCount, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 
 import { FilmService, FilmInterface } from '../../core/index';
 
-import { Store } from '@ngrx/store';
-import { AppState } from '../../core/store/index';
+import { Store, select } from '@ngrx/store';
+import { AppState, ScheduleState } from '../../core/store/index';
+
+import * as ScheduleActions from '../../core/store/schedule/schedule.actions';
 
 @Component({
     selector: 'app-search-list',
@@ -14,15 +16,14 @@ import { AppState } from '../../core/store/index';
     styleUrls: ['./search-list.component.scss']
 })
 export class SearchListComponent implements OnInit {
-    /**
-     * add state
-     */
     private store: Store<AppState>;
 
     /**
      * add service
      */
     private filmService: FilmService;
+
+    public scheduleState$: Observable<ScheduleState>;
 
     /**
      * observable filmList from service
@@ -51,20 +52,11 @@ export class SearchListComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        console.log('We have a store!', this.store);
+        this.scheduleState$ = this.store.pipe(select('schedule'));
         this.filmsList$ = this.filmService.getFilmList().pipe(
             publishReplay(1),
             refCount()
         );
-    }
-
-    /**
-     * method return first film from filmList
-     */
-    public getfirstFilm(): Observable<FilmInterface> {
-        return (this.activeFilm$ = this.filmsList$.pipe(
-            map(films => films[0])
-        ));
     }
 
     /**
@@ -93,6 +85,10 @@ export class SearchListComponent implements OnInit {
     public onInputChange(value?: string): void {
         if (value && value.length > 2) {
             this.filmService.setQuery(value);
+            this.activeFilm$ = this.filmsList$.pipe(
+                debounceTime(500),
+                map(films => films[0])
+            );
         }
     }
 
@@ -110,10 +106,8 @@ export class SearchListComponent implements OnInit {
      * binding film`s event OnClick
      * method add 'active' class to selected film
      */
-    public onFilmListClick($event: MouseEvent): void {
-        const { id } = $event.currentTarget as HTMLInputElement;
-        this.activeFilm$ = this.filmsList$.pipe(
-            map(films => films.find(film => film.id.toString() === id))
-        );
+    public onFilmListClick(film): void {
+        this.activeFilm$ = of(film);
+        this.store.dispatch(new ScheduleActions.CreateFilm(film));
     }
 }

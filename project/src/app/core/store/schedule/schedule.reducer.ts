@@ -1,5 +1,10 @@
+import * as _ from 'lodash';
+
 import { ScheduleActionTypes, ScheduleActions } from './schedule.actions';
 import { ScheduleState, InitialScheduleState } from './schedule.state';
+
+import { FilmInterface } from '../../models';
+import { __assign } from 'tslib';
 
 export function scheduleReducer(
     state = InitialScheduleState,
@@ -19,8 +24,10 @@ export function scheduleReducer(
         }
 
         case ScheduleActionTypes.CREATE_FILM: {
-            console.log(`CREATE_FILM action beein handled!`);
-            return { ...state };
+            console.log(state);
+            const id = (action.payload as FilmInterface).id;
+            const newState = state.data.concat(action.payload);
+            return _.assign(state, newState);
         }
 
         case ScheduleActionTypes.UPDATE_FILM: {
