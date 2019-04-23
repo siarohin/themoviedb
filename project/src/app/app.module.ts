@@ -6,19 +6,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { CustomFormComponent } from './components/custom-form/custom-form.component';
-import { FilmListComponent } from './components/film-list/film-list.component';
-import { FilmDetailComponent } from './components/film-detail/film-detail.component';
-import { FilmService } from './core';
+import { FilmService } from './core/index';
+
+import { ScheduleListModule } from './components/schedule-list/schedule-list.module';
+import { SearchListModule } from './components/search-list/search-list.module';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        CustomFormComponent,
-        FilmListComponent,
-        FilmDetailComponent
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        ScheduleListModule,
+        SearchListModule
     ],
-    imports: [BrowserModule, AppRoutingModule, HttpClientModule],
     providers: [FilmService],
     bootstrap: [AppComponent]
 })
