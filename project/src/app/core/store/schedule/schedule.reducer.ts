@@ -25,9 +25,14 @@ export function scheduleReducer(
 
         case ScheduleActionTypes.CREATE_FILM: {
             console.log(state);
-            const id = (action.payload as FilmInterface).id;
-            const newState = state.data.concat(action.payload);
-            return _.assign(state, newState);
+            const uid = (action.payload as FilmInterface).id;
+            const existingFilm = state.data.find(film => film.id === uid);
+            if (!existingFilm) {
+                return _.assign(state, {
+                    data: [...state.data, action.payload]
+                });
+            }
+            return state;
         }
 
         case ScheduleActionTypes.UPDATE_FILM: {
