@@ -1,6 +1,6 @@
-export interface ApiInterface {
-    page?: number;
-    results?: Array<{
+export interface Api {
+    page: number;
+    results: Array<{
         adult: boolean;
         backdrop_path: string;
         genre_ids: Array<number>;
@@ -20,16 +20,16 @@ export interface ApiInterface {
     total_results?: number;
 }
 
-export interface ApiActorInterface {
+export interface ApiActor {
     cast: Array<{
         cast_id?: number;
         character?: string;
         credit_id?: string;
         gender?: number;
-        id?: number;
-        name?: string;
+        id: number;
+        name: string;
         order?: number;
         profile_path?: string;
     }>;
-    id?: number;
+    id: number;
 }

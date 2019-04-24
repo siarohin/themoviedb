@@ -1,9 +1,9 @@
-import { FilmInterface } from '../../index';
+import { Film } from '../../index';
 
 export interface ScheduleState {
-    data: ReadonlyArray<FilmInterface>;
+    filmsToWatch: ReadonlyArray<Film>;
 }
 
 export const InitialScheduleState: ScheduleState = {
-    data: []
+    filmsToWatch: []
 };

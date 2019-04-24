@@ -1,6 +1,6 @@
 import { Component, Input, HostBinding } from '@angular/core';
 
-import { FilmInterface } from '../../core/index';
+import { Film } from '../../core/index';
 
 @Component({
     selector: 'app-film-detail',
@@ -19,7 +19,7 @@ export class FilmDetailComponent {
      * render into template
      */
     @Input()
-    public film: FilmInterface;
+    public film: Film;
 
     constructor() {}
 }

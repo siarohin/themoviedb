@@ -3,8 +3,7 @@ import * as _ from 'lodash';
 import { ScheduleActionTypes, ScheduleActions } from './schedule.actions';
 import { ScheduleState, InitialScheduleState } from './schedule.state';
 
-import { FilmInterface } from '../../models';
-import { __assign } from 'tslib';
+import { Film } from '../../models';
 
 export function scheduleReducer(
     state = InitialScheduleState,
@@ -23,11 +22,13 @@ export function scheduleReducer(
          * add film to watch list
          */
         case ScheduleActionTypes.CREATE_FILM: {
-            const uid = (action.payload as FilmInterface).id;
-            const filmInState = state.data.find(film => film.id === uid);
+            const uid = (action.payload as Film).id;
+            const filmInState = state.filmsToWatch.find(
+                film => film.id === uid
+            );
             if (!filmInState) {
                 return _.assign(state, {
-                    data: [...state.data, action.payload]
+                    filmsToWatch: [...state.filmsToWatch, action.payload]
                 });
             }
             return state;
@@ -41,9 +42,11 @@ export function scheduleReducer(
          * delete film from watch list
          */
         case ScheduleActionTypes.DELETE_FILM: {
-            const uid = (action.payload as FilmInterface).id;
+            const uid = (action.payload as Film).id;
             return _.assign(state, {
-                data: [...state.data.filter(film => film.id !== uid)]
+                filmsToWatch: [
+                    ...state.filmsToWatch.filter(film => film.id !== uid)
+                ]
             });
         }
 

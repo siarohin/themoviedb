@@ -6,11 +6,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { FilmService } from './core/index';
+import { FilmService, CoreStoreModule } from './core/index';
 
-import { ScheduleListModule } from './components/schedule-list/schedule-list.module';
-import { SearchListModule } from './components/search-list/search-list.module';
-import { CoreStoreModule } from './core/store/core-store.module';
+import { ScheduleListModule } from './components/schedule-list/index';
+import { SearchListModule } from './components/search-list/index';
 
 @NgModule({
     declarations: [AppComponent],

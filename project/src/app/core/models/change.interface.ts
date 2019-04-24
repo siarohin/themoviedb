@@ -1,8 +1,8 @@
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
-import { FilmInterface } from './index';
+import { Film } from './index';
 
-export interface ChangeInterface {
+export interface Change {
     event: MatCheckboxChange;
-    film: FilmInterface;
+    film: Film;
 }

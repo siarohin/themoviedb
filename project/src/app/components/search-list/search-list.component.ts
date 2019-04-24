@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 
-import { FilmService, FilmInterface, ChangeInterface } from '../../core/index';
+import { FilmService, Film, Change } from '../../core/index';
 
 import { Store, select } from '@ngrx/store';
 import { AppState, ScheduleState } from '../../core/store/index';
@@ -16,6 +16,9 @@ import * as ScheduleActions from '../../core/store/schedule/schedule.actions';
     styleUrls: ['./search-list.component.scss']
 })
 export class SearchListComponent implements OnInit {
+    /**
+     * add store
+     */
     private store: Store<AppState>;
 
     /**
@@ -28,7 +31,7 @@ export class SearchListComponent implements OnInit {
     /**
      * observable filmList from service
      */
-    public filmsList$: Observable<Array<FilmInterface>>;
+    public filmsList$: Observable<Array<Film>>;
 
     /**
      * param (true | false) for <header /> and <app-custom-form />
@@ -39,7 +42,7 @@ export class SearchListComponent implements OnInit {
     /**
      * observable film by click event from <li />
      */
-    public activeFilm$: Observable<FilmInterface>;
+    public activeFilm$: Observable<Film>;
 
     /**
      * param {{ title }} uses in template into <header />
@@ -110,7 +113,10 @@ export class SearchListComponent implements OnInit {
         this.activeFilm$ = of(film);
     }
 
-    public onCheckBoxChange($event: ChangeInterface) {
+    /**
+     * add or delete film to watchList from checkbox event
+     */
+    public onCheckBoxChange($event: Change) {
         const { event, film } = $event;
         event.checked
             ? this.store.dispatch(new ScheduleActions.CreateFilm(film))

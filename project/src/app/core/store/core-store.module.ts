@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { scheduleReducer } from '../../core/store/index';
+import { scheduleReducer } from '../../core/store/schedule/index';
 
 @NgModule({
     declarations: [],

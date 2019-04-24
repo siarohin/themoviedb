@@ -1,14 +1,14 @@
-import { ApiActorInterface } from '.';
+import { ApiActor } from './index';
 
-export interface FilmInterface {
-    actors?: ApiActorInterface;
+export interface Film {
+    actors: ApiActor;
     adult?: boolean;
     backdrop_path?: string;
     genre_ids?: Array<number>;
     id: number;
     original_language?: string;
     original_title?: string;
-    overview?: string;
+    overview: string;
     popularity?: number;
     poster_path?: string;
     release_date?: string;

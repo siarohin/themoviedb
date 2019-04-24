@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { FilmInterface } from '../../index';
+import { Film } from '../../index';
 
 export enum ScheduleActionTypes {
     GET_FILMS = '[Schedule] GET_FILMS',
@@ -16,22 +16,34 @@ export class GetFilms implements Action {
 
 export class GetFilm implements Action {
     readonly type = ScheduleActionTypes.GET_FILM;
-    constructor(public payload: number) {}
+    public payload: number;
+    constructor(payload: number) {
+        this.payload = payload;
+    }
 }
 
 export class CreateFilm implements Action {
     readonly type = ScheduleActionTypes.CREATE_FILM;
-    constructor(public payload: FilmInterface) {}
+    public payload: Film;
+    constructor(payload: Film) {
+        this.payload = payload;
+    }
 }
 
 export class UpdateFilm implements Action {
     readonly type = ScheduleActionTypes.UPDATE_FILM;
-    constructor(public payload: FilmInterface) {}
+    public payload: Film;
+    constructor(payload: Film) {
+        this.payload = payload;
+    }
 }
 
 export class DeleteFilm implements Action {
     readonly type = ScheduleActionTypes.DELETE_FILM;
-    constructor(public payload: FilmInterface) {}
+    public payload: Film;
+    constructor(payload: Film) {
+        this.payload = payload;
+    }
 }
 
 export type ScheduleActions =

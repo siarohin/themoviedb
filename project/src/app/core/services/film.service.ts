@@ -15,11 +15,7 @@ import {
     distinctUntilChanged
 } from 'rxjs/operators';
 
-import {
-    ApiInterface,
-    ApiActorInterface,
-    FilmInterface
-} from '../models/index';
+import { Api, ApiActor, Film } from '../models/index';
 
 import { getFilmUrl, getActorUrl } from '../utils/index';
 
@@ -65,7 +61,7 @@ export class FilmService {
         }
     }
 
-    public getFilmList(): Observable<Array<FilmInterface>> {
+    public getFilmList(): Observable<Array<Film>> {
         return this.querySubject.asObservable().pipe(
             debounceTime(500),
             map(value => value.trim()),
@@ -113,19 +109,19 @@ export class FilmService {
     }
 
     private getFilmsDetails(
-        films: Array<ApiInterface>,
+        films: Array<Api>,
         index: number
-    ): Observable<Array<FilmInterface>> {
+    ): Observable<Array<Film>> {
         const sliceFrom: number = index * params.resultsOnPage;
         const sliceTo: number = (index + 1) * params.resultsOnPage;
 
         const filmsToGetDetails: Array<any> = films.slice(sliceFrom, sliceTo);
 
         return from(filmsToGetDetails).pipe(
-            mergeMap((film: FilmInterface) =>
+            mergeMap((film: Film) =>
                 this.createHTTPObservable(getActorUrl(film)).pipe(
                     // return films with actors
-                    map((actorNames: ApiActorInterface) => {
+                    map((actorNames: ApiActor) => {
                         return Object.assign(film, {
                             actors: [...actorNames.cast]
                         });
