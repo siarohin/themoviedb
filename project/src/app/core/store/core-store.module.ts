@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { scheduleReducer } from '../../core/store/index';
 
 @NgModule({
@@ -9,7 +10,10 @@ import { scheduleReducer } from '../../core/store/index';
     imports: [
         CommonModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('schedule', scheduleReducer)
+        StoreModule.forFeature('schedule', scheduleReducer),
+        StoreDevtoolsModule.instrument({
+            maxAge: 10
+        })
     ]
 })
 export class CoreStoreModule {}

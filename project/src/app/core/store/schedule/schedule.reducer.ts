@@ -23,11 +23,14 @@ export function scheduleReducer(
             return { ...state };
         }
 
+        /**
+         * add film to watch list
+         */
         case ScheduleActionTypes.CREATE_FILM: {
             console.log(state);
             const uid = (action.payload as FilmInterface).id;
-            const existingFilm = state.data.find(film => film.id === uid);
-            if (!existingFilm) {
+            const filmInState = state.data.find(film => film.id === uid);
+            if (!filmInState) {
                 return _.assign(state, {
                     data: [...state.data, action.payload]
                 });
