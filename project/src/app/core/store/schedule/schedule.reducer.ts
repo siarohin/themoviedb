@@ -10,16 +10,12 @@ export function scheduleReducer(
     state = InitialScheduleState,
     action: ScheduleActions
 ): ScheduleState {
-    console.log(`Reducer: Action come in ${action.type}`);
-
     switch (action.type) {
         case ScheduleActionTypes.GET_FILMS: {
-            console.log(`GET_TASKS action beein handled!`);
             return { ...state };
         }
 
         case ScheduleActionTypes.GET_FILM: {
-            console.log(`GET_FILM action beein handled!`);
             return { ...state };
         }
 
@@ -27,7 +23,6 @@ export function scheduleReducer(
          * add film to watch list
          */
         case ScheduleActionTypes.CREATE_FILM: {
-            console.log(state);
             const uid = (action.payload as FilmInterface).id;
             const filmInState = state.data.find(film => film.id === uid);
             if (!filmInState) {
@@ -39,17 +34,14 @@ export function scheduleReducer(
         }
 
         case ScheduleActionTypes.UPDATE_FILM: {
-            console.log(`UPDATE_FILM action beein handled!`);
             return { ...state };
         }
 
         case ScheduleActionTypes.DELETE_FILM: {
-            console.log(`DELETE_FILM action beein handled!`);
             return { ...state };
         }
 
         default: {
-            console.log(`UNKNOWN_SCHEDULE action beein handled!`);
             return state;
         }
     }

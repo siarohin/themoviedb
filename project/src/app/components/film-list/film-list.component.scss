@@ -24,13 +24,11 @@ $color-solomon-active: #ff4040;
     display: flex;
     flex-flow: row;
     cursor: pointer;
-    order: 2;
     transform: rotate(-0.5deg) scale(0.8);
-    transition: all 0.5s ease-in-out;
+    transition: all 0.2s ease-in-out;
 
     &.active {
         transform: rotate(-0.5deg) scale(1.01);
-        order: 1;
     }
 }
 
@@ -91,13 +89,14 @@ h3 {
     height: 3rem;
     background: $color-solomon-active;
     order: 3;
+    margin-top: 1rem;
     font-weight: 700;
     color: #fff;
     letter-spacing: 1.5;
     transform: rotate(-1.5deg);
     transition: 0.2s;
     &:hover {
-        transform: scale(1.1) rotate(-1.5deg);
+        transform: scale(1) rotate(-1.5deg);
     }
 }
 
@@ -121,4 +120,11 @@ h3 {
     position: absolute;
     top: -0.5rem;
     right: -0.5rem;
+}
+
+.schedule__checkbox {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 1rem;
+    color: #ff4040;
 }
