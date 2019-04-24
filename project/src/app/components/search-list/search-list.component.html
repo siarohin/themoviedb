@@ -17,6 +17,7 @@
         <app-film-list
             class="main__film-list"
             (onFilmClick)="onFilmListClick($event)"
+            (onCheckBoxChange)="onCheckBoxChange($event)"
             (onButtonClick)="onButtonFilmClick()"
             [films]="filmsList$ | async"
         ></app-film-list>

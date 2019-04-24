@@ -12,7 +12,7 @@ import { scheduleReducer } from '../../core/store/index';
         StoreModule.forRoot({}),
         StoreModule.forFeature('schedule', scheduleReducer),
         StoreDevtoolsModule.instrument({
-            maxAge: 10
+            maxAge: 5
         })
     ]
 })

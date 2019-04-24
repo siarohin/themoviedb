@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 
-import { FilmService, FilmInterface } from '../../core/index';
+import { FilmService, FilmInterface, ChangeInterface } from '../../core/index';
 
 import { Store, select } from '@ngrx/store';
 import { AppState, ScheduleState } from '../../core/store/index';
@@ -108,6 +108,13 @@ export class SearchListComponent implements OnInit {
      */
     public onFilmListClick(film): void {
         this.activeFilm$ = of(film);
-        this.store.dispatch(new ScheduleActions.CreateFilm(film));
+    }
+
+    public onCheckBoxChange($event: ChangeInterface) {
+        const { event, film } = $event;
+        console.log(event);
+        event.checked
+            ? this.store.dispatch(new ScheduleActions.CreateFilm(film))
+            : '';
     }
 }

@@ -25,7 +25,9 @@
                 </li>
             </ul>
         </article>
-        <mat-checkbox class="schedule__checkbox"
+        <mat-checkbox
+            class="schedule__checkbox"
+            (change)="checkBoxChange($event, film)"
             >Add to watch list</mat-checkbox
         >
     </li>
