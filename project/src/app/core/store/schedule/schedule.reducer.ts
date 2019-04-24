@@ -28,7 +28,12 @@ export function scheduleReducer(
             );
             if (!filmInState) {
                 return _.assign(state, {
-                    filmsToWatch: [...state.filmsToWatch, action.payload]
+                    filmsToWatch: [
+                        ...state.filmsToWatch,
+                        _.assign(action.payload, {
+                            inScheduleList: true
+                        })
+                    ]
                 });
             }
             return state;
