@@ -112,9 +112,8 @@ export class SearchListComponent implements OnInit {
 
     public onCheckBoxChange($event: ChangeInterface) {
         const { event, film } = $event;
-        console.log(event);
         event.checked
             ? this.store.dispatch(new ScheduleActions.CreateFilm(film))
-            : '';
+            : this.store.dispatch(new ScheduleActions.DeleteFilm(film));
     }
 }

@@ -37,8 +37,14 @@ export function scheduleReducer(
             return { ...state };
         }
 
+        /**
+         * delete film from watch list
+         */
         case ScheduleActionTypes.DELETE_FILM: {
-            return { ...state };
+            const uid = (action.payload as FilmInterface).id;
+            return _.assign(state, {
+                data: [...state.data.filter(film => film.id !== uid)]
+            });
         }
 
         default: {
