@@ -1,6 +1,39 @@
+$color-margenta: #ff4040;
+$color-light-margenta: #fa8072;
+$color-white: #ffffff;
+
 .scedule__list {
     position: absolute;
     z-index: 100;
     left: 1rem;
     top: 0;
+    display: flex;
+}
+
+.scedule__list a {
+    margin: -0.8rem 1rem 0;
+    padding: 1rem 1rem;
+    background: $color-margenta;
+    color: $color-white;
+    text-decoration: none;
+    font-size: 0.8em;
+    letter-spacing: 0.0625rem;
+    position: relative;
+    transition: 0.3s;
+}
+
+.scedule__list a:hover {
+    margin: 0 1rem;
+}
+
+.scedule__list a::after {
+    content: "";
+    display: block;
+    width: 101%;
+    height: 1rem;
+    background: $color-white;
+    position: absolute;
+    left: 0;
+    top: 2.5rem;
+    transform: rotate(-4deg);
 }

@@ -20,6 +20,9 @@ export class ScheduleListComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.scheduleState$ = this.store.pipe(select('schedule'));
+        this.scheduleState$ = this.store.pipe(
+            select('schedule'),
+            select('filmsToWatch')
+        );
     }
 }

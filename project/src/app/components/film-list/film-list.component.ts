@@ -31,6 +31,10 @@ export class FilmListComponent {
     @Output()
     public onButtonClick: EventEmitter<string> = new EventEmitter<string>();
 
+    /**
+     * binding new event from checkbox
+     * using by controller in App component
+     */
     // tslint:disable-next-line: no-output-on-prefix
     @Output()
     public onCheckBoxChange: EventEmitter<Change> = new EventEmitter<Change>();

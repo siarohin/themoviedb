@@ -5,8 +5,8 @@ import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 
 import { FilmService, Film, Change } from '../../core/index';
 
-import { Store, select } from '@ngrx/store';
-import { AppState, ScheduleState } from '../../core/store/index';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../core/store/index';
 
 import * as ScheduleActions from '../../core/store/schedule/schedule.actions';
 
@@ -25,8 +25,6 @@ export class SearchListComponent implements OnInit {
      * add service
      */
     private filmService: FilmService;
-
-    public scheduleState$: Observable<ScheduleState>;
 
     /**
      * observable filmList from service
@@ -55,7 +53,6 @@ export class SearchListComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.scheduleState$ = this.store.pipe(select('schedule'));
         this.filmsList$ = this.filmService.getFilmList().pipe(
             publishReplay(1),
             refCount()
