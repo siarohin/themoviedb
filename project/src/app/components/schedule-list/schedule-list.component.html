@@ -1,4 +1,4 @@
-<ul class="reset list-items">
+<ul class="reset list-items schedule-list">
     <li *ngFor="let film of (scheduleState$ | async)" [id]="film.id">
         <h2 class="list-items__title">{{ film?.title }}</h2>
         <div class="list-items__item">
