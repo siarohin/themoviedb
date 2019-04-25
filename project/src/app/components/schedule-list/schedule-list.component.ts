@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
-import { AppState, ScheduleState } from '../../core/store/index';
+import {
+    AppState,
+    ScheduleState,
+    getScheduleState
+} from '../../core/store/index';
 
 import { Observable } from 'rxjs';
 
@@ -21,7 +25,7 @@ export class ScheduleListComponent implements OnInit {
 
     public ngOnInit(): void {
         this.scheduleState$ = this.store.pipe(
-            select('schedule'),
+            select(getScheduleState),
             select('filmsToWatch')
         );
     }
