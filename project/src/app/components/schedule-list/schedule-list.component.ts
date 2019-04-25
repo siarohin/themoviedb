@@ -4,10 +4,11 @@ import { Store, select } from '@ngrx/store';
 import {
     AppState,
     ScheduleState,
-    getScheduleState
+    getFilmsToWatch
 } from '../../core/store/index';
 
 import { Observable } from 'rxjs';
+import { Film } from 'src/app/core';
 
 @Component({
     selector: 'app-schedule-list',
@@ -18,15 +19,13 @@ export class ScheduleListComponent implements OnInit {
     private store: Store<AppState>;
 
     public scheduleState$: Observable<ScheduleState>;
+    public filmsToWatch$: Observable<ReadonlyArray<Film>>;
 
     constructor(store: Store<AppState>) {
         this.store = store;
     }
 
     public ngOnInit(): void {
-        this.scheduleState$ = this.store.pipe(
-            select(getScheduleState),
-            select('filmsToWatch')
-        );
+        this.filmsToWatch$ = this.store.pipe(select(getFilmsToWatch));
     }
 }
