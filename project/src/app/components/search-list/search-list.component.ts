@@ -5,7 +5,7 @@ import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 
 import { FilmService, Film, Change } from '../../core/index';
 
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppState, getFilmsToWatch } from '../../core/store/index';
 
 import * as ScheduleActions from '../../core/store/schedule/schedule.actions';
@@ -59,7 +59,7 @@ export class SearchListComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.filmsToWatch$ = this.store.pipe(select(getFilmsToWatch));
+        this.filmsToWatch$ = this.store.select(getFilmsToWatch);
         this.filmsList$ = this.filmService.getFilmList().pipe(
             publishReplay(1),
             refCount()

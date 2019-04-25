@@ -27,10 +27,10 @@ export function scheduleReducer(
                 film => film.id === uid
             );
             if (!filmInState) {
-                return _.assign(state, {
+                return _.assign({}, state, {
                     filmsToWatch: [
                         ...state.filmsToWatch,
-                        _.assign(action.payload, {
+                        _.assign({}, action.payload, {
                             inScheduleList: true
                         })
                     ]
@@ -48,7 +48,7 @@ export function scheduleReducer(
          */
         case ScheduleActionTypes.DELETE_FILM: {
             const uid = (action.payload as Film).id;
-            return _.assign(state, {
+            return _.assign({}, state, {
                 filmsToWatch: [
                     ...state.filmsToWatch.filter(film => film.id !== uid)
                 ]
