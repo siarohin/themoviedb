@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
-import {
-    AppState,
-    ScheduleState,
-    getFilmsToWatch
-} from '../../core/store/index';
+import { AppState, getFilmsToWatch } from '../../core/store/index';
 
 import { Observable } from 'rxjs';
 import { Film } from 'src/app/core';
@@ -18,7 +14,10 @@ import { Film } from 'src/app/core';
 export class ScheduleListComponent implements OnInit {
     private store: Store<AppState>;
 
-    public scheduleState$: Observable<ScheduleState>;
+    /**
+     * selector,
+     * 'filmsToWatch' from state
+     */
     public filmsToWatch$: Observable<ReadonlyArray<Film>>;
 
     constructor(store: Store<AppState>) {

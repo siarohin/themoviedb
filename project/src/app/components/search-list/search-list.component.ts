@@ -6,11 +6,7 @@ import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 import { FilmService, Film, Change } from '../../core/index';
 
 import { Store, select } from '@ngrx/store';
-import {
-    AppState,
-    ScheduleState,
-    getFilmsToWatch
-} from '../../core/store/index';
+import { AppState, getFilmsToWatch } from '../../core/store/index';
 
 import * as ScheduleActions from '../../core/store/schedule/schedule.actions';
 
@@ -31,12 +27,8 @@ export class SearchListComponent implements OnInit {
     private filmService: FilmService;
 
     /**
-     * state
-     */
-    public scheduleList$: Observable<ScheduleState>;
-
-    /**
-     * state data
+     * selector,
+     * 'filmsToWatch' from state
      */
     public filmsToWatch$: Observable<ReadonlyArray<Film>>;
 
