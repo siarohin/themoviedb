@@ -3,8 +3,8 @@ import { Action } from '@ngrx/store';
 import { Film } from '../../index';
 
 export enum WatchedListActionTypes {
-    CREATE_FILM = '[WatchedList] CREATE_WATCHED_FILM',
-    DELETE_FILM = '[WatchedList] DELETE_WATCHED_FILM'
+    CREATE_FILM = '[WatchedList] CREATE_FILM',
+    DELETE_FILM = '[WatchedList] DELETE_FILM'
 }
 
 export class CreateWatchedFilm implements Action {
