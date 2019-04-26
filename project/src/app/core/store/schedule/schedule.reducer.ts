@@ -2,7 +2,6 @@ import * as _ from 'lodash';
 
 import { ScheduleActionTypes, ScheduleActions } from './schedule.actions';
 import { ScheduleState, InitialScheduleState } from './schedule.state';
-
 import { Film } from '../../models';
 
 export function scheduleReducer(

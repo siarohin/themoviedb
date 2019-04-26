@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, from, Subject } from 'rxjs';
@@ -16,7 +15,6 @@ import {
 } from 'rxjs/operators';
 
 import { Api, ApiActor, Film } from '../models/index';
-
 import { getFilmUrl, getActorUrl } from '../utils/index';
 
 const params = {

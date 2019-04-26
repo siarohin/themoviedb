@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
 import { Observable, of } from 'rxjs';
 import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 
-import { Store } from '@ngrx/store';
 import {
     FilmService,
     Film,
