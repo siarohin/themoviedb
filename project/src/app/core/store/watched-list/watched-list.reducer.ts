@@ -19,7 +19,7 @@ export function watchedListReducer(
         /**
          * add film to watched list
          */
-        case WatchedListActionTypes.CREATE_WATCHED_FILM: {
+        case WatchedListActionTypes.CREATE_FILM: {
             const uid = (action.payload as Film).id;
             const filmInState = state.watchedFilms.find(
                 film => film.id === uid
@@ -40,7 +40,7 @@ export function watchedListReducer(
         /**
          * delete film from watched list
          */
-        case WatchedListActionTypes.DELETE_WATCHED_FILM: {
+        case WatchedListActionTypes.DELETE_FILM: {
             const uid = (action.payload as Film).id;
             return _.assign({}, state, {
                 watchedFilms: [
