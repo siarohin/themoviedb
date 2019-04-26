@@ -1,0 +1,93 @@
+$color-solomon: #fa8072;
+$color-solomon-active: #ff4040;
+
+.reset,
+.reset li,
+.reset ul li {
+    margin: 0;
+    padding: 0;
+    text-indent: 0;
+    list-style-type: 0;
+    list-style-type: none;
+}
+
+.list-items {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+}
+
+.list-items > li {
+    width: 100%;
+    border-bottom: 1px solid $color-solomon;
+    padding: 2rem 0;
+    display: flex;
+    flex-flow: row;
+    transform: rotate(-0.5deg) scale(0.8);
+    transition: all 0.2s ease-in-out;
+
+    &.active {
+        transform: rotate(-0.5deg) scale(1.01);
+    }
+}
+
+.list-items__title {
+    width: 100%;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 1rem 2rem;
+    position: absolute;
+    top: -1rem;
+    z-index: 1;
+}
+
+.list-items__item {
+    width: 30%;
+    margin: 0 1rem;
+    order: 1;
+    width: 150px;
+    height: 150px;
+}
+
+.list-items__actors {
+    margin: 0 1rem;
+    order: 2;
+    font-weight: 700;
+}
+
+.item__image {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.actors-data {
+    margin: 0;
+    padding: 0.5rem;
+}
+
+.actors-data:first-child {
+    margin-top: 0.5rem;
+}
+
+.actors-data > li {
+    font-weight: 400;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+h3 {
+    margin: 0;
+}
+
+.schedule__checkbox {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 1rem;
+    color: #ff4040;
+}
+
+.schedule-list {
+    margin-top: 5rem;
+}

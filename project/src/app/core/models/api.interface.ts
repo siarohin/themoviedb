@@ -1,4 +1,4 @@
-export interface ApiInterface {
+export interface Api {
     page: number;
     results: Array<{
         adult: boolean;
@@ -16,20 +16,20 @@ export interface ApiInterface {
         vote_average: number;
         vote_count: number;
     }>;
-    total_pages: number;
-    total_results: number;
+    total_pages?: number;
+    total_results?: number;
 }
 
-export interface ApiActorInterface {
+export interface ApiActor {
     cast: Array<{
-        cast_id: number;
-        character: string;
-        credit_id: string;
-        gender: number;
+        cast_id?: number;
+        character?: string;
+        credit_id?: string;
+        gender?: number;
         id: number;
         name: string;
-        order: number;
-        profile_path: string;
+        order?: number;
+        profile_path?: string;
     }>;
-    id?: number;
+    id: number;
 }

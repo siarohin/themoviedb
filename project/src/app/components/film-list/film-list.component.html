@@ -1,7 +1,7 @@
 <ul class="reset list-items">
     <li
         *ngFor="let film of films; let i = index"
-        (click)="filmClick($event); clicked = film"
+        (click)="filmClick(film); clicked = film"
         [id]="film.id"
         [class.active]="!clicked ? i === 0 : clicked === film"
     >
@@ -25,6 +25,12 @@
                 </li>
             </ul>
         </article>
+        <mat-checkbox
+            class="schedule__checkbox"
+            (change)="checkBoxChange($event, film)"
+            [checked]=""
+            >Add to watch list</mat-checkbox
+        >
     </li>
     <button (click)="buttonClick($event)" class="next">Next</button>
 </ul>

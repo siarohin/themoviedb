@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { FilmInterface } from '../../core/index';
+import { Film, Change } from '../../core/index';
 
 @Component({
     selector: 'app-film-list',
@@ -13,7 +13,7 @@ export class FilmListComponent {
      * render <li /> with films in template
      */
     @Input()
-    public films: Array<FilmInterface>;
+    public films: Array<Film>;
 
     /**
      * binding new event from click on <li /> with film
@@ -21,7 +21,7 @@ export class FilmListComponent {
      */
     // tslint:disable-next-line: no-output-on-prefix
     @Output()
-    public onFilmClick: EventEmitter<string> = new EventEmitter<string>();
+    public onFilmClick: EventEmitter<Film> = new EventEmitter<Film>();
 
     /**
      * binding new event from click on <button /> Next
@@ -31,13 +31,21 @@ export class FilmListComponent {
     @Output()
     public onButtonClick: EventEmitter<string> = new EventEmitter<string>();
 
+    /**
+     * binding new event from checkbox
+     * using by controller in App component
+     */
+    // tslint:disable-next-line: no-output-on-prefix
+    @Output()
+    public onCheckBoxChange: EventEmitter<Change> = new EventEmitter<Change>();
+
     constructor() {}
 
     /**
      * emit event on click <li /> with film
      */
-    public filmClick($event): void {
-        this.onFilmClick.emit($event);
+    public filmClick(film: Film): void {
+        this.onFilmClick.emit(film);
     }
 
     /**
@@ -45,5 +53,15 @@ export class FilmListComponent {
      */
     public buttonClick($event): void {
         this.onButtonClick.emit($event);
+    }
+
+    /**
+     * emit event on checkBox change (checked true | false ) with film and $event
+     */
+    public checkBoxChange($event, film): void {
+        this.onCheckBoxChange.emit({
+            event: $event,
+            film
+        });
     }
 }

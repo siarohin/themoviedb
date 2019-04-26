@@ -1,9 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { publishReplay, refCount, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 
-import { FilmService, FilmInterface } from '../../core/index';
+import { Store } from '@ngrx/store';
+import {
+    FilmService,
+    Film,
+    Change,
+    AppState,
+    getFilmsToWatch
+} from '../../core/index';
+
+import * as ScheduleActions from '../../core/store/schedule/schedule.actions';
 
 @Component({
     selector: 'app-search-list',
@@ -11,12 +20,26 @@ import { FilmService, FilmInterface } from '../../core/index';
     styleUrls: ['./search-list.component.scss']
 })
 export class SearchListComponent implements OnInit {
+    /**
+     * add store
+     */
+    private store: Store<AppState>;
+
+    /**
+     * add service
+     */
     private filmService: FilmService;
+
+    /**
+     * selector,
+     * 'filmsToWatch' from state
+     */
+    public filmsToWatch$: Observable<ReadonlyArray<Film>>;
 
     /**
      * observable filmList from service
      */
-    public filmsList$: Observable<Array<FilmInterface>>;
+    public filmsList$: Observable<Array<Film>>;
 
     /**
      * param (true | false) for <header /> and <app-custom-form />
@@ -27,31 +50,24 @@ export class SearchListComponent implements OnInit {
     /**
      * observable film by click event from <li />
      */
-    public activeFilm$: Observable<FilmInterface>;
+    public activeFilm$: Observable<Film>;
 
     /**
      * param {{ title }} uses in template into <header />
      */
     public title = 'Movie';
 
-    constructor(filmService: FilmService) {
+    constructor(filmService: FilmService, store: Store<AppState>) {
         this.filmService = filmService;
+        this.store = store;
     }
 
     public ngOnInit(): void {
+        this.filmsToWatch$ = this.store.select(getFilmsToWatch);
         this.filmsList$ = this.filmService.getFilmList().pipe(
             publishReplay(1),
             refCount()
         );
-    }
-
-    /**
-     * method return first film from filmList
-     */
-    public getfirstFilm(): Observable<FilmInterface> {
-        return (this.activeFilm$ = this.filmsList$.pipe(
-            map(films => films[0])
-        ));
     }
 
     /**
@@ -80,6 +96,10 @@ export class SearchListComponent implements OnInit {
     public onInputChange(value?: string): void {
         if (value && value.length > 2) {
             this.filmService.setQuery(value);
+            this.activeFilm$ = this.filmsList$.pipe(
+                debounceTime(500),
+                map(films => films[0])
+            );
         }
     }
 
@@ -97,10 +117,17 @@ export class SearchListComponent implements OnInit {
      * binding film`s event OnClick
      * method add 'active' class to selected film
      */
-    public onFilmListClick($event: MouseEvent): void {
-        const { id } = $event.currentTarget as HTMLInputElement;
-        this.activeFilm$ = this.filmsList$.pipe(
-            map(films => films.find(film => film.id.toString() === id))
-        );
+    public onFilmListClick(film): void {
+        this.activeFilm$ = of(film);
+    }
+
+    /**
+     * add or delete film to watchList from checkbox event
+     */
+    public onCheckBoxChange($event: Change) {
+        const { event, film } = $event;
+        event.checked
+            ? this.store.dispatch(new ScheduleActions.CreateFilm(film))
+            : this.store.dispatch(new ScheduleActions.DeleteFilm(film));
     }
 }
