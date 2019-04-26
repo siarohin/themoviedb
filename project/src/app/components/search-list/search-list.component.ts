@@ -3,10 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 
-import { FilmService, Film, Change } from '../../core/index';
-
 import { Store } from '@ngrx/store';
-import { AppState, getFilmsToWatch } from '../../core/store/index';
+import {
+    FilmService,
+    Film,
+    Change,
+    AppState,
+    getFilmsToWatch
+} from '../../core/index';
 
 import * as ScheduleActions from '../../core/store/schedule/schedule.actions';
 
