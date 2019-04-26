@@ -20,7 +20,9 @@
                 </li>
             </ul>
         </article>
-        <mat-checkbox class="schedule__checkbox" [checked]=""
+        <mat-checkbox
+            class="schedule__checkbox"
+            (change)="checkBoxChange($event, film)"
             >I've watched</mat-checkbox
         >
     </li>

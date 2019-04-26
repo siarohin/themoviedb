@@ -3,7 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { WatchedListState } from './watched-list.state';
 
 export const getWatchedListState = createFeatureSelector<WatchedListState>(
-    'schedule'
+    'watched'
 );
 
 export const getWatchedFilms = createSelector(

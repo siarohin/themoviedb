@@ -16,16 +16,8 @@ export function watchedListReducer(
     action: WatchedListActions
 ): WatchedListState {
     switch (action.type) {
-        case WatchedListActionTypes.GET_WATCHED_FILMS: {
-            return { ...state };
-        }
-
-        case WatchedListActionTypes.GET_WATCHED_FILM: {
-            return { ...state };
-        }
-
         /**
-         * add film to watch list
+         * add film to watched list
          */
         case WatchedListActionTypes.CREATE_WATCHED_FILM: {
             const uid = (action.payload as Film).id;
@@ -34,7 +26,7 @@ export function watchedListReducer(
             );
             if (!filmInState) {
                 return _.assign({}, state, {
-                    filmsToWatch: [
+                    watchedFilms: [
                         ...state.watchedFilms,
                         _.assign({}, action.payload, {
                             inScheduleList: true
@@ -45,17 +37,13 @@ export function watchedListReducer(
             return state;
         }
 
-        case WatchedListActionTypes.UPDATE_WATCHED_FILM: {
-            return { ...state };
-        }
-
         /**
-         * delete film from watch list
+         * delete film from watched list
          */
         case WatchedListActionTypes.DELETE_WATCHED_FILM: {
             const uid = (action.payload as Film).id;
             return _.assign({}, state, {
-                filmsToWatch: [
+                watchedFilms: [
                     ...state.watchedFilms.filter(film => film.id !== uid)
                 ]
             });

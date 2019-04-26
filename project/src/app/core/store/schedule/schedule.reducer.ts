@@ -10,14 +10,6 @@ export function scheduleReducer(
     action: ScheduleActions
 ): ScheduleState {
     switch (action.type) {
-        case ScheduleActionTypes.GET_FILMS: {
-            return { ...state };
-        }
-
-        case ScheduleActionTypes.GET_FILM: {
-            return { ...state };
-        }
-
         /**
          * add film to watch list
          */
@@ -37,10 +29,6 @@ export function scheduleReducer(
                 });
             }
             return state;
-        }
-
-        case ScheduleActionTypes.UPDATE_FILM: {
-            return { ...state };
         }
 
         /**
