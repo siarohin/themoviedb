@@ -10,9 +10,9 @@ import {
     Film,
     ChangeBox,
     AppState,
-    getFilmsToWatch
+    getFilmsToWatch,
+    ScheduleActions
 } from '../../core/index';
-import * as ScheduleActions from '../../core/store/schedule/schedule.actions';
 
 @Component({
     selector: 'app-search-list',
