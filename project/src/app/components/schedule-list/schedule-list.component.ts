@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { AppState, getFilmsToWatch, getWatchedFilms } from '../../core/index';
+import * as WatchedListActions from '../../core/store/watched-list/watched-list.actions';
 
 import { Observable } from 'rxjs';
 import { Film } from 'src/app/core/index';
-import * as WatchedListActions from '../../core/store/watched-list/watched-list.actions';
 
 @Component({
     selector: 'app-schedule-list',

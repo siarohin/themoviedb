@@ -11,7 +11,6 @@ import {
     AppState,
     getFilmsToWatch
 } from '../../core/index';
-
 import * as ScheduleActions from '../../core/store/schedule/schedule.actions';
 
 @Component({
