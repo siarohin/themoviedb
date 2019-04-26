@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { AppState, getFilmsToWatch } from '../../core/store/index';
+import { AppState, getFilmsToWatch } from '../../core/index';
 
 import { Observable } from 'rxjs';
-import { Film } from 'src/app/core';
+import { Film } from 'src/app/core/index';
 
 @Component({
     selector: 'app-schedule-list',
