@@ -1,4 +1,4 @@
-export interface Api {
+export interface GetFilmsResponse {
     page: number;
     results: Array<{
         adult: boolean;
@@ -18,18 +18,4 @@ export interface Api {
     }>;
     total_pages?: number;
     total_results?: number;
-}
-
-export interface ApiActor {
-    cast: Array<{
-        cast_id?: number;
-        character?: string;
-        credit_id?: string;
-        gender?: number;
-        id: number;
-        name: string;
-        order?: number;
-        profile_path?: string;
-    }>;
-    id: number;
 }

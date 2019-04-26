@@ -8,7 +8,7 @@ import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 import {
     FilmService,
     Film,
-    Change,
+    ChangeBox,
     AppState,
     getFilmsToWatch
 } from '../../core/index';
@@ -124,7 +124,7 @@ export class SearchListComponent implements OnInit {
     /**
      * add or delete film to watchList from checkbox event
      */
-    public onCheckBoxChange($event: Change) {
+    public onCheckBoxChange($event: ChangeBox) {
         const { event, film } = $event;
         event.checked
             ? this.store.dispatch(new ScheduleActions.CreateFilm(film))
