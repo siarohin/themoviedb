@@ -20,6 +20,13 @@ export function watchedListReducer(
          * add film to watched list
          */
         case WatchedListActionTypes.CREATE_FILM: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+
+        case WatchedListActionTypes.CREATE_FILM_SUCCESS: {
             const uid = (action.payload as Film).id;
             const filmInState = state.watchedFilms.find(
                 film => film.id === uid
@@ -31,10 +38,26 @@ export function watchedListReducer(
                         _.assign({}, action.payload, {
                             inScheduleList: true
                         })
-                    ]
+                    ],
+                    loading: false,
+                    loaded: true
                 });
             }
-            return state;
+            return {
+                ...state,
+                loading: false,
+                loaded: true
+            };
+        }
+
+        case WatchedListActionTypes.CREATE_FILM_ERROR: {
+            const error = action.payload;
+            return {
+                ...state,
+                loading: false,
+                loaded: false,
+                error
+            };
         }
 
         /**
