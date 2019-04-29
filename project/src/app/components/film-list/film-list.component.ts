@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { Film, Change } from '../../core/index';
+import { Film, ChangeBox } from '../../core/index';
 
 @Component({
     selector: 'app-film-list',
@@ -37,7 +37,9 @@ export class FilmListComponent {
      */
     // tslint:disable-next-line: no-output-on-prefix
     @Output()
-    public onCheckBoxChange: EventEmitter<Change> = new EventEmitter<Change>();
+    public onCheckBoxChange: EventEmitter<ChangeBox> = new EventEmitter<
+        ChangeBox
+    >();
 
     constructor() {}
 

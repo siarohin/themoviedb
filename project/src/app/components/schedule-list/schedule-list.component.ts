@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { AppState, getFilmsToWatch } from '../../core/index';
 
 import { Observable } from 'rxjs';
-import { Film } from 'src/app/core/index';
+
+import {
+    AppState,
+    getFilmsToWatch,
+    getWatchedFilms,
+    Film,
+    WatchedListActions
+} from '../../core/index';
 
 @Component({
     selector: 'app-schedule-list',
@@ -20,11 +26,31 @@ export class ScheduleListComponent implements OnInit {
      */
     public filmsToWatch$: Observable<ReadonlyArray<Film>>;
 
+    /**
+     * selector,
+     * 'getWatchedFilms' from state
+     */
+    public watchedFilms$: Observable<ReadonlyArray<Film>>;
+
     constructor(store: Store<AppState>) {
         this.store = store;
     }
 
     public ngOnInit(): void {
         this.filmsToWatch$ = this.store.select(getFilmsToWatch);
+        this.watchedFilms$ = this.store.select(getWatchedFilms);
+    }
+
+    /**
+     * add or delete film to watchList from checkbox event
+     */
+    public checkBoxChange($event, film) {
+        $event.checked
+            ? this.store.dispatch(
+                  new WatchedListActions.CreateWatchedFilm(film)
+              )
+            : this.store.dispatch(
+                  new WatchedListActions.DeleteWatchedFilm(film)
+              );
     }
 }

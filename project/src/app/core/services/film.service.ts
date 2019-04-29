@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, from, Subject } from 'rxjs';
@@ -15,8 +14,11 @@ import {
     distinctUntilChanged
 } from 'rxjs/operators';
 
-import { Api, ApiActor, Film } from '../models/index';
-
+import {
+    GetFilmsResponse,
+    GetFilmsDetailsResponse,
+    Film
+} from '../models/index';
 import { getFilmUrl, getActorUrl } from '../utils/index';
 
 const params = {
@@ -109,7 +111,7 @@ export class FilmService {
     }
 
     private getFilmsDetails(
-        films: Array<Api>,
+        films: Array<GetFilmsResponse>,
         index: number
     ): Observable<Array<Film>> {
         const sliceFrom: number = index * params.resultsOnPage;
@@ -121,7 +123,7 @@ export class FilmService {
             mergeMap((film: Film) =>
                 this.createHTTPObservable(getActorUrl(film)).pipe(
                     // return films with actors
-                    map((actorNames: ApiActor) => {
+                    map((actorNames: GetFilmsDetailsResponse) => {
                         return Object.assign(film, {
                             actors: [...actorNames.cast]
                         });

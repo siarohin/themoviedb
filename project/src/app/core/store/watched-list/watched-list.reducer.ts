@@ -1,26 +1,33 @@
 import * as _ from 'lodash';
 
-import { ScheduleActionTypes, ScheduleActions } from './schedule.actions';
-import { ScheduleState, InitialScheduleState } from './schedule.state';
+import {
+    WatchedListActionTypes,
+    WatchedListActions
+} from './watched-list.actions';
+import {
+    WatchedListState,
+    InitialWatchedListState
+} from './watched-list.state';
+
 import { Film } from '../../models';
 
-export function scheduleReducer(
-    state = InitialScheduleState,
-    action: ScheduleActions
-): ScheduleState {
+export function watchedListReducer(
+    state = InitialWatchedListState,
+    action: WatchedListActions
+): WatchedListState {
     switch (action.type) {
         /**
-         * add film to watch list
+         * add film to watched list
          */
-        case ScheduleActionTypes.CREATE_FILM: {
+        case WatchedListActionTypes.CREATE_FILM: {
             const uid = (action.payload as Film).id;
-            const filmInState = state.filmsToWatch.find(
+            const filmInState = state.watchedFilms.find(
                 film => film.id === uid
             );
             if (!filmInState) {
                 return _.assign({}, state, {
-                    filmsToWatch: [
-                        ...state.filmsToWatch,
+                    watchedFilms: [
+                        ...state.watchedFilms,
                         _.assign({}, action.payload, {
                             inScheduleList: true
                         })
@@ -31,13 +38,13 @@ export function scheduleReducer(
         }
 
         /**
-         * delete film from watch list
+         * delete film from watched list
          */
-        case ScheduleActionTypes.DELETE_FILM: {
+        case WatchedListActionTypes.DELETE_FILM: {
             const uid = (action.payload as Film).id;
             return _.assign({}, state, {
-                filmsToWatch: [
-                    ...state.filmsToWatch.filter(film => film.id !== uid)
+                watchedFilms: [
+                    ...state.watchedFilms.filter(film => film.id !== uid)
                 ]
             });
         }

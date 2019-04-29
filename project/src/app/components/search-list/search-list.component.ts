@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
 import { Observable, of } from 'rxjs';
 import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 
-import { Store } from '@ngrx/store';
 import {
     FilmService,
     Film,
-    Change,
+    ChangeBox,
     AppState,
-    getFilmsToWatch
+    getFilmsToWatch,
+    ScheduleActions
 } from '../../core/index';
-
-import * as ScheduleActions from '../../core/store/schedule/schedule.actions';
 
 @Component({
     selector: 'app-search-list',
@@ -124,7 +124,7 @@ export class SearchListComponent implements OnInit {
     /**
      * add or delete film to watchList from checkbox event
      */
-    public onCheckBoxChange($event: Change) {
+    public onCheckBoxChange($event: ChangeBox) {
         const { event, film } = $event;
         event.checked
             ? this.store.dispatch(new ScheduleActions.CreateFilm(film))

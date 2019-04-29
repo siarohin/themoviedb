@@ -1,7 +1,7 @@
-import { ApiActor } from './index';
+import { GetFilmsDetailsResponse } from './index';
 
 export interface Film {
-    actors: ApiActor;
+    actors: GetFilmsDetailsResponse;
     adult?: boolean;
     backdrop_path?: string;
     genre_ids?: Array<number>;
