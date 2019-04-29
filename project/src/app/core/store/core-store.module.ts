@@ -18,10 +18,11 @@ import {
     declarations: [],
     imports: [
         CommonModule,
-        StoreModule.forRoot({}),
+        StoreModule.forRoot({
+            schedule: scheduleReducer,
+            watched: watchedListReducer
+        }),
         EffectsModule.forRoot([]),
-        StoreModule.forFeature('schedule', scheduleReducer),
-        StoreModule.forFeature('watched', watchedListReducer),
         EffectsModule.forFeature([ScheduleEffects]),
         EffectsModule.forFeature([WatchedListEffects]),
         StoreDevtoolsModule.instrument({

@@ -8,9 +8,9 @@ import {
     AppState,
     getFilmsToWatch,
     getWatchedFilms,
-    Film
+    Film,
+    WatchedListActions
 } from '../../core/index';
-import * as WatchedListActions from '../../core/store/watched-list/watched-list.actions';
 
 @Component({
     selector: 'app-schedule-list',
