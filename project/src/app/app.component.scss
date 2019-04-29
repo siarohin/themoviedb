@@ -20,6 +20,10 @@ $color-white: #ffffff;
     letter-spacing: 0.0625rem;
     position: relative;
     transition: 0.3s;
+    display: block;
+    &.active {
+        display: none;
+    }
 }
 
 .scedule__list a:hover {

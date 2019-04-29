@@ -1,5 +1,6 @@
 <nav class="scedule__list">
-    <a routerLink="/list">My watch list</a>
+    <a [routerLink]="['/search']" routerLinkActive="active">Search</a>
+    <a [routerLink]="['/list']" routerLinkActive="active">My watch list</a>
 </nav>
 
 <router-outlet></router-outlet>
