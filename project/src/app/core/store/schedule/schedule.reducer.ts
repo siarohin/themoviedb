@@ -57,12 +57,31 @@ export function scheduleReducer(
          * delete film from watch list
          */
         case ScheduleActionTypes.DELETE_FILM: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+
+        case ScheduleActionTypes.DELETE_FILM_SUCCESS: {
             const uid = (action.payload as Film).id;
             return _.assign({}, state, {
                 filmsToWatch: [
                     ...state.filmsToWatch.filter(film => film.id !== uid)
-                ]
+                ],
+                loading: false,
+                loaded: true
             });
+        }
+
+        case ScheduleActionTypes.DELETE_FILM_ERROR: {
+            const error = action.payload;
+            return {
+                ...state,
+                loading: false,
+                loaded: false,
+                error
+            };
         }
 
         default: {

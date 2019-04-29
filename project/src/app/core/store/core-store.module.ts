@@ -22,9 +22,7 @@ import {
             schedule: scheduleReducer,
             watched: watchedListReducer
         }),
-        EffectsModule.forRoot([]),
-        EffectsModule.forFeature([ScheduleEffects]),
-        EffectsModule.forFeature([WatchedListEffects]),
+        EffectsModule.forRoot([ScheduleEffects, WatchedListEffects]),
         StoreDevtoolsModule.instrument({
             maxAge: 5
         })
