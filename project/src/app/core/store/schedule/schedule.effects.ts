@@ -21,11 +21,16 @@ export class ScheduleEffects {
             ScheduleActions.ScheduleActionTypes.CREATE_FILM
         ),
         tap(action => {
+            const uid = action.payload.id;
             const films = JSON.parse(localStorage.getItem('schedule') || '[]');
-            localStorage.setItem(
-                'schedule',
-                JSON.stringify([...films, action.payload])
-            );
+            const filmInStorage = films.find(film => film.id === uid);
+
+            if (!filmInStorage) {
+                localStorage.setItem(
+                    'schedule',
+                    JSON.stringify([...films, action.payload])
+                );
+            }
         }),
         map(action => new ScheduleActions.CreateFilmSuccess(action.payload)),
         catchError(err => of(new ScheduleActions.CreateFilmError(err)))

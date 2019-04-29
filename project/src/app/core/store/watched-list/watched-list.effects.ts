@@ -21,11 +21,16 @@ export class WatchedListEffects {
             WatchedListActions.WatchedListActionTypes.CREATE_FILM
         ),
         tap(action => {
+            const uid = action.payload.id;
             const films = JSON.parse(localStorage.getItem('watched') || '[]');
-            localStorage.setItem(
-                'watched',
-                JSON.stringify([...films, action.payload])
-            );
+            const filmInStorage = films.find(film => film.id === uid);
+
+            if (!filmInStorage) {
+                localStorage.setItem(
+                    'watched',
+                    JSON.stringify([...films, action.payload])
+                );
+            }
         }),
         map(
             action =>
