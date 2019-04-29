@@ -20,10 +20,13 @@ export function watchedListReducer(
          * add film to watched list
          */
         case WatchedListActionTypes.CREATE_FILM: {
-            return {
-                ...state,
-                loading: true
-            };
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: true
+                }
+            );
         }
 
         case WatchedListActionTypes.CREATE_FILM_SUCCESS: {
@@ -43,21 +46,27 @@ export function watchedListReducer(
                     loaded: true
                 });
             }
-            return {
-                ...state,
-                loading: false,
-                loaded: true
-            };
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: false,
+                    loaded: true
+                }
+            );
         }
 
         case WatchedListActionTypes.CREATE_FILM_ERROR: {
             const error = action.payload;
-            return {
-                ...state,
-                loading: false,
-                loaded: false,
-                error
-            };
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: false,
+                    loaded: false,
+                    error
+                }
+            );
         }
 
         /**

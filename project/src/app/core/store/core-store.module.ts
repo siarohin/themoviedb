@@ -5,14 +5,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import {
-    scheduleReducer,
-    ScheduleEffects
-} from '../../core/store/schedule/index';
-import {
-    watchedListReducer,
-    WatchedListEffects
-} from '../../core/store/watched-list/index';
+import { scheduleReducer, ScheduleEffects } from './schedule/index';
+import { watchedListReducer, WatchedListEffects } from './watched-list/index';
 
 @NgModule({
     declarations: [],

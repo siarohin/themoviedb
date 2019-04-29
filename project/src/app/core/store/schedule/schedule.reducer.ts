@@ -13,10 +13,13 @@ export function scheduleReducer(
          * add film to watch list
          */
         case ScheduleActionTypes.CREATE_FILM: {
-            return {
-                ...state,
-                loading: true
-            };
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: true
+                }
+            );
         }
 
         case ScheduleActionTypes.CREATE_FILM_SUCCESS: {
@@ -36,31 +39,40 @@ export function scheduleReducer(
                     loaded: true
                 });
             }
-            return {
-                ...state,
-                loading: false,
-                loaded: true
-            };
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: false,
+                    loaded: true
+                }
+            );
         }
 
         case ScheduleActionTypes.CREATE_FILM_ERROR: {
             const error = action.payload;
-            return {
-                ...state,
-                loading: false,
-                loaded: false,
-                error
-            };
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: false,
+                    loaded: false,
+                    error
+                }
+            );
         }
 
         /**
          * delete film from watch list
          */
         case ScheduleActionTypes.DELETE_FILM: {
-            return {
-                ...state,
-                loading: true
-            };
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: true
+                }
+            );
         }
 
         case ScheduleActionTypes.DELETE_FILM_SUCCESS: {
@@ -76,12 +88,15 @@ export function scheduleReducer(
 
         case ScheduleActionTypes.DELETE_FILM_ERROR: {
             const error = action.payload;
-            return {
-                ...state,
-                loading: false,
-                loaded: false,
-                error
-            };
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: false,
+                    loaded: false,
+                    error
+                }
+            );
         }
 
         default: {

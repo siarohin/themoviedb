@@ -11,55 +11,66 @@ import { WatchedListActions } from './index';
 
 @Injectable()
 export class WatchedListEffects {
+    @Effect()
+    public createFilm$: Actions;
+
+    @Effect()
+    deleteFilm$: Actions;
+
     constructor(private actions$: Actions) {
         this.actions$ = actions$;
-    }
+        this.createFilm$ = this.actions$.pipe(
+            ofType<WatchedListActions.CreateWatchedFilm>(
+                WatchedListActions.WatchedListActionTypes.CREATE_FILM
+            ),
+            tap(action => {
+                const uid = action.payload.id;
+                const films = JSON.parse(
+                    localStorage.getItem('watched') || '[]'
+                );
+                const filmInStorage = films.find(film => film.id === uid);
 
-    @Effect()
-    createFilm$ = this.actions$.pipe(
-        ofType<WatchedListActions.CreateWatchedFilm>(
-            WatchedListActions.WatchedListActionTypes.CREATE_FILM
-        ),
-        tap(action => {
-            const uid = action.payload.id;
-            const films = JSON.parse(localStorage.getItem('watched') || '[]');
-            const filmInStorage = films.find(film => film.id === uid);
+                if (!filmInStorage) {
+                    localStorage.setItem(
+                        'watched',
+                        JSON.stringify([...films, action.payload])
+                    );
+                }
+            }),
+            map(
+                action =>
+                    new WatchedListActions.CreateWatchedFilmSuccess(
+                        action.payload
+                    )
+            ),
+            catchError(err =>
+                of(new WatchedListActions.CreateWatchedFilmError(err))
+            )
+        );
 
-            if (!filmInStorage) {
+        this.deleteFilm$ = this.actions$.pipe(
+            ofType<WatchedListActions.DeleteWatchedFilm>(
+                WatchedListActions.WatchedListActionTypes.DELETE_FILM
+            ),
+            tap(action => {
+                const uid = action.payload.id;
+                const films = JSON.parse(
+                    localStorage.getItem('watched') || '[]'
+                );
                 localStorage.setItem(
                     'watched',
-                    JSON.stringify([...films, action.payload])
+                    JSON.stringify(films.filter(film => film.id !== uid))
                 );
-            }
-        }),
-        map(
-            action =>
-                new WatchedListActions.CreateWatchedFilmSuccess(action.payload)
-        ),
-        catchError(err =>
-            of(new WatchedListActions.CreateWatchedFilmError(err))
-        )
-    );
-
-    @Effect()
-    deleteFilm$ = this.actions$.pipe(
-        ofType<WatchedListActions.DeleteWatchedFilm>(
-            WatchedListActions.WatchedListActionTypes.DELETE_FILM
-        ),
-        tap(action => {
-            const uid = action.payload.id;
-            const films = JSON.parse(localStorage.getItem('watched') || '[]');
-            localStorage.setItem(
-                'watched',
-                JSON.stringify(films.filter(film => film.id !== uid))
-            );
-        }),
-        map(
-            action =>
-                new WatchedListActions.DeleteWatchedFilmSuccess(action.payload)
-        ),
-        catchError(err =>
-            of(new WatchedListActions.DeleteWatchedFilmError(err))
-        )
-    );
+            }),
+            map(
+                action =>
+                    new WatchedListActions.DeleteWatchedFilmSuccess(
+                        action.payload
+                    )
+            ),
+            catchError(err =>
+                of(new WatchedListActions.DeleteWatchedFilmError(err))
+            )
+        );
+    }
 }
