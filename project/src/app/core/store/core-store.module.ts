@@ -11,9 +11,10 @@ import { watchedListReducer } from '../../core/store/watched-list/index';
     declarations: [],
     imports: [
         CommonModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('schedule', scheduleReducer),
-        StoreModule.forFeature('watched', watchedListReducer),
+        StoreModule.forRoot({
+            schedule: scheduleReducer,
+            watched: watchedListReducer
+        }),
         StoreDevtoolsModule.instrument({
             maxAge: 5
         })
