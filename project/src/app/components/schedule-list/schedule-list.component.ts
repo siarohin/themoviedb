@@ -1,16 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
 
-import {
-    AppState,
-    getFilmsToWatch,
-    getWatchedFilms,
-    Film,
-    WatchedListActions
-} from '../../core/index';
+import { Film, ScheduleFacade, WatchedListFacade } from '../../core/index';
 
 @Component({
     selector: 'app-schedule-list',
@@ -18,7 +10,8 @@ import {
     styleUrls: ['./schedule-list.component.scss']
 })
 export class ScheduleListComponent implements OnInit {
-    private store: Store<AppState>;
+    private scheduleFacade: ScheduleFacade;
+    private watchedListFacade: WatchedListFacade;
 
     /**
      * selector,
@@ -32,13 +25,17 @@ export class ScheduleListComponent implements OnInit {
      */
     public watchedFilms$: Observable<ReadonlyArray<Film>>;
 
-    constructor(store: Store<AppState>) {
-        this.store = store;
+    constructor(
+        scheduleFacade: ScheduleFacade,
+        watchedListFacade: WatchedListFacade
+    ) {
+        this.scheduleFacade = scheduleFacade;
+        this.watchedListFacade = watchedListFacade;
     }
 
     public ngOnInit(): void {
-        this.filmsToWatch$ = this.store.select(getFilmsToWatch);
-        this.watchedFilms$ = this.store.select(getWatchedFilms);
+        this.filmsToWatch$ = this.scheduleFacade.filmsToWatch$;
+        this.watchedFilms$ = this.watchedListFacade.watchedFilms$;
     }
 
     /**
@@ -46,11 +43,7 @@ export class ScheduleListComponent implements OnInit {
      */
     public checkBoxChange($event, film) {
         $event.checked
-            ? this.store.dispatch(
-                  new WatchedListActions.CreateWatchedFilm(film)
-              )
-            : this.store.dispatch(
-                  new WatchedListActions.DeleteWatchedFilm(film)
-              );
+            ? this.watchedListFacade.createWatchedFilm(film)
+            : this.watchedListFacade.deleteWatchedFilm(film);
     }
 }

@@ -1,18 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
 import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 
-import {
-    FilmService,
-    Film,
-    ChangeBox,
-    AppState,
-    getFilmsToWatch,
-    ScheduleActions
-} from '../../core/index';
+import { FilmService, Film, ChangeBox, ScheduleFacade } from '../../core/index';
 
 @Component({
     selector: 'app-search-list',
@@ -20,10 +11,7 @@ import {
     styleUrls: ['./search-list.component.scss']
 })
 export class SearchListComponent implements OnInit {
-    /**
-     * add store
-     */
-    private store: Store<AppState>;
+    private scheduleFacade: ScheduleFacade;
 
     /**
      * add service
@@ -57,13 +45,13 @@ export class SearchListComponent implements OnInit {
      */
     public title = 'Movie';
 
-    constructor(filmService: FilmService, store: Store<AppState>) {
+    constructor(filmService: FilmService, scheduleFacade: ScheduleFacade) {
         this.filmService = filmService;
-        this.store = store;
+        this.scheduleFacade = scheduleFacade;
     }
 
     public ngOnInit(): void {
-        this.filmsToWatch$ = this.store.select(getFilmsToWatch);
+        this.filmsToWatch$ = this.scheduleFacade.filmsToWatch$;
         this.filmsList$ = this.filmService.getFilmList().pipe(
             publishReplay(1),
             refCount()
@@ -127,7 +115,7 @@ export class SearchListComponent implements OnInit {
     public onCheckBoxChange($event: ChangeBox) {
         const { event, film } = $event;
         event.checked
-            ? this.store.dispatch(new ScheduleActions.CreateFilmToWatch(film))
-            : this.store.dispatch(new ScheduleActions.DeleteFilmToWatch(film));
+            ? this.scheduleFacade.createFilmToWatch(film)
+            : this.scheduleFacade.deleteFilmToWatch(film);
     }
 }
