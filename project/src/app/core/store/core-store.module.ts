@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { scheduleReducer } from '../../core/store/schedule/index';
-import { watchedListReducer } from '../../core/store/watched-list/index';
+import { scheduleReducer, ScheduleEffects } from './schedule/index';
+import { watchedListReducer, WatchedListEffects } from './watched-list/index';
 
 @NgModule({
     declarations: [],
@@ -15,6 +16,7 @@ import { watchedListReducer } from '../../core/store/watched-list/index';
             schedule: scheduleReducer,
             watched: watchedListReducer
         }),
+        EffectsModule.forRoot([ScheduleEffects, WatchedListEffects]),
         StoreDevtoolsModule.instrument({
             maxAge: 5
         })

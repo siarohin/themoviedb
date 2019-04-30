@@ -6,8 +6,8 @@ import { SearchListComponent } from './components/search-list/search-list.compon
 
 const routes: Routes = [
     { path: 'list', component: ScheduleListComponent },
-    { path: '', component: SearchListComponent },
-    { path: '**', redirectTo: '', pathMatch: 'full' }
+    { path: 'search', component: SearchListComponent },
+    { path: '**', redirectTo: 'search', pathMatch: 'full' }
 ];
 
 @NgModule({

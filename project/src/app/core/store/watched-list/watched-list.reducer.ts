@@ -9,44 +9,129 @@ import {
     InitialWatchedListState
 } from './watched-list.state';
 
-import { Film } from '../../models';
-
 export function watchedListReducer(
     state = InitialWatchedListState,
     action: WatchedListActions
 ): WatchedListState {
     switch (action.type) {
         /**
+         * get films to watch list from localStorage
+         */
+        case WatchedListActionTypes.GET_FILMS: {
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: true
+                }
+            );
+        }
+
+        /**
+         * get films from state on init
+         */
+        case WatchedListActionTypes.GET_FILMS_SUCCESS: {
+            return _.assign({}, state, {
+                watchedFilms: action.payload,
+                loading: false,
+                loaded: true
+            });
+        }
+
+        /**
+         * error on init state
+         */
+        case WatchedListActionTypes.GET_FILMS_ERROR: {
+            const error = action.payload;
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: false,
+                    loaded: false,
+                    error
+                }
+            );
+        }
+
+        /**
          * add film to watched list
          */
         case WatchedListActionTypes.CREATE_FILM: {
-            const uid = (action.payload as Film).id;
-            const filmInState = state.watchedFilms.find(
-                film => film.id === uid
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: true
+                }
             );
-            if (!filmInState) {
-                return _.assign({}, state, {
-                    watchedFilms: [
-                        ...state.watchedFilms,
-                        _.assign({}, action.payload, {
-                            inScheduleList: true
-                        })
-                    ]
-                });
-            }
-            return state;
+        }
+
+        /**
+         * add film in state
+         */
+        case WatchedListActionTypes.CREATE_FILM_SUCCESS: {
+            return _.assign({}, state, {
+                watchedFilms: [...state.watchedFilms, action.payload],
+                loading: false,
+                loaded: true
+            });
+        }
+
+        /**
+         * film in state or error
+         */
+        case WatchedListActionTypes.CREATE_FILM_ERROR: {
+            const error = action.payload;
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: false,
+                    loaded: false,
+                    error
+                }
+            );
         }
 
         /**
          * delete film from watched list
          */
         case WatchedListActionTypes.DELETE_FILM: {
-            const uid = (action.payload as Film).id;
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: true
+                }
+            );
+        }
+
+        /**
+         * film exist in state
+         */
+        case WatchedListActionTypes.DELETE_FILM_SUCCESS: {
             return _.assign({}, state, {
-                watchedFilms: [
-                    ...state.watchedFilms.filter(film => film.id !== uid)
-                ]
+                watchedFilms: action.payload,
+                loading: false,
+                loaded: true
             });
+        }
+
+        /**
+         * film dont exist in state or error
+         */
+        case WatchedListActionTypes.DELETE_FILM_ERROR: {
+            const error = action.payload;
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: false,
+                    loaded: false,
+                    error
+                }
+            );
         }
 
         default: {

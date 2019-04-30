@@ -20,6 +20,10 @@ $color-white: #ffffff;
     letter-spacing: 0.0625rem;
     position: relative;
     transition: 0.3s;
+    display: block;
+    &.active {
+        display: none;
+    }
 }
 
 .scedule__list a:hover {
@@ -36,4 +40,16 @@ $color-white: #ffffff;
     left: 0;
     top: 2.5rem;
     transform: rotate(-4deg);
+}
+
+.scedule__count {
+    font-weight: 700;
+    background-color: $color-white;
+    color: $color-margenta;
+    height: 1rem;
+    width: 1rem;
+    display: inline-flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    border-radius: 50%;
 }
