@@ -55,8 +55,11 @@ export class WatchedListEffects {
                         this.localStorageKey,
                         JSON.stringify([...films, action.payload])
                     );
+                    return new WatchedListActions.CreateWatchedFilmSuccess(
+                        action.payload
+                    );
                 }
-                return new WatchedListActions.CreateWatchedFilmSuccess(
+                return new WatchedListActions.CreateWatchedFilmError(
                     action.payload
                 );
             }),
@@ -74,11 +77,17 @@ export class WatchedListEffects {
                 const films = JSON.parse(
                     localStorage.getItem(this.localStorageKey) || '[]'
                 );
-                localStorage.setItem(
-                    this.localStorageKey,
-                    JSON.stringify(films.filter(film => film.id !== uid))
-                );
-                return new WatchedListActions.DeleteWatchedFilmSuccess(
+                const newFilmsArray = films.filter(film => film.id !== uid);
+                if (newFilmsArray) {
+                    localStorage.setItem(
+                        this.localStorageKey,
+                        JSON.stringify(newFilmsArray)
+                    );
+                    return new WatchedListActions.DeleteWatchedFilmSuccess(
+                        newFilmsArray
+                    );
+                }
+                return new WatchedListActions.DeleteWatchedFilmError(
                     action.payload
                 );
             }),

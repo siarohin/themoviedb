@@ -55,8 +55,11 @@ export class ScheduleEffects {
                         this.localStorageKey,
                         JSON.stringify([...films, action.payload])
                     );
+                    return new ScheduleActions.CreateFilmToWatchSuccess(
+                        action.payload
+                    );
                 }
-                return new ScheduleActions.CreateFilmToWatchSuccess(
+                return new ScheduleActions.CreateFilmToWatchError(
                     action.payload
                 );
             }),
@@ -74,11 +77,17 @@ export class ScheduleEffects {
                 const films = JSON.parse(
                     localStorage.getItem(this.localStorageKey) || '[]'
                 );
-                localStorage.setItem(
-                    this.localStorageKey,
-                    JSON.stringify(films.filter(film => film.id !== uid))
-                );
-                return new ScheduleActions.DeleteFilmToWatchSuccess(
+                const newFilmsArray = films.filter(film => film.id !== uid);
+                if (newFilmsArray) {
+                    localStorage.setItem(
+                        this.localStorageKey,
+                        JSON.stringify(newFilmsArray)
+                    );
+                    return new ScheduleActions.DeleteFilmToWatchSuccess(
+                        newFilmsArray
+                    );
+                }
+                return new ScheduleActions.DeleteFilmToWatchError(
                     action.payload
                 );
             }),

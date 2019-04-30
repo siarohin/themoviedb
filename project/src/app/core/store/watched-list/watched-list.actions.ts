@@ -55,8 +55,8 @@ export class CreateWatchedFilmSuccess implements Action {
 
 export class CreateWatchedFilmError implements Action {
     readonly type = WatchedListActionTypes.CREATE_FILM_ERROR;
-    public payload: Error | string;
-    constructor(payload: Error | string) {
+    public payload: Error | Film | string;
+    constructor(payload: Error | Film | string) {
         this.payload = payload;
     }
 }
@@ -71,16 +71,16 @@ export class DeleteWatchedFilm implements Action {
 
 export class DeleteWatchedFilmSuccess implements Action {
     readonly type = WatchedListActionTypes.DELETE_FILM_SUCCESS;
-    public payload: Film;
-    constructor(payload: Film) {
+    public payload: Film[];
+    constructor(payload: Film[]) {
         this.payload = payload;
     }
 }
 
 export class DeleteWatchedFilmError implements Action {
     readonly type = WatchedListActionTypes.DELETE_FILM_ERROR;
-    public payload: Error | string;
-    constructor(payload: Error | string) {
+    public payload: Error | Film | string;
+    constructor(payload: Error | Film | string) {
         this.payload = payload;
     }
 }
