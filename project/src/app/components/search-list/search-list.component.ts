@@ -63,9 +63,6 @@ export class SearchListComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        // add films to store from localStorage
-        this.store.dispatch(new ScheduleActions.GetFilms([]));
-
         this.filmsToWatch$ = this.store.select(getFilmsToWatch);
         this.filmsList$ = this.filmService.getFilmList().pipe(
             publishReplay(1),

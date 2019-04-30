@@ -37,8 +37,6 @@ export class ScheduleListComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        // add films to store from localStorage
-        this.store.dispatch(new WatchedListActions.GetWatchedFilms([]));
         this.filmsToWatch$ = this.store.select(getFilmsToWatch);
         this.watchedFilms$ = this.store.select(getWatchedFilms);
     }
