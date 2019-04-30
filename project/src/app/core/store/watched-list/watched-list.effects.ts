@@ -32,12 +32,7 @@ export class WatchedListEffects {
             ofType<WatchedListActions.GetWatchedFilms>(
                 WatchedListActions.WatchedListActionTypes.GET_FILMS
             ),
-            map(() => {
-                const films = JSON.parse(
-                    localStorage.getItem(this.localStorageKey) || '[]'
-                );
-                return new WatchedListActions.GetWatchedFilmsSuccess(films);
-            }),
+            map(() => this.getWatchedFilms()),
             catchError(err =>
                 of(new WatchedListActions.GetWatchedFilmsError(err))
             )
@@ -50,25 +45,7 @@ export class WatchedListEffects {
             ofType<WatchedListActions.CreateWatchedFilm>(
                 WatchedListActions.WatchedListActionTypes.CREATE_FILM
             ),
-            map(action => {
-                const uid = action.payload.id;
-                const films = JSON.parse(
-                    localStorage.getItem(this.localStorageKey) || '[]'
-                );
-                const filmInStorage = films.find(film => film.id === uid);
-                if (!filmInStorage) {
-                    localStorage.setItem(
-                        this.localStorageKey,
-                        JSON.stringify([...films, action.payload])
-                    );
-                    return new WatchedListActions.CreateWatchedFilmSuccess(
-                        action.payload
-                    );
-                }
-                return new WatchedListActions.CreateWatchedFilmError(
-                    action.payload
-                );
-            }),
+            map(action => this.createWatchedFilm(action)),
             catchError(err =>
                 of(new WatchedListActions.CreateWatchedFilmError(err))
             )
@@ -81,28 +58,62 @@ export class WatchedListEffects {
             ofType<WatchedListActions.DeleteWatchedFilm>(
                 WatchedListActions.WatchedListActionTypes.DELETE_FILM
             ),
-            map(action => {
-                const uid = action.payload.id;
-                const films = JSON.parse(
-                    localStorage.getItem(this.localStorageKey) || '[]'
-                );
-                const newFilmsArray = films.filter(film => film.id !== uid);
-                if (newFilmsArray) {
-                    localStorage.setItem(
-                        this.localStorageKey,
-                        JSON.stringify(newFilmsArray)
-                    );
-                    return new WatchedListActions.DeleteWatchedFilmSuccess(
-                        newFilmsArray
-                    );
-                }
-                return new WatchedListActions.DeleteWatchedFilmError(
-                    action.payload
-                );
-            }),
+            map(action => this.deleteWatchedFilm(action)),
             catchError(err =>
                 of(new WatchedListActions.DeleteWatchedFilmError(err))
             )
         );
+    }
+
+    /**
+     * Get watchedFilms
+     */
+    private getWatchedFilms() {
+        const films = JSON.parse(
+            localStorage.getItem(this.localStorageKey) || '[]'
+        );
+        return new WatchedListActions.GetWatchedFilmsSuccess(films);
+    }
+
+    /**
+     * Add watchedFilm
+     */
+    private createWatchedFilm(action) {
+        const uid = action.payload.id;
+        const films = JSON.parse(
+            localStorage.getItem(this.localStorageKey) || '[]'
+        );
+        const filmInStorage = films.find(film => film.id === uid);
+        if (!filmInStorage) {
+            localStorage.setItem(
+                this.localStorageKey,
+                JSON.stringify([...films, action.payload])
+            );
+            return new WatchedListActions.CreateWatchedFilmSuccess(
+                action.payload
+            );
+        }
+        return new WatchedListActions.CreateWatchedFilmError(action.payload);
+    }
+
+    /**
+     * Delete watchedFilm
+     */
+    private deleteWatchedFilm(action) {
+        const uid = action.payload.id;
+        const films = JSON.parse(
+            localStorage.getItem(this.localStorageKey) || '[]'
+        );
+        const newFilmsArray = films.filter(film => film.id !== uid);
+        if (newFilmsArray) {
+            localStorage.setItem(
+                this.localStorageKey,
+                JSON.stringify(newFilmsArray)
+            );
+            return new WatchedListActions.DeleteWatchedFilmSuccess(
+                newFilmsArray
+            );
+        }
+        return new WatchedListActions.DeleteWatchedFilmError(action.payload);
     }
 }
