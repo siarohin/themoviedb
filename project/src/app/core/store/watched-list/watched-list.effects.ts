@@ -7,7 +7,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 
-import { WatchedListActions } from './index';
+import * as WatchedListActions from './watched-list.actions';
 
 @Injectable()
 export class WatchedListEffects {

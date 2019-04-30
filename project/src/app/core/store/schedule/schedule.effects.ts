@@ -7,7 +7,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 
-import { ScheduleActions } from './index';
+import * as ScheduleActions from './schedule.actions';
 
 @Injectable()
 export class ScheduleEffects {
