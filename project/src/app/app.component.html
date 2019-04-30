@@ -1,6 +1,11 @@
 <nav class="scedule__list">
     <a [routerLink]="['/search']" routerLinkActive="active">Search</a>
-    <a [routerLink]="['/list']" routerLinkActive="active">My watch list</a>
+    <a [routerLink]="['/list']" routerLinkActive="active"
+        >My watch list
+        <span class="scedule__count">{{
+            (filmsToWatch$ | async)?.length
+        }}</span></a
+    >
 </nav>
 
 <router-outlet></router-outlet>
