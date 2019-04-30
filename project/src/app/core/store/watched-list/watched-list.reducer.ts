@@ -17,6 +17,40 @@ export function watchedListReducer(
 ): WatchedListState {
     switch (action.type) {
         /**
+         * get films to watch list from localStorage
+         */
+        case WatchedListActionTypes.GET_FILMS: {
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: true
+                }
+            );
+        }
+
+        case WatchedListActionTypes.GET_FILMS_SUCCESS: {
+            return _.assign({}, state, {
+                watchedFilms: action.payload,
+                loading: false,
+                loaded: true
+            });
+        }
+
+        case WatchedListActionTypes.GET_FILMS_ERROR: {
+            const error = action.payload;
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: false,
+                    loaded: false,
+                    error
+                }
+            );
+        }
+
+        /**
          * add film to watched list
          */
         case WatchedListActionTypes.CREATE_FILM: {

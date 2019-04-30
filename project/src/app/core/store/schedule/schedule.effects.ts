@@ -16,13 +16,29 @@ export class ScheduleEffects {
     private actions$: Actions;
 
     @Effect()
+    public getFilms$: Actions;
+
+    @Effect()
     public createFilm$: Actions;
 
     @Effect()
-    deleteFilm$: Actions;
+    public deleteFilm$: Actions;
 
     constructor(actions$: Actions) {
         this.actions$ = actions$;
+
+        this.getFilms$ = this.actions$.pipe(
+            ofType<ScheduleActions.GetFilms>(
+                ScheduleActions.ScheduleActionTypes.GET_FILMS
+            ),
+            map(() => {
+                const films = JSON.parse(
+                    localStorage.getItem(this.localStorageKey) || '[]'
+                );
+                return new ScheduleActions.GetFilmsSuccess(films);
+            }),
+            catchError(err => of(new ScheduleActions.GetFilmsError(err)))
+        );
 
         this.createFilm$ = this.actions$.pipe(
             ofType<ScheduleActions.CreateFilm>(
