@@ -14,7 +14,7 @@ export enum ScheduleActionTypes {
     DELETE_FILM_ERROR = '[Schedule] DELETE_FILM_ERROR'
 }
 
-export class GetFilms implements Action {
+export class GetFilmsToWatch implements Action {
     readonly type = ScheduleActionTypes.GET_FILMS;
     public payload: [];
     constructor(payload: []) {
@@ -22,7 +22,7 @@ export class GetFilms implements Action {
     }
 }
 
-export class GetFilmsSuccess implements Action {
+export class GetFilmsToWatchSuccess implements Action {
     readonly type = ScheduleActionTypes.GET_FILMS_SUCCESS;
     public payload: Film[];
     constructor(payload: Film[]) {
@@ -30,7 +30,7 @@ export class GetFilmsSuccess implements Action {
     }
 }
 
-export class GetFilmsError implements Action {
+export class GetFilmsToWatchError implements Action {
     readonly type = ScheduleActionTypes.GET_FILMS_ERROR;
     public payload: Error | string;
     constructor(payload: Error | string) {
@@ -38,7 +38,7 @@ export class GetFilmsError implements Action {
     }
 }
 
-export class CreateFilm implements Action {
+export class CreateFilmToWatch implements Action {
     readonly type = ScheduleActionTypes.CREATE_FILM;
     public payload: Film;
     constructor(payload: Film) {
@@ -46,7 +46,7 @@ export class CreateFilm implements Action {
     }
 }
 
-export class CreateFilmSuccess implements Action {
+export class CreateFilmToWatchSuccess implements Action {
     readonly type = ScheduleActionTypes.CREATE_FILM_SUCCESS;
     public payload: Film;
     constructor(payload: Film) {
@@ -54,7 +54,7 @@ export class CreateFilmSuccess implements Action {
     }
 }
 
-export class CreateFilmError implements Action {
+export class CreateFilmToWatchError implements Action {
     readonly type = ScheduleActionTypes.CREATE_FILM_ERROR;
     public payload: Error | string;
     constructor(payload: Error | string) {
@@ -62,7 +62,7 @@ export class CreateFilmError implements Action {
     }
 }
 
-export class DeleteFilm implements Action {
+export class DeleteFilmToWatch implements Action {
     readonly type = ScheduleActionTypes.DELETE_FILM;
     public payload: Film;
     constructor(payload: Film) {
@@ -70,7 +70,7 @@ export class DeleteFilm implements Action {
     }
 }
 
-export class DeleteFilmSuccess implements Action {
+export class DeleteFilmToWatchSuccess implements Action {
     readonly type = ScheduleActionTypes.DELETE_FILM_SUCCESS;
     public payload: Film;
     constructor(payload: Film) {
@@ -78,7 +78,7 @@ export class DeleteFilmSuccess implements Action {
     }
 }
 
-export class DeleteFilmError implements Action {
+export class DeleteFilmToWatchError implements Action {
     readonly type = ScheduleActionTypes.DELETE_FILM_ERROR;
     public payload: Error | string;
     constructor(payload: Error | string) {
@@ -87,12 +87,12 @@ export class DeleteFilmError implements Action {
 }
 
 export type ScheduleActions =
-    | GetFilms
-    | GetFilmsSuccess
-    | GetFilmsError
-    | CreateFilm
-    | CreateFilmSuccess
-    | CreateFilmError
-    | DeleteFilm
-    | DeleteFilmSuccess
-    | DeleteFilmError;
+    | GetFilmsToWatch
+    | GetFilmsToWatchSuccess
+    | GetFilmsToWatchError
+    | CreateFilmToWatch
+    | CreateFilmToWatchSuccess
+    | CreateFilmToWatchError
+    | DeleteFilmToWatch
+    | DeleteFilmToWatchSuccess
+    | DeleteFilmToWatchError;

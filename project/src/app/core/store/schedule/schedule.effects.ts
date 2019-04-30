@@ -28,20 +28,20 @@ export class ScheduleEffects {
         this.actions$ = actions$;
 
         this.getFilms$ = this.actions$.pipe(
-            ofType<ScheduleActions.GetFilms>(
+            ofType<ScheduleActions.GetFilmsToWatch>(
                 ScheduleActions.ScheduleActionTypes.GET_FILMS
             ),
             map(() => {
                 const films = JSON.parse(
                     localStorage.getItem(this.localStorageKey) || '[]'
                 );
-                return new ScheduleActions.GetFilmsSuccess(films);
+                return new ScheduleActions.GetFilmsToWatchSuccess(films);
             }),
-            catchError(err => of(new ScheduleActions.GetFilmsError(err)))
+            catchError(err => of(new ScheduleActions.GetFilmsToWatchError(err)))
         );
 
         this.createFilm$ = this.actions$.pipe(
-            ofType<ScheduleActions.CreateFilm>(
+            ofType<ScheduleActions.CreateFilmToWatch>(
                 ScheduleActions.ScheduleActionTypes.CREATE_FILM
             ),
             map(action => {
@@ -56,13 +56,17 @@ export class ScheduleEffects {
                         JSON.stringify([...films, action.payload])
                     );
                 }
-                return new ScheduleActions.CreateFilmSuccess(action.payload);
+                return new ScheduleActions.CreateFilmToWatchSuccess(
+                    action.payload
+                );
             }),
-            catchError(err => of(new ScheduleActions.CreateFilmError(err)))
+            catchError(err =>
+                of(new ScheduleActions.CreateFilmToWatchError(err))
+            )
         );
 
         this.deleteFilm$ = this.actions$.pipe(
-            ofType<ScheduleActions.DeleteFilm>(
+            ofType<ScheduleActions.DeleteFilmToWatch>(
                 ScheduleActions.ScheduleActionTypes.DELETE_FILM
             ),
             map(action => {
@@ -74,9 +78,13 @@ export class ScheduleEffects {
                     this.localStorageKey,
                     JSON.stringify(films.filter(film => film.id !== uid))
                 );
-                return new ScheduleActions.DeleteFilmSuccess(action.payload);
+                return new ScheduleActions.DeleteFilmToWatchSuccess(
+                    action.payload
+                );
             }),
-            catchError(err => of(new ScheduleActions.DeleteFilmError(err)))
+            catchError(err =>
+                of(new ScheduleActions.DeleteFilmToWatchError(err))
+            )
         );
     }
 }

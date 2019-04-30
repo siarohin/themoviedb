@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
     public ngOnInit(): void {
         // add films to store from localStorage
-        this.store.dispatch(new ScheduleActions.GetFilms([]));
+        this.store.dispatch(new ScheduleActions.GetFilmsToWatch([]));
         this.store.dispatch(new WatchedListActions.GetWatchedFilms([]));
     }
 }
