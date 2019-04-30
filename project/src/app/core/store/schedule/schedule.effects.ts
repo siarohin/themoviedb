@@ -11,6 +11,8 @@ import * as ScheduleActions from './schedule.actions';
 
 @Injectable()
 export class ScheduleEffects {
+    private localStorageKey = 'schedule';
+
     private actions$: Actions;
 
     @Effect()
@@ -29,12 +31,12 @@ export class ScheduleEffects {
             map(action => {
                 const uid = action.payload.id;
                 const films = JSON.parse(
-                    localStorage.getItem('schedule') || '[]'
+                    localStorage.getItem(this.localStorageKey) || '[]'
                 );
                 const filmInStorage = films.find(film => film.id === uid);
                 if (!filmInStorage) {
                     localStorage.setItem(
-                        'schedule',
+                        this.localStorageKey,
                         JSON.stringify([...films, action.payload])
                     );
                 }
@@ -50,10 +52,10 @@ export class ScheduleEffects {
             map(action => {
                 const uid = action.payload.id;
                 const films = JSON.parse(
-                    localStorage.getItem('schedule') || '[]'
+                    localStorage.getItem(this.localStorageKey) || '[]'
                 );
                 localStorage.setItem(
-                    'schedule',
+                    this.localStorageKey,
                     JSON.stringify(films.filter(film => film.id !== uid))
                 );
                 return new ScheduleActions.DeleteFilmSuccess(action.payload);

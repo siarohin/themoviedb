@@ -11,11 +11,13 @@ import * as WatchedListActions from './watched-list.actions';
 
 @Injectable()
 export class WatchedListEffects {
+    private localStorageKey = 'watched';
+
     @Effect()
     public createFilm$: Actions;
 
     @Effect()
-    deleteFilm$: Actions;
+    public deleteFilm$: Actions;
 
     constructor(private actions$: Actions) {
         this.actions$ = actions$;
@@ -26,12 +28,12 @@ export class WatchedListEffects {
             map(action => {
                 const uid = action.payload.id;
                 const films = JSON.parse(
-                    localStorage.getItem('watched') || '[]'
+                    localStorage.getItem(this.localStorageKey) || '[]'
                 );
                 const filmInStorage = films.find(film => film.id === uid);
                 if (!filmInStorage) {
                     localStorage.setItem(
-                        'watched',
+                        this.localStorageKey,
                         JSON.stringify([...films, action.payload])
                     );
                 }
@@ -51,10 +53,10 @@ export class WatchedListEffects {
             map(action => {
                 const uid = action.payload.id;
                 const films = JSON.parse(
-                    localStorage.getItem('watched') || '[]'
+                    localStorage.getItem(this.localStorageKey) || '[]'
                 );
                 localStorage.setItem(
-                    'watched',
+                    this.localStorageKey,
                     JSON.stringify(films.filter(film => film.id !== uid))
                 );
                 return new WatchedListActions.DeleteWatchedFilmSuccess(
