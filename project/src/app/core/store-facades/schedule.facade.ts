@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { AppState, ScheduleActions, getFilmsToWatch } from '../index';
+import { AppState, ScheduleActions, getFilmsToWatch } from '../store/index';
 
 @Injectable()
 export class ScheduleFacade {
