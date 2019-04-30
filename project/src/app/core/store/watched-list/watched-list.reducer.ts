@@ -73,12 +73,37 @@ export function watchedListReducer(
          * delete film from watched list
          */
         case WatchedListActionTypes.DELETE_FILM: {
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: true
+                }
+            );
+        }
+
+        case WatchedListActionTypes.DELETE_FILM_SUCCESS: {
             const uid = (action.payload as Film).id;
             return _.assign({}, state, {
                 watchedFilms: [
                     ...state.watchedFilms.filter(film => film.id !== uid)
-                ]
+                ],
+                loading: false,
+                loaded: true
             });
+        }
+
+        case WatchedListActionTypes.DELETE_FILM_ERROR: {
+            const error = action.payload;
+            return _.assign(
+                {},
+                {
+                    ...state,
+                    loading: false,
+                    loaded: false,
+                    error
+                }
+            );
         }
 
         default: {
