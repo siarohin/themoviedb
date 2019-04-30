@@ -25,6 +25,9 @@ export class WatchedListEffects {
     constructor(private actions$: Actions) {
         this.actions$ = actions$;
 
+        /**
+         * Get watchedFilms array from localStorage on init App
+         */
         this.getFilms$ = this.actions$.pipe(
             ofType<WatchedListActions.GetWatchedFilms>(
                 WatchedListActions.WatchedListActionTypes.GET_FILMS
@@ -40,6 +43,9 @@ export class WatchedListEffects {
             )
         );
 
+        /**
+         * Add watchedFilm to localStorage
+         */
         this.createFilm$ = this.actions$.pipe(
             ofType<WatchedListActions.CreateWatchedFilm>(
                 WatchedListActions.WatchedListActionTypes.CREATE_FILM
@@ -68,6 +74,9 @@ export class WatchedListEffects {
             )
         );
 
+        /**
+         * Delete watchedFilm from localStorage
+         */
         this.deleteFilm$ = this.actions$.pipe(
             ofType<WatchedListActions.DeleteWatchedFilm>(
                 WatchedListActions.WatchedListActionTypes.DELETE_FILM

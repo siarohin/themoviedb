@@ -21,6 +21,9 @@ export function scheduleReducer(
             );
         }
 
+        /**
+         * get films from state on init
+         */
         case ScheduleActionTypes.GET_FILMS_SUCCESS: {
             return _.assign({}, state, {
                 filmsToWatch: action.payload,
@@ -29,6 +32,9 @@ export function scheduleReducer(
             });
         }
 
+        /**
+         * error on init state
+         */
         case ScheduleActionTypes.GET_FILMS_ERROR: {
             const error = action.payload;
             return _.assign(
@@ -55,6 +61,9 @@ export function scheduleReducer(
             );
         }
 
+        /**
+         * add film in state
+         */
         case ScheduleActionTypes.CREATE_FILM_SUCCESS: {
             return _.assign({}, state, {
                 filmsToWatch: [...state.filmsToWatch, action.payload],
@@ -63,6 +72,9 @@ export function scheduleReducer(
             });
         }
 
+        /**
+         * film in state or error
+         */
         case ScheduleActionTypes.CREATE_FILM_ERROR: {
             const error = action.payload;
             return _.assign(
@@ -89,6 +101,9 @@ export function scheduleReducer(
             );
         }
 
+        /**
+         * film exist in state
+         */
         case ScheduleActionTypes.DELETE_FILM_SUCCESS: {
             return _.assign({}, state, {
                 filmsToWatch: action.payload,
@@ -97,6 +112,9 @@ export function scheduleReducer(
             });
         }
 
+        /**
+         * film dint exist in state or error
+         */
         case ScheduleActionTypes.DELETE_FILM_ERROR: {
             const error = action.payload;
             return _.assign(

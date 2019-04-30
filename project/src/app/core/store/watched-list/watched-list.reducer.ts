@@ -27,6 +27,9 @@ export function watchedListReducer(
             );
         }
 
+        /**
+         * get films from state on init
+         */
         case WatchedListActionTypes.GET_FILMS_SUCCESS: {
             return _.assign({}, state, {
                 watchedFilms: action.payload,
@@ -35,6 +38,9 @@ export function watchedListReducer(
             });
         }
 
+        /**
+         * error on init state
+         */
         case WatchedListActionTypes.GET_FILMS_ERROR: {
             const error = action.payload;
             return _.assign(
@@ -61,6 +67,9 @@ export function watchedListReducer(
             );
         }
 
+        /**
+         * add film in state
+         */
         case WatchedListActionTypes.CREATE_FILM_SUCCESS: {
             return _.assign({}, state, {
                 watchedFilms: [...state.watchedFilms, action.payload],
@@ -69,6 +78,9 @@ export function watchedListReducer(
             });
         }
 
+        /**
+         * film in state or error
+         */
         case WatchedListActionTypes.CREATE_FILM_ERROR: {
             const error = action.payload;
             return _.assign(
@@ -95,6 +107,9 @@ export function watchedListReducer(
             );
         }
 
+        /**
+         * film exist in state
+         */
         case WatchedListActionTypes.DELETE_FILM_SUCCESS: {
             return _.assign({}, state, {
                 watchedFilms: action.payload,
@@ -103,6 +118,9 @@ export function watchedListReducer(
             });
         }
 
+        /**
+         * film dont exist in state or error
+         */
         case WatchedListActionTypes.DELETE_FILM_ERROR: {
             const error = action.payload;
             return _.assign(

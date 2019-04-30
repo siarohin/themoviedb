@@ -21,6 +21,9 @@ export class ScheduleEffects {
     @Effect()
     public createFilm$: Actions;
 
+    /**
+     * Get filmsToWatch array from localStorage on init App
+     */
     @Effect()
     public deleteFilm$: Actions;
 
@@ -40,6 +43,9 @@ export class ScheduleEffects {
             catchError(err => of(new ScheduleActions.GetFilmsToWatchError(err)))
         );
 
+        /**
+         * Add filmToWatch to localStorage
+         */
         this.createFilm$ = this.actions$.pipe(
             ofType<ScheduleActions.CreateFilmToWatch>(
                 ScheduleActions.ScheduleActionTypes.CREATE_FILM
@@ -68,6 +74,9 @@ export class ScheduleEffects {
             )
         );
 
+        /**
+         * Delete filmToWatch from localStorage
+         */
         this.deleteFilm$ = this.actions$.pipe(
             ofType<ScheduleActions.DeleteFilmToWatch>(
                 ScheduleActions.ScheduleActionTypes.DELETE_FILM
