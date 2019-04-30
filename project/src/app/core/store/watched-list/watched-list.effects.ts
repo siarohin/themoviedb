@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { of } from 'rxjs';
-import { tap, map, catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 import * as WatchedListActions from './watched-list.actions';
 
@@ -23,26 +23,22 @@ export class WatchedListEffects {
             ofType<WatchedListActions.CreateWatchedFilm>(
                 WatchedListActions.WatchedListActionTypes.CREATE_FILM
             ),
-            tap(action => {
+            map(action => {
                 const uid = action.payload.id;
                 const films = JSON.parse(
                     localStorage.getItem('watched') || '[]'
                 );
                 const filmInStorage = films.find(film => film.id === uid);
-
                 if (!filmInStorage) {
                     localStorage.setItem(
                         'watched',
                         JSON.stringify([...films, action.payload])
                     );
                 }
+                return new WatchedListActions.CreateWatchedFilmSuccess(
+                    action.payload
+                );
             }),
-            map(
-                action =>
-                    new WatchedListActions.CreateWatchedFilmSuccess(
-                        action.payload
-                    )
-            ),
             catchError(err =>
                 of(new WatchedListActions.CreateWatchedFilmError(err))
             )
@@ -52,7 +48,7 @@ export class WatchedListEffects {
             ofType<WatchedListActions.DeleteWatchedFilm>(
                 WatchedListActions.WatchedListActionTypes.DELETE_FILM
             ),
-            tap(action => {
+            map(action => {
                 const uid = action.payload.id;
                 const films = JSON.parse(
                     localStorage.getItem('watched') || '[]'
@@ -61,13 +57,10 @@ export class WatchedListEffects {
                     'watched',
                     JSON.stringify(films.filter(film => film.id !== uid))
                 );
+                return new WatchedListActions.DeleteWatchedFilmSuccess(
+                    action.payload
+                );
             }),
-            map(
-                action =>
-                    new WatchedListActions.DeleteWatchedFilmSuccess(
-                        action.payload
-                    )
-            ),
             catchError(err =>
                 of(new WatchedListActions.DeleteWatchedFilmError(err))
             )
