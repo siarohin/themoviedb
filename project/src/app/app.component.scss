@@ -43,7 +43,9 @@ $color-white: #ffffff;
 }
 
 .scedule__count {
-    background-color: $color-light-margenta;
+    font-weight: 700;
+    background-color: $color-white;
+    color: $color-margenta;
     height: 1rem;
     width: 1rem;
     display: inline-flex;
