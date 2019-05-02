@@ -15,9 +15,6 @@ export class FilmListComponent {
     @Input()
     public films: Array<Film>;
 
-    @Input()
-    public filmsToWatch: Array<Film>;
-
     /**
      * binding new event from click on <li /> with film
      * using by controller in App component
