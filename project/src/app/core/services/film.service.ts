@@ -20,7 +20,10 @@ import {
     Film
 } from '../models/index';
 import { getFilmUrl, getActorUrl } from '../utils/index';
-import { ScheduleFacade, WatchedListFacade } from '../store-facades/index';
+import {
+    ScheduleStoreService,
+    WatchedListStoreService
+} from '../store-facades/index';
 
 const params = {
     resultsOnPage: 5,
@@ -37,19 +40,19 @@ export class FilmService {
     private currentPage: number;
     private filmsToWatch$: Observable<ReadonlyArray<Film>>;
     private watchedFilms$: Observable<ReadonlyArray<Film>>;
-    private scheduleFacade: ScheduleFacade;
-    private watchedListFacade: WatchedListFacade;
+    private ScheduleStoreService: ScheduleStoreService;
+    private WatchedListStoreService: WatchedListStoreService;
 
     constructor(
         httpClient: HttpClient,
-        scheduleFacade: ScheduleFacade,
-        watchedListFacade: WatchedListFacade
+        ScheduleStoreService: ScheduleStoreService,
+        WatchedListStoreService: WatchedListStoreService
     ) {
         this.httpClient = httpClient;
-        this.scheduleFacade = scheduleFacade;
-        this.watchedListFacade = watchedListFacade;
-        this.filmsToWatch$ = this.scheduleFacade.filmsToWatch$;
-        this.watchedFilms$ = this.watchedListFacade.watchedFilms$;
+        this.ScheduleStoreService = ScheduleStoreService;
+        this.WatchedListStoreService = WatchedListStoreService;
+        this.filmsToWatch$ = this.ScheduleStoreService.filmsToWatch$;
+        this.watchedFilms$ = this.WatchedListStoreService.watchedFilms$;
     }
 
     /**

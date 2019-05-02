@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Film, ScheduleFacade, WatchedListFacade } from '../../core/index';
+import {
+    Film,
+    ScheduleStoreService,
+    WatchedListStoreService
+} from '../../core/index';
 
 @Component({
     selector: 'app-schedule-list',
@@ -10,8 +14,8 @@ import { Film, ScheduleFacade, WatchedListFacade } from '../../core/index';
     styleUrls: ['./schedule-list.component.scss']
 })
 export class ScheduleListComponent implements OnInit {
-    private scheduleFacade: ScheduleFacade;
-    private watchedListFacade: WatchedListFacade;
+    private ScheduleStoreService: ScheduleStoreService;
+    private WatchedListStoreService: WatchedListStoreService;
 
     /**
      * selector,
@@ -26,16 +30,16 @@ export class ScheduleListComponent implements OnInit {
     public watchedFilms$: Observable<ReadonlyArray<Film>>;
 
     constructor(
-        scheduleFacade: ScheduleFacade,
-        watchedListFacade: WatchedListFacade
+        ScheduleStoreService: ScheduleStoreService,
+        WatchedListStoreService: WatchedListStoreService
     ) {
-        this.scheduleFacade = scheduleFacade;
-        this.watchedListFacade = watchedListFacade;
+        this.ScheduleStoreService = ScheduleStoreService;
+        this.WatchedListStoreService = WatchedListStoreService;
     }
 
     public ngOnInit(): void {
-        this.filmsToWatch$ = this.scheduleFacade.filmsToWatch$;
-        this.watchedFilms$ = this.watchedListFacade.watchedFilms$;
+        this.filmsToWatch$ = this.ScheduleStoreService.filmsToWatch$;
+        this.watchedFilms$ = this.WatchedListStoreService.watchedFilms$;
     }
 
     /**
@@ -43,7 +47,7 @@ export class ScheduleListComponent implements OnInit {
      */
     public checkBoxChange($event, film) {
         $event.checked
-            ? this.watchedListFacade.createWatchedFilm(film)
-            : this.watchedListFacade.deleteWatchedFilm(film);
+            ? this.WatchedListStoreService.createWatchedFilm(film)
+            : this.WatchedListStoreService.deleteWatchedFilm(film);
     }
 }

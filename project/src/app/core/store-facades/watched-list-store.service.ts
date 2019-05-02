@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState, WatchedListActions, getWatchedFilms } from '../store/index';
 
 @Injectable()
-export class WatchedListFacade {
+export class WatchedListStoreService {
     constructor(private store: Store<AppState>) {}
 
     public watchedFilms$ = this.store.select(getWatchedFilms);

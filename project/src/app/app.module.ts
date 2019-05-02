@@ -7,8 +7,8 @@ import { AppComponent } from './app.component';
 import {
     FilmService,
     CoreStoreModule,
-    ScheduleFacade,
-    WatchedListFacade
+    ScheduleStoreService,
+    WatchedListStoreService
 } from './core/index';
 import { ScheduleListModule } from './components/schedule-list/index';
 import { SearchListModule } from './components/search-list/index';
@@ -23,7 +23,7 @@ import { SearchListModule } from './components/search-list/index';
         SearchListModule,
         CoreStoreModule
     ],
-    providers: [FilmService, ScheduleFacade, WatchedListFacade],
+    providers: [FilmService, ScheduleStoreService, WatchedListStoreService],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

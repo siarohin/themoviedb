@@ -2,7 +2,11 @@ import { Component, OnInit, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ScheduleFacade, WatchedListFacade, Film } from './core/index';
+import {
+    ScheduleStoreService,
+    WatchedListStoreService,
+    Film
+} from './core/index';
 
 @Component({
     selector: 'app-root',
@@ -11,8 +15,8 @@ import { ScheduleFacade, WatchedListFacade, Film } from './core/index';
 })
 @Injectable()
 export class AppComponent implements OnInit {
-    private scheduleFacade: ScheduleFacade;
-    private watchedListFacade: WatchedListFacade;
+    private ScheduleStoreService: ScheduleStoreService;
+    private WatchedListStoreService: WatchedListStoreService;
 
     /**
      * get film to watch,
@@ -21,16 +25,16 @@ export class AppComponent implements OnInit {
     public filmsToWatch$: Observable<ReadonlyArray<Film>>;
 
     constructor(
-        scheduleFacade: ScheduleFacade,
-        watchedListFacade: WatchedListFacade
+        ScheduleStoreService: ScheduleStoreService,
+        WatchedListStoreService: WatchedListStoreService
     ) {
-        this.scheduleFacade = scheduleFacade;
-        this.watchedListFacade = watchedListFacade;
+        this.ScheduleStoreService = ScheduleStoreService;
+        this.WatchedListStoreService = WatchedListStoreService;
     }
 
     public ngOnInit(): void {
-        this.scheduleFacade.getInitialState();
-        this.watchedListFacade.getInitialState();
-        this.filmsToWatch$ = this.scheduleFacade.filmsToWatch$;
+        this.ScheduleStoreService.getInitialState();
+        this.WatchedListStoreService.getInitialState();
+        this.filmsToWatch$ = this.ScheduleStoreService.filmsToWatch$;
     }
 }

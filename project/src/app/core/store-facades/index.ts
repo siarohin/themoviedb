@@ -1,2 +1,2 @@
-export * from './schedule.facade';
-export * from './watched-list.facade';
+export * from './schedule-store.service';
+export * from './watched-list-store.service';

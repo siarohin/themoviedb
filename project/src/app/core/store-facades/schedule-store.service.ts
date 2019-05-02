@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState, ScheduleActions, getFilmsToWatch } from '../store/index';
 
 @Injectable()
-export class ScheduleFacade {
+export class ScheduleStoreService {
     constructor(private store: Store<AppState>) {}
 
     /**

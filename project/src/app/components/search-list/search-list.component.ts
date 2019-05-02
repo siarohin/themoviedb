@@ -3,7 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 
-import { FilmService, Film, ChangeBox, ScheduleFacade } from '../../core/index';
+import {
+    FilmService,
+    Film,
+    ChangeBox,
+    ScheduleStoreService
+} from '../../core/index';
 
 @Component({
     selector: 'app-search-list',
@@ -11,7 +16,7 @@ import { FilmService, Film, ChangeBox, ScheduleFacade } from '../../core/index';
     styleUrls: ['./search-list.component.scss']
 })
 export class SearchListComponent implements OnInit {
-    private scheduleFacade: ScheduleFacade;
+    private ScheduleStoreService: ScheduleStoreService;
 
     /**
      * add service
@@ -39,9 +44,12 @@ export class SearchListComponent implements OnInit {
      */
     public title = 'Movie';
 
-    constructor(filmService: FilmService, scheduleFacade: ScheduleFacade) {
+    constructor(
+        filmService: FilmService,
+        ScheduleStoreService: ScheduleStoreService
+    ) {
         this.filmService = filmService;
-        this.scheduleFacade = scheduleFacade;
+        this.ScheduleStoreService = ScheduleStoreService;
     }
 
     public ngOnInit(): void {
@@ -108,7 +116,7 @@ export class SearchListComponent implements OnInit {
     public onCheckBoxChange($event: ChangeBox) {
         const { event, film } = $event;
         event.checked
-            ? this.scheduleFacade.createFilmToWatch(film)
-            : this.scheduleFacade.deleteFilmToWatch(film);
+            ? this.ScheduleStoreService.createFilmToWatch(film)
+            : this.ScheduleStoreService.deleteFilmToWatch(film);
     }
 }
