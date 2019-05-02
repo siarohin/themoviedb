@@ -15,6 +15,9 @@ export class FilmListComponent {
     @Input()
     public films: Array<Film>;
 
+    @Input()
+    public filmsToWatch: Array<Film>;
+
     /**
      * binding new event from click on <li /> with film
      * using by controller in App component
@@ -48,6 +51,16 @@ export class FilmListComponent {
      */
     public filmClick(film: Film): void {
         this.onFilmClick.emit(film);
+    }
+
+    /**
+     * check film in state
+     */
+    public getCheckedFilm(uid) {
+        const checkedFilm = this.filmsToWatch.find(film => film.id === uid);
+        if (checkedFilm) {
+            return true;
+        }
     }
 
     /**
