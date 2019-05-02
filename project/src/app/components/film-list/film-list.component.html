@@ -30,8 +30,10 @@
             class="schedule__checkbox"
             (change)="checkBoxChange($event, film)"
             [checked]="film?.inListToWatch"
+            [disabled]="film?.inWatchedList"
             >Add to watch list</mat-checkbox
         >
     </li>
+
     <button (click)="buttonClick($event)" class="next">Next</button>
 </ul>

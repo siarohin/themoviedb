@@ -30,6 +30,12 @@ $color-solomon-active: #ff4040;
     &.active {
         transform: rotate(-0.5deg) scale(1.01);
     }
+
+    &.watched {
+        opacity: 0.5;
+        filter: blur(1px) grayscale(0.75);
+        transform: rotate(-0.5deg) scale(0.8);
+    }
 }
 
 .list-items__title {
