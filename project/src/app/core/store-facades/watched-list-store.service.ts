@@ -6,9 +6,20 @@ import { AppState, WatchedListActions, getWatchedFilms } from '../store/index';
 
 @Injectable()
 export class WatchedListStoreService {
-    constructor(private store: Store<AppState>) {}
+    private store: Store<AppState>;
+    private watchedFilms$;
 
-    public watchedFilms$ = this.store.select(getWatchedFilms);
+    constructor(store: Store<AppState>) {
+        this.store = store;
+        this.watchedFilms$ = this.store.select(getWatchedFilms);
+    }
+
+    /**
+     * select watchedFilms from store
+     */
+    public getWatchedFilms() {
+        return this.watchedFilms$;
+    }
 
     /**
      * add films to store from localStorage onInit

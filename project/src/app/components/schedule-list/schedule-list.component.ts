@@ -14,14 +14,14 @@ import {
     styleUrls: ['./schedule-list.component.scss']
 })
 export class ScheduleListComponent implements OnInit {
-    private ScheduleStoreService: ScheduleStoreService;
-    private WatchedListStoreService: WatchedListStoreService;
+    private scheduleStoreService: ScheduleStoreService;
+    private watchedListStoreService: WatchedListStoreService;
 
     /**
      * selector,
      * 'filmsToWatch' from state
      */
-    public filmsToWatch$: Observable<ReadonlyArray<Film>>;
+    public filmsToWatch$: Observable<Film>;
 
     /**
      * selector,
@@ -30,16 +30,16 @@ export class ScheduleListComponent implements OnInit {
     public watchedFilms$: Observable<ReadonlyArray<Film>>;
 
     constructor(
-        ScheduleStoreService: ScheduleStoreService,
-        WatchedListStoreService: WatchedListStoreService
+        scheduleStoreService: ScheduleStoreService,
+        watchedListStoreService: WatchedListStoreService
     ) {
-        this.ScheduleStoreService = ScheduleStoreService;
-        this.WatchedListStoreService = WatchedListStoreService;
+        this.scheduleStoreService = scheduleStoreService;
+        this.watchedListStoreService = watchedListStoreService;
     }
 
     public ngOnInit(): void {
-        this.filmsToWatch$ = this.ScheduleStoreService.filmsToWatch$;
-        this.watchedFilms$ = this.WatchedListStoreService.watchedFilms$;
+        this.filmsToWatch$ = this.scheduleStoreService.getFilmsToWatch();
+        this.watchedFilms$ = this.watchedListStoreService.getWatchedFilms();
     }
 
     /**
@@ -47,7 +47,7 @@ export class ScheduleListComponent implements OnInit {
      */
     public checkBoxChange($event, film) {
         $event.checked
-            ? this.WatchedListStoreService.createWatchedFilm(film)
-            : this.WatchedListStoreService.deleteWatchedFilm(film);
+            ? this.watchedListStoreService.createWatchedFilm(film)
+            : this.watchedListStoreService.deleteWatchedFilm(film);
     }
 }

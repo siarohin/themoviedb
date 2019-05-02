@@ -6,12 +6,20 @@ import { AppState, ScheduleActions, getFilmsToWatch } from '../store/index';
 
 @Injectable()
 export class ScheduleStoreService {
-    constructor(private store: Store<AppState>) {}
+    private store: Store<AppState>;
+    private filmsToWatch$;
+
+    constructor(store: Store<AppState>) {
+        this.store = store;
+        this.filmsToWatch$ = this.store.select(getFilmsToWatch);
+    }
 
     /**
-     * Select filmsToWatch from store
+     * select filmsToWatch from store
      */
-    public filmsToWatch$ = this.store.select(getFilmsToWatch);
+    public getFilmsToWatch() {
+        return this.filmsToWatch$;
+    }
 
     /**
      * add films to store from localStorage onInit
@@ -30,7 +38,7 @@ export class ScheduleStoreService {
     /**
      * delete film to watchList from store
      */
-    public deleteFilmToWatch(film) {
+    public deleteFilmToWatch(film): void {
         this.store.dispatch(new ScheduleActions.DeleteFilmToWatch(film));
     }
 }

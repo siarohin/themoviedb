@@ -16,7 +16,7 @@ import {
     styleUrls: ['./search-list.component.scss']
 })
 export class SearchListComponent implements OnInit {
-    private ScheduleStoreService: ScheduleStoreService;
+    private scheduleStoreService: ScheduleStoreService;
 
     /**
      * add service
@@ -46,10 +46,10 @@ export class SearchListComponent implements OnInit {
 
     constructor(
         filmService: FilmService,
-        ScheduleStoreService: ScheduleStoreService
+        scheduleStoreService: ScheduleStoreService
     ) {
         this.filmService = filmService;
-        this.ScheduleStoreService = ScheduleStoreService;
+        this.scheduleStoreService = scheduleStoreService;
     }
 
     public ngOnInit(): void {
@@ -116,7 +116,7 @@ export class SearchListComponent implements OnInit {
     public onCheckBoxChange($event: ChangeBox) {
         const { event, film } = $event;
         event.checked
-            ? this.ScheduleStoreService.createFilmToWatch(film)
-            : this.ScheduleStoreService.deleteFilmToWatch(film);
+            ? this.scheduleStoreService.createFilmToWatch(film)
+            : this.scheduleStoreService.deleteFilmToWatch(film);
     }
 }

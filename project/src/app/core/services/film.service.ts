@@ -40,19 +40,19 @@ export class FilmService {
     private currentPage: number;
     private filmsToWatch$: Observable<ReadonlyArray<Film>>;
     private watchedFilms$: Observable<ReadonlyArray<Film>>;
-    private ScheduleStoreService: ScheduleStoreService;
-    private WatchedListStoreService: WatchedListStoreService;
+    private scheduleStoreService: ScheduleStoreService;
+    private watchedListStoreService: WatchedListStoreService;
 
     constructor(
         httpClient: HttpClient,
-        ScheduleStoreService: ScheduleStoreService,
-        WatchedListStoreService: WatchedListStoreService
+        scheduleStoreService: ScheduleStoreService,
+        watchedListStoreService: WatchedListStoreService
     ) {
         this.httpClient = httpClient;
-        this.ScheduleStoreService = ScheduleStoreService;
-        this.WatchedListStoreService = WatchedListStoreService;
-        this.filmsToWatch$ = this.ScheduleStoreService.filmsToWatch$;
-        this.watchedFilms$ = this.WatchedListStoreService.watchedFilms$;
+        this.scheduleStoreService = scheduleStoreService;
+        this.watchedListStoreService = watchedListStoreService;
+        this.filmsToWatch$ = this.scheduleStoreService.getFilmsToWatch();
+        this.watchedFilms$ = this.watchedListStoreService.getWatchedFilms();
     }
 
     /**

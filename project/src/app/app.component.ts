@@ -35,6 +35,6 @@ export class AppComponent implements OnInit {
     public ngOnInit(): void {
         this.ScheduleStoreService.getInitialState();
         this.WatchedListStoreService.getInitialState();
-        this.filmsToWatch$ = this.ScheduleStoreService.filmsToWatch$;
+        this.filmsToWatch$ = this.ScheduleStoreService.getFilmsToWatch();
     }
 }
