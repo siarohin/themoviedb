@@ -111,38 +111,8 @@ export class FilmService {
                         ],
                         []
                     ),
-                    switchMap(filmList =>
-                        this.filmsToWatch$.pipe(
-                            map(filmsToWatch =>
-                                filmList.map(film => {
-                                    const indexFilmToWatch: number = filmsToWatch.findIndex(
-                                        filmToWatch =>
-                                            filmToWatch.id === film.id
-                                    );
-                                    if (indexFilmToWatch !== -1) {
-                                        film.inListToWatch = true;
-                                    }
-                                    return film;
-                                })
-                            )
-                        )
-                    ),
-                    switchMap(filmList =>
-                        this.watchedFilms$.pipe(
-                            map(watchedFilms =>
-                                filmList.map(film => {
-                                    const indexWatchedFilm: number = watchedFilms.findIndex(
-                                        watchedFilm =>
-                                            watchedFilm.id === film.id
-                                    );
-                                    if (indexWatchedFilm !== -1) {
-                                        film.inWatchedList = true;
-                                    }
-                                    return film;
-                                })
-                            )
-                        )
-                    )
+                    switchMap(filmList => this.getFilmsToWatch(filmList)),
+                    switchMap(filmList => this.getWatchedFilms(filmList))
                 )
             )
         );
@@ -182,6 +152,38 @@ export class FilmService {
                 )
             ),
             toArray()
+        );
+    }
+
+    private getFilmsToWatch(filmList) {
+        return this.filmsToWatch$.pipe(
+            map(filmsToWatch =>
+                filmList.map(film => {
+                    const indexFilmToWatch: number = filmsToWatch.findIndex(
+                        filmToWatch => filmToWatch.id === film.id
+                    );
+                    if (indexFilmToWatch !== -1) {
+                        film.inListToWatch = true;
+                    }
+                    return film;
+                })
+            )
+        );
+    }
+
+    private getWatchedFilms(filmList) {
+        return this.watchedFilms$.pipe(
+            map(watchedFilms =>
+                filmList.map(film => {
+                    const indexWatchedFilm: number = watchedFilms.findIndex(
+                        watchedFilm => watchedFilm.id === film.id
+                    );
+                    if (indexWatchedFilm !== -1) {
+                        film.inWatchedList = true;
+                    }
+                    return film;
+                })
+            )
         );
     }
 }
