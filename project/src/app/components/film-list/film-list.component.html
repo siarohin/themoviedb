@@ -4,6 +4,7 @@
         (click)="filmClick(film); clicked = film"
         [id]="film.id"
         [class.active]="!clicked ? i === 0 : clicked === film"
+        [class.watched]="film?.inWatchedList"
     >
         <h2 class="list-items__title">{{ film?.title }}</h2>
         <div class="list-items__item">

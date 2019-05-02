@@ -20,7 +20,7 @@ import {
     Film
 } from '../models/index';
 import { getFilmUrl, getActorUrl } from '../utils/index';
-import { ScheduleFacade } from '../store-facades/index';
+import { ScheduleFacade, WatchedListFacade } from '../store-facades/index';
 
 const params = {
     resultsOnPage: 5,
@@ -36,12 +36,20 @@ export class FilmService {
     private currentDetailsPage: number;
     private currentPage: number;
     private filmsToWatch$: Observable<ReadonlyArray<Film>>;
+    private watchedFilms$: Observable<ReadonlyArray<Film>>;
     private scheduleFacade: ScheduleFacade;
+    private watchedListFacade: WatchedListFacade;
 
-    constructor(httpClient: HttpClient, scheduleFacade: ScheduleFacade) {
+    constructor(
+        httpClient: HttpClient,
+        scheduleFacade: ScheduleFacade,
+        watchedListFacade: WatchedListFacade
+    ) {
         this.httpClient = httpClient;
         this.scheduleFacade = scheduleFacade;
+        this.watchedListFacade = watchedListFacade;
         this.filmsToWatch$ = this.scheduleFacade.filmsToWatch$;
+        this.watchedFilms$ = this.watchedListFacade.watchedFilms$;
     }
 
     /**
@@ -113,6 +121,22 @@ export class FilmService {
                                     );
                                     if (indexFilmToWatch !== -1) {
                                         film.inListToWatch = true;
+                                    }
+                                    return film;
+                                })
+                            )
+                        )
+                    ),
+                    switchMap(filmList =>
+                        this.watchedFilms$.pipe(
+                            map(watchedFilms =>
+                                filmList.map(film => {
+                                    const indexWatchedFilm: number = watchedFilms.findIndex(
+                                        watchedFilm =>
+                                            watchedFilm.id === film.id
+                                    );
+                                    if (indexWatchedFilm !== -1) {
+                                        film.inWatchedList = true;
                                     }
                                     return film;
                                 })

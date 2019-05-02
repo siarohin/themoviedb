@@ -19,12 +19,6 @@ export class SearchListComponent implements OnInit {
     private filmService: FilmService;
 
     /**
-     * selector,
-     * 'filmsToWatch' from state
-     */
-    public filmsToWatch$: Observable<ReadonlyArray<Film>>;
-
-    /**
      * observable filmList from service
      */
     public filmsList$: Observable<Array<Film>>;
@@ -51,7 +45,6 @@ export class SearchListComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.filmsToWatch$ = this.scheduleFacade.filmsToWatch$;
         this.filmsList$ = this.filmService.getFilmList().pipe(
             publishReplay(1),
             refCount()
