@@ -54,6 +54,9 @@ export class FilmService {
         this.querySubject.next(query);
     }
 
+    /**
+     * set page
+     */
     public setPage(): void {
         if (
             this.currentDetailsPage >=
@@ -68,6 +71,9 @@ export class FilmService {
         }
     }
 
+    /**
+     * get filmList
+     */
     public getFilmList(): Observable<Array<Film>> {
         return this.querySubject.asObservable().pipe(
             debounceTime(500),
