@@ -54,16 +54,6 @@ export class FilmListComponent {
     }
 
     /**
-     * check film in state
-     */
-    public getCheckedFilm(uid) {
-        const checkedFilm = this.filmsToWatch.find(film => film.id === uid);
-        if (checkedFilm) {
-            return true;
-        }
-    }
-
-    /**
      * emit event on button <li /> with film
      */
     public buttonClick($event): void {

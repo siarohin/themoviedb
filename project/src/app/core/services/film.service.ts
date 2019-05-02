@@ -20,6 +20,7 @@ import {
     Film
 } from '../models/index';
 import { getFilmUrl, getActorUrl } from '../utils/index';
+import { ScheduleFacade } from '../store-facades/index';
 
 const params = {
     resultsOnPage: 5,
@@ -34,9 +35,13 @@ export class FilmService {
     private nextPageSubject: Subject<number> = new Subject();
     private currentDetailsPage: number;
     private currentPage: number;
+    private filmsToWatch$: Observable<ReadonlyArray<Film>>;
+    private scheduleFacade: ScheduleFacade;
 
-    constructor(httpClient: HttpClient) {
+    constructor(httpClient: HttpClient, scheduleFacade: ScheduleFacade) {
         this.httpClient = httpClient;
+        this.scheduleFacade = scheduleFacade;
+        this.filmsToWatch$ = this.scheduleFacade.filmsToWatch$;
     }
 
     /**
@@ -91,6 +96,22 @@ export class FilmService {
                             ...filmsWithDetails
                         ],
                         []
+                    ),
+                    switchMap(filmList =>
+                        this.filmsToWatch$.pipe(
+                            map(filmsToWatch =>
+                                filmList.map(film => {
+                                    const indexFilmToWatch: number = filmsToWatch.findIndex(
+                                        filmToWatch =>
+                                            filmToWatch.id === film.id
+                                    );
+                                    if (indexFilmToWatch !== -1) {
+                                        film.inListToWatch = true;
+                                    }
+                                    return film;
+                                })
+                            )
+                        )
                     )
                 )
             )

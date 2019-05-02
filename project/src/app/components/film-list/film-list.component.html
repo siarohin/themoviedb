@@ -28,7 +28,7 @@
         <mat-checkbox
             class="schedule__checkbox"
             (change)="checkBoxChange($event, film)"
-            [checked]="getCheckedFilm(film.id)"
+            [checked]="film?.inListToWatch"
             >Add to watch list</mat-checkbox
         >
     </li>

@@ -20,7 +20,6 @@
             (onCheckBoxChange)="onCheckBoxChange($event)"
             (onButtonClick)="onButtonFilmClick()"
             [films]="filmsList$ | async"
-            [filmsToWatch]="filmsToWatch$ | async"
         ></app-film-list>
         <app-film-detail [film]="activeFilm$ | async"></app-film-detail>
     </main>
