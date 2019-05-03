@@ -15,8 +15,8 @@ import {
 })
 @Injectable()
 export class AppComponent implements OnInit {
-    private ScheduleStoreService: ScheduleStoreService;
-    private WatchedListStoreService: WatchedListStoreService;
+    private scheduleStoreService: ScheduleStoreService;
+    private watchedListStoreService: WatchedListStoreService;
 
     /**
      * get film to watch,
@@ -25,16 +25,16 @@ export class AppComponent implements OnInit {
     public filmsToWatch$: Observable<ReadonlyArray<Film>>;
 
     constructor(
-        ScheduleStoreService: ScheduleStoreService,
-        WatchedListStoreService: WatchedListStoreService
+        scheduleStoreService: ScheduleStoreService,
+        watchedListStoreService: WatchedListStoreService
     ) {
-        this.ScheduleStoreService = ScheduleStoreService;
-        this.WatchedListStoreService = WatchedListStoreService;
+        this.scheduleStoreService = scheduleStoreService;
+        this.watchedListStoreService = watchedListStoreService;
     }
 
     public ngOnInit(): void {
-        this.ScheduleStoreService.getInitialState();
-        this.WatchedListStoreService.getInitialState();
-        this.filmsToWatch$ = this.ScheduleStoreService.getFilmsToWatch();
+        this.scheduleStoreService.getInitialState();
+        this.watchedListStoreService.getInitialState();
+        this.filmsToWatch$ = this.scheduleStoreService.getFilmsToWatch();
     }
 }
