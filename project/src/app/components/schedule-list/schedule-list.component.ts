@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
@@ -7,6 +8,7 @@ import {
     ScheduleStoreService,
     WatchedListStoreService
 } from '../../core/index';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
     selector: 'app-schedule-list',
@@ -16,6 +18,7 @@ import {
 export class ScheduleListComponent implements OnInit {
     private scheduleStoreService: ScheduleStoreService;
     private watchedListStoreService: WatchedListStoreService;
+    private dialog: MatDialog;
 
     /**
      * selector,
@@ -25,10 +28,12 @@ export class ScheduleListComponent implements OnInit {
 
     constructor(
         scheduleStoreService: ScheduleStoreService,
-        watchedListStoreService: WatchedListStoreService
+        watchedListStoreService: WatchedListStoreService,
+        dialog: MatDialog
     ) {
         this.scheduleStoreService = scheduleStoreService;
         this.watchedListStoreService = watchedListStoreService;
+        this.dialog = dialog;
     }
 
     public ngOnInit(): void {
@@ -38,12 +43,27 @@ export class ScheduleListComponent implements OnInit {
     /**
      * add or delete film to watchList from checkbox event
      */
-    public checkBoxChange($event, film): void {
+    public checkBoxChange($event, film) {
         if ($event.checked) {
-            this.watchedListStoreService.createWatchedFilm(film);
-            this.scheduleStoreService.deleteFilmToWatch(film);
+            this.openDialog(
+                `Are you sure?`,
+                `The ${film.title} will be delete from schedule list`
+            );
+            // this.watchedListStoreService.createWatchedFilm(film);
+            // this.scheduleStoreService.deleteFilmToWatch(film);
         } else {
             this.watchedListStoreService.deleteWatchedFilm(film);
         }
+    }
+
+    /**
+     * open new dialog window on delete film
+     */
+    public openDialog(title, message): void {
+        this.dialog.open(DialogComponent, {
+            width: '400px',
+            height: '600px',
+            data: { title, message }
+        });
     }
 }
