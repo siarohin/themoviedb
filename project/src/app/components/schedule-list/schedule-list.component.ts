@@ -39,8 +39,11 @@ export class ScheduleListComponent implements OnInit {
      * add or delete film to watchList from checkbox event
      */
     public checkBoxChange($event, film): void {
-        $event.checked
-            ? this.watchedListStoreService.createWatchedFilm(film)
-            : this.watchedListStoreService.deleteWatchedFilm(film);
+        if ($event.checked) {
+            this.watchedListStoreService.createWatchedFilm(film);
+            this.scheduleStoreService.deleteFilmToWatch(film);
+        } else {
+            this.watchedListStoreService.deleteWatchedFilm(film);
+        }
     }
 }
