@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
@@ -19,6 +19,7 @@ export class ScheduleListComponent implements OnInit {
     private scheduleStoreService: ScheduleStoreService;
     private watchedListStoreService: WatchedListStoreService;
     private dialog: MatDialog;
+    private dialogRef: MatDialogRef<DialogComponent>;
 
     /**
      * selector,
@@ -47,10 +48,10 @@ export class ScheduleListComponent implements OnInit {
         if ($event.checked) {
             this.openDialog(
                 `Are you sure?`,
-                `The ${film.title} will be delete from schedule list`
+                `The ${film.title} will be delete from schedule list`,
+                $event,
+                film
             );
-            // this.watchedListStoreService.createWatchedFilm(film);
-            // this.scheduleStoreService.deleteFilmToWatch(film);
         } else {
             this.watchedListStoreService.deleteWatchedFilm(film);
         }
@@ -59,11 +60,12 @@ export class ScheduleListComponent implements OnInit {
     /**
      * open new dialog window on delete film
      */
-    public openDialog(title, message): void {
-        this.dialog.open(DialogComponent, {
+    public openDialog(title, message, $event, film): void {
+        this.dialogRef = this.dialog.open(DialogComponent, {
             width: '400px',
-            height: '600px',
-            data: { title, message }
+            height: '300px',
+            data: { title, message, $event, film }
         });
+        this.dialogRef.afterClosed().subscribe(console.log);
     }
 }

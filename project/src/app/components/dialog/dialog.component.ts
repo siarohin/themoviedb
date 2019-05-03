@@ -1,35 +1,47 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import { Film } from '../../core/index';
-
-export class DialogWithTitleModel {
-    title?: string;
-    message: Film | string;
-}
-
-export class DialogModel {
-    width?: string;
-    height?: string;
-    data: DialogWithTitleModel | string;
-}
+import {
+    DialogModel,
+    DialogWithTitleModel,
+    ScheduleStoreService,
+    WatchedListStoreService
+} from '../../core/index';
 
 @Component({
     selector: 'app-dialog',
-    templateUrl: './dialog.component.html'
+    templateUrl: './dialog.component.html',
+    styleUrls: ['./dialog.component.scss']
 })
 export class DialogComponent {
-    public dialogRef: MatDialogRef<DialogModel>;
+    private dialogRef: MatDialogRef<DialogModel>;
+    private scheduleStoreService: ScheduleStoreService;
+    private watchedListStoreService: WatchedListStoreService;
+
+    /**
+     * title and message params
+     */
+    public data: DialogWithTitleModel;
 
     constructor(
+        scheduleStoreService: ScheduleStoreService,
+        watchedListStoreService: WatchedListStoreService,
         dialogRef: MatDialogRef<DialogModel>,
-        @Inject(MAT_DIALOG_DATA) public data: DialogWithTitleModel
+        @Inject(MAT_DIALOG_DATA) data: DialogWithTitleModel
     ) {
         this.dialogRef = dialogRef;
         this.data = data;
+        this.scheduleStoreService = scheduleStoreService;
+        this.watchedListStoreService = watchedListStoreService;
     }
 
-    onNoClick(): void {
+    public onCancelClick(): void {
+        this.dialogRef.close();
+    }
+
+    public onSubmitClick(film): void {
+        this.watchedListStoreService.createWatchedFilm(film);
+        this.scheduleStoreService.deleteFilmToWatch(film);
         this.dialogRef.close();
     }
 }
