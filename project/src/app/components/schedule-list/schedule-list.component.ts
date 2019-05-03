@@ -23,12 +23,6 @@ export class ScheduleListComponent implements OnInit {
      */
     public filmsToWatch$: Observable<Film>;
 
-    /**
-     * selector,
-     * 'getWatchedFilms' from state
-     */
-    public watchedFilms$: Observable<ReadonlyArray<Film>>;
-
     constructor(
         scheduleStoreService: ScheduleStoreService,
         watchedListStoreService: WatchedListStoreService
@@ -39,13 +33,12 @@ export class ScheduleListComponent implements OnInit {
 
     public ngOnInit(): void {
         this.filmsToWatch$ = this.scheduleStoreService.getFilmsToWatch();
-        this.watchedFilms$ = this.watchedListStoreService.getWatchedFilms();
     }
 
     /**
      * add or delete film to watchList from checkbox event
      */
-    public checkBoxChange($event, film) {
+    public checkBoxChange($event, film): void {
         $event.checked
             ? this.watchedListStoreService.createWatchedFilm(film)
             : this.watchedListStoreService.deleteWatchedFilm(film);
