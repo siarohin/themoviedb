@@ -21,7 +21,7 @@ export class ScheduleListComponent implements OnInit {
      * selector,
      * 'filmsToWatch' from state
      */
-    public filmsToWatch$: Observable<Film>;
+    public filmList$: Observable<Film>;
 
     constructor(
         scheduleStoreService: ScheduleStoreService,
@@ -32,7 +32,7 @@ export class ScheduleListComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.filmsToWatch$ = this.scheduleStoreService.getFilmsToWatch();
+        this.filmList$ = this.scheduleStoreService.getFilmsToWatch();
     }
 
     /**
