@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import {
     Film,
@@ -15,11 +15,12 @@ import { DialogComponent } from '../dialog/dialog.component';
     templateUrl: './schedule-list.component.html',
     styleUrls: ['./schedule-list.component.scss']
 })
-export class ScheduleListComponent implements OnInit {
+export class ScheduleListComponent implements OnInit, OnDestroy {
     private scheduleStoreService: ScheduleStoreService;
     private watchedListStoreService: WatchedListStoreService;
     private dialog: MatDialog;
     private dialogRef: MatDialogRef<DialogComponent>;
+    private dialogRefSubscribtion: Subscription;
 
     /**
      * selector,
@@ -39,6 +40,12 @@ export class ScheduleListComponent implements OnInit {
 
     public ngOnInit(): void {
         this.filmList$ = this.scheduleStoreService.getFilmsToWatch();
+    }
+
+    public ngOnDestroy(): void {
+        if (this.dialogRefSubscribtion) {
+            this.dialogRefSubscribtion.unsubscribe();
+        }
     }
 
     /**
@@ -66,6 +73,14 @@ export class ScheduleListComponent implements OnInit {
             height: '300px',
             data: { title, message, $event, film }
         });
-        this.dialogRef.afterClosed().subscribe(console.log);
+        this.dialogRefSubscribtion = this.dialogRef
+            .afterClosed()
+            .subscribe(result => {
+                if (!!result) {
+                    this.watchedListStoreService.createWatchedFilm(film);
+                    this.scheduleStoreService.deleteFilmToWatch(film);
+                }
+                this.dialogRef.close();
+            });
     }
 }
