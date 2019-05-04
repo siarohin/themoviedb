@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-
 import { Observable, of } from 'rxjs';
 import { publishReplay, refCount, map, debounceTime } from 'rxjs/operators';
 
@@ -9,9 +7,7 @@ import {
     FilmService,
     Film,
     ChangeBox,
-    AppState,
-    getFilmsToWatch,
-    ScheduleActions
+    ScheduleStoreService
 } from '../../core/index';
 
 @Component({
@@ -20,21 +16,12 @@ import {
     styleUrls: ['./search-list.component.scss']
 })
 export class SearchListComponent implements OnInit {
-    /**
-     * add store
-     */
-    private store: Store<AppState>;
+    private scheduleStoreService: ScheduleStoreService;
 
     /**
      * add service
      */
     private filmService: FilmService;
-
-    /**
-     * selector,
-     * 'filmsToWatch' from state
-     */
-    public filmsToWatch$: Observable<ReadonlyArray<Film>>;
 
     /**
      * observable filmList from service
@@ -57,13 +44,15 @@ export class SearchListComponent implements OnInit {
      */
     public title = 'Movie';
 
-    constructor(filmService: FilmService, store: Store<AppState>) {
+    constructor(
+        filmService: FilmService,
+        scheduleStoreService: ScheduleStoreService
+    ) {
         this.filmService = filmService;
-        this.store = store;
+        this.scheduleStoreService = scheduleStoreService;
     }
 
     public ngOnInit(): void {
-        this.filmsToWatch$ = this.store.select(getFilmsToWatch);
         this.filmsList$ = this.filmService.getFilmList().pipe(
             publishReplay(1),
             refCount()
@@ -127,7 +116,7 @@ export class SearchListComponent implements OnInit {
     public onCheckBoxChange($event: ChangeBox) {
         const { event, film } = $event;
         event.checked
-            ? this.store.dispatch(new ScheduleActions.CreateFilmToWatch(film))
-            : this.store.dispatch(new ScheduleActions.DeleteFilmToWatch(film));
+            ? this.scheduleStoreService.createFilmToWatch(film)
+            : this.scheduleStoreService.deleteFilmToWatch(film);
     }
 }

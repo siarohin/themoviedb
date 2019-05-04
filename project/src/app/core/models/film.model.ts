@@ -17,4 +17,6 @@ export interface Film {
     vote_average?: number;
     vote_count?: number;
     inScheduleList?: boolean;
+    inListToWatch?: boolean;
+    inWatchedList?: boolean;
 }

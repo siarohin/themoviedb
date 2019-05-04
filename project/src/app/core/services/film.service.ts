@@ -20,6 +20,10 @@ import {
     Film
 } from '../models/index';
 import { getFilmUrl, getActorUrl } from '../utils/index';
+import {
+    ScheduleStoreService,
+    WatchedListStoreService
+} from '../store-facades/index';
 
 const params = {
     resultsOnPage: 5,
@@ -34,9 +38,21 @@ export class FilmService {
     private nextPageSubject: Subject<number> = new Subject();
     private currentDetailsPage: number;
     private currentPage: number;
+    private filmsToWatch$: Observable<ReadonlyArray<Film>>;
+    private watchedFilms$: Observable<ReadonlyArray<Film>>;
+    private scheduleStoreService: ScheduleStoreService;
+    private watchedListStoreService: WatchedListStoreService;
 
-    constructor(httpClient: HttpClient) {
+    constructor(
+        httpClient: HttpClient,
+        scheduleStoreService: ScheduleStoreService,
+        watchedListStoreService: WatchedListStoreService
+    ) {
         this.httpClient = httpClient;
+        this.scheduleStoreService = scheduleStoreService;
+        this.watchedListStoreService = watchedListStoreService;
+        this.filmsToWatch$ = this.scheduleStoreService.getFilmsToWatch();
+        this.watchedFilms$ = this.watchedListStoreService.getWatchedFilms();
     }
 
     /**
@@ -49,6 +65,9 @@ export class FilmService {
         this.querySubject.next(query);
     }
 
+    /**
+     * set page
+     */
     public setPage(): void {
         if (
             this.currentDetailsPage >=
@@ -63,6 +82,9 @@ export class FilmService {
         }
     }
 
+    /**
+     * get filmList
+     */
     public getFilmList(): Observable<Array<Film>> {
         return this.querySubject.asObservable().pipe(
             debounceTime(500),
@@ -91,6 +113,28 @@ export class FilmService {
                             ...filmsWithDetails
                         ],
                         []
+                    ),
+                    switchMap(filmList =>
+                        this.filmsToWatch$.pipe(
+                            map(filmsInSearchList =>
+                                this.findFilmsInStore(
+                                    filmsInSearchList,
+                                    filmList,
+                                    'filmsToWatch'
+                                )
+                            )
+                        )
+                    ),
+                    switchMap(filmList =>
+                        this.watchedFilms$.pipe(
+                            map(filmsInSearchList =>
+                                this.findFilmsInStore(
+                                    filmsInSearchList,
+                                    filmList,
+                                    'watchedFilm'
+                                )
+                            )
+                        )
                     )
                 )
             )
@@ -132,5 +176,19 @@ export class FilmService {
             ),
             toArray()
         );
+    }
+
+    private findFilmsInStore(filmsInSearchList, filmList, sourceStore?) {
+        return filmList.map(film => {
+            const indexFilm: number = filmsInSearchList.findIndex(
+                filmInSearchList => filmInSearchList.id === film.id
+            );
+            if (sourceStore === 'filmsToWatch' && indexFilm !== -1) {
+                film.inListToWatch = true;
+            } else if (sourceStore === 'watchedFilm' && indexFilm !== -1) {
+                film.inWatchedList = true;
+            }
+            return film;
+        });
     }
 }

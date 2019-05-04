@@ -1,0 +1,81 @@
+$color-green: #1aab8a;
+$color-red: #ff4d4d;
+
+.block {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.container {
+    line-height: 1.5rem;
+}
+
+.buttons {
+    margin-top: 2rem;
+}
+
+button {
+    color: #fff;
+    border: none;
+    position: relative;
+    height: 4rem;
+    font-size: 1em;
+    padding: 0 2rem;
+    cursor: pointer;
+    transition: 800ms ease all;
+    outline: none;
+    margin: 0 0.5rem;
+
+    &.submit {
+        background: $color-green;
+    }
+
+    &.cancel {
+        background: $color-red;
+    }
+}
+
+button:hover {
+    background: #fff;
+
+    &.submit {
+        color: $color-green;
+    }
+
+    &.cancel {
+        color: $color-red;
+    }
+}
+
+button:before,
+button:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    transition: 400ms ease all;
+
+    &.submit {
+        background: $color-green;
+    }
+
+    &.cancel {
+        background: $color-red;
+    }
+}
+
+button:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+button:hover:before,
+button:hover:after {
+    width: 100%;
+    transition: 800ms ease all;
+}

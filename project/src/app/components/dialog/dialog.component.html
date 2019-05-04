@@ -1,0 +1,22 @@
+<div class="block">
+    <h2 mat-dialog-title>Please, confirm action</h2>
+    <div class="container" mat-dialog-content>
+        <p>
+            The {{ film.title }} will be remove from schedule list. Are you
+            sure?
+        </p>
+    </div>
+    <div class="buttons" mat-dialog-actions>
+        <button class="cancel" mat-button [mat-dialog-close]>
+            No, thanks
+        </button>
+        <button
+            class="submit"
+            mat-button
+            [mat-dialog-close]="film"
+            cdkFocusInitial
+        >
+            Yes, sure
+        </button>
+    </div>
+</div>

@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Store } from '@ngrx/store';
+import { Component, OnInit, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import {
-    AppState,
-    ScheduleActions,
-    WatchedListActions,
-    getFilmsToWatch,
+    ScheduleStoreService,
+    WatchedListStoreService,
     Film
 } from './core/index';
 
@@ -17,20 +13,28 @@ import {
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
+@Injectable()
 export class AppComponent implements OnInit {
-    private store: Store<AppState>;
+    private scheduleStoreService: ScheduleStoreService;
+    private watchedListStoreService: WatchedListStoreService;
 
+    /**
+     * get film to watch,
+     * use for render counter in tpl
+     */
     public filmsToWatch$: Observable<ReadonlyArray<Film>>;
 
-    constructor(store: Store<AppState>) {
-        this.store = store;
+    constructor(
+        scheduleStoreService: ScheduleStoreService,
+        watchedListStoreService: WatchedListStoreService
+    ) {
+        this.scheduleStoreService = scheduleStoreService;
+        this.watchedListStoreService = watchedListStoreService;
     }
 
     public ngOnInit(): void {
-        this.filmsToWatch$ = this.store.select(getFilmsToWatch);
-
-        // add films to store from localStorage
-        this.store.dispatch(new ScheduleActions.GetFilmsToWatch([]));
-        this.store.dispatch(new WatchedListActions.GetWatchedFilms([]));
+        this.scheduleStoreService.getInitialState();
+        this.watchedListStoreService.getInitialState();
+        this.filmsToWatch$ = this.scheduleStoreService.getFilmsToWatch();
     }
 }

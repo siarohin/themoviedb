@@ -1,56 +1,81 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { Store } from '@ngrx/store';
-
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import {
-    AppState,
-    getFilmsToWatch,
-    getWatchedFilms,
     Film,
-    WatchedListActions
+    ScheduleStoreService,
+    WatchedListStoreService
 } from '../../core/index';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
     selector: 'app-schedule-list',
     templateUrl: './schedule-list.component.html',
     styleUrls: ['./schedule-list.component.scss']
 })
-export class ScheduleListComponent implements OnInit {
-    private store: Store<AppState>;
+export class ScheduleListComponent implements OnInit, OnDestroy {
+    private scheduleStoreService: ScheduleStoreService;
+    private watchedListStoreService: WatchedListStoreService;
+    private dialog: MatDialog;
+    private dialogRef: MatDialogRef<DialogComponent>;
+    private dialogRefSubscribtion: Subscription;
 
     /**
      * selector,
      * 'filmsToWatch' from state
      */
-    public filmsToWatch$: Observable<ReadonlyArray<Film>>;
+    public filmList$: Observable<Film>;
 
-    /**
-     * selector,
-     * 'getWatchedFilms' from state
-     */
-    public watchedFilms$: Observable<ReadonlyArray<Film>>;
-
-    constructor(store: Store<AppState>) {
-        this.store = store;
+    constructor(
+        scheduleStoreService: ScheduleStoreService,
+        watchedListStoreService: WatchedListStoreService,
+        dialog: MatDialog
+    ) {
+        this.scheduleStoreService = scheduleStoreService;
+        this.watchedListStoreService = watchedListStoreService;
+        this.dialog = dialog;
     }
 
     public ngOnInit(): void {
-        this.filmsToWatch$ = this.store.select(getFilmsToWatch);
-        this.watchedFilms$ = this.store.select(getWatchedFilms);
+        this.filmList$ = this.scheduleStoreService.getFilmsToWatch();
+    }
+
+    public ngOnDestroy(): void {
+        if (this.dialogRefSubscribtion) {
+            this.dialogRefSubscribtion.unsubscribe();
+        }
     }
 
     /**
      * add or delete film to watchList from checkbox event
      */
     public checkBoxChange($event, film) {
-        $event.checked
-            ? this.store.dispatch(
-                  new WatchedListActions.CreateWatchedFilm(film)
-              )
-            : this.store.dispatch(
-                  new WatchedListActions.DeleteWatchedFilm(film)
-              );
+        if ($event.checked) {
+            this.openDialog(film);
+        } else {
+            this.watchedListStoreService.deleteWatchedFilm(film);
+        }
+    }
+
+    /**
+     * open new dialog window on delete film
+     */
+    public openDialog(film): void {
+        this.dialogRef = this.dialog.open(DialogComponent, {
+            width: '400px',
+            height: '300px',
+            data: { film }
+        });
+        this.dialogRefSubscribtion = this.dialogRef
+            .afterClosed()
+            .subscribe(result => {
+                if (!!result) {
+                    this.watchedListStoreService.createWatchedFilm(film);
+                    this.scheduleStoreService.deleteFilmToWatch(film);
+                }
+                this.dialogRef.close();
+            });
     }
 }

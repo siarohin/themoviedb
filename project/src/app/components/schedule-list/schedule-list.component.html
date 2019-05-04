@@ -1,5 +1,5 @@
 <ul class="reset list-items schedule-list">
-    <li *ngFor="let film of (filmsToWatch$ | async)" [id]="film.id">
+    <li *ngFor="let film of filmList$ | async" [id]="film.id">
         <h2 class="list-items__title">{{ film?.title }}</h2>
         <div class="list-items__item">
             <img
@@ -15,7 +15,7 @@
         <article *ngIf="film.actors.length" class="list-items__actors">
             <h3>Actors:</h3>
             <ul class="actors-data">
-                <li *ngFor="let actor of (film.actors | slice: 0:3)">
+                <li *ngFor="let actor of film.actors | slice: 0:3">
                     {{ actor?.name }}
                 </li>
             </ul>

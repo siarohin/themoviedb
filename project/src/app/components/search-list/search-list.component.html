@@ -13,7 +13,7 @@
         </app-custom-form>
     </header>
 
-    <main *ngIf="(filmsList$ | async)" class="main">
+    <main *ngIf="filmsList$ | async" class="main">
         <app-film-list
             class="main__film-list"
             (onFilmClick)="onFilmListClick($event)"
