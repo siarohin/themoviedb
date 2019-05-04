@@ -12,9 +12,10 @@ import {
 } from './core/index';
 import { ScheduleListModule } from './components/schedule-list/index';
 import { SearchListModule } from './components/search-list/index';
+import { RealtimeDataComponent } from './components/realtime-data/realtime-data.component';
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, RealtimeDataComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

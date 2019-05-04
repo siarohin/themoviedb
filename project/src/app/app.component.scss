@@ -11,8 +11,8 @@ $color-white: #ffffff;
 }
 
 .scedule__list a {
-    margin: -0.8rem 1rem 0;
-    padding: 1rem 1rem;
+    margin: 0.05rem;
+    padding: 0.5rem;
     background: $color-margenta;
     color: $color-white;
     text-decoration: none;
@@ -20,26 +20,10 @@ $color-white: #ffffff;
     letter-spacing: 0.0625rem;
     position: relative;
     transition: 0.3s;
-    display: block;
+    display: inline-block;
     &.active {
-        display: none;
+        background: $color-light-margenta;
     }
-}
-
-.scedule__list a:hover {
-    margin: 0 1rem;
-}
-
-.scedule__list a::after {
-    content: "";
-    display: block;
-    width: 101%;
-    height: 1rem;
-    background: $color-white;
-    position: absolute;
-    left: 0;
-    top: 2.5rem;
-    transform: rotate(-4deg);
 }
 
 .scedule__count {
