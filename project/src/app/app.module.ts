@@ -12,17 +12,18 @@ import {
 } from './core/index';
 import { ScheduleListModule } from './components/schedule-list/index';
 import { SearchListModule } from './components/search-list/index';
-import { RealtimeDataComponent } from './components/realtime-data/realtime-data.component';
+import { RealtimeDataModule } from './components/realtime-data/index';
 
 @NgModule({
-    declarations: [AppComponent, RealtimeDataComponent],
+    declarations: [AppComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
         ScheduleListModule,
         SearchListModule,
-        CoreStoreModule
+        CoreStoreModule,
+        RealtimeDataModule
     ],
     providers: [FilmService, ScheduleStoreService, WatchedListStoreService],
     bootstrap: [AppComponent]
