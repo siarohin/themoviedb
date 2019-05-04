@@ -12,6 +12,7 @@ import {
 } from './core/index';
 import { ScheduleListModule } from './components/schedule-list/index';
 import { SearchListModule } from './components/search-list/index';
+import { RealtimeDataModule } from './components/realtime-data/index';
 
 @NgModule({
     declarations: [AppComponent],
@@ -21,7 +22,8 @@ import { SearchListModule } from './components/search-list/index';
         HttpClientModule,
         ScheduleListModule,
         SearchListModule,
-        CoreStoreModule
+        CoreStoreModule,
+        RealtimeDataModule
     ],
     providers: [FilmService, ScheduleStoreService, WatchedListStoreService],
     bootstrap: [AppComponent]
