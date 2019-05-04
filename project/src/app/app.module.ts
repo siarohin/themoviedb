@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {
     FilmService,
-    GeneratorValueService,
     CoreStoreModule,
     ScheduleStoreService,
     WatchedListStoreService
@@ -26,12 +25,7 @@ import { RealtimeDataModule } from './components/realtime-data/index';
         CoreStoreModule,
         RealtimeDataModule
     ],
-    providers: [
-        FilmService,
-        GeneratorValueService,
-        ScheduleStoreService,
-        WatchedListStoreService
-    ],
+    providers: [FilmService, ScheduleStoreService, WatchedListStoreService],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
