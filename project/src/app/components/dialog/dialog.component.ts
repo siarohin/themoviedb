@@ -1,7 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 
-import { DialogWithTitleModel } from '../../core/index';
+import {
+    DialogWithTitle,
+    Film,
+    MessageConfirmDelete,
+    Buttons
+} from '../../core/index';
 
 @Component({
     selector: 'app-dialog',
@@ -10,11 +15,29 @@ import { DialogWithTitleModel } from '../../core/index';
 })
 export class DialogComponent {
     /**
-     * title and message params
+     * film
      */
-    public data: DialogWithTitleModel;
+    public film: Film;
 
-    constructor(@Inject(MAT_DIALOG_DATA) data: DialogWithTitleModel) {
-        this.data = data;
+    /**
+     * dialog message
+     */
+    public message: MessageConfirmDelete;
+
+    /** buttons text */
+    public button: Buttons;
+
+    constructor(@Inject(MAT_DIALOG_DATA) data: DialogWithTitle) {
+        this.film = data.film;
+        this.message = {
+            title: `Please, confirm action`,
+            content: `The ${
+                this.film.title
+            } will be remove from schedule list. Are you sure?`
+        };
+        this.button = {
+            submit: `Yes, sure`,
+            cancel: `No, thanks`
+        };
     }
 }

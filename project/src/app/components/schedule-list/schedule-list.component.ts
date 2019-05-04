@@ -53,12 +53,7 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
      */
     public checkBoxChange($event, film) {
         if ($event.checked) {
-            this.openDialog(
-                `Are you sure?`,
-                `The ${film.title} will be delete from schedule list`,
-                $event,
-                film
-            );
+            this.openDialog(film);
         } else {
             this.watchedListStoreService.deleteWatchedFilm(film);
         }
@@ -67,11 +62,11 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
     /**
      * open new dialog window on delete film
      */
-    public openDialog(title, message, $event, film): void {
+    public openDialog(film): void {
         this.dialogRef = this.dialog.open(DialogComponent, {
             width: '400px',
             height: '300px',
-            data: { title, message, $event, film }
+            data: { film }
         });
         this.dialogRefSubscribtion = this.dialogRef
             .afterClosed()
