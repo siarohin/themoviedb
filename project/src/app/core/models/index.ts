@@ -3,5 +3,3 @@ export { GetFilmsDetailsResponse } from './get-films-detail-response.model';
 export { Film } from './film.model';
 export { ChangeBox } from './change-box.model';
 export { DialogWithTitle } from './dialog-with-title.model';
-export { MessageConfirmDelete } from './message-confirm-delete.model';
-export { Buttons } from './buttons.model';

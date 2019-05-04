@@ -1,13 +1,14 @@
 <div class="block">
-    <h2 mat-dialog-title>{{ message.title }}</h2>
+    <h2 mat-dialog-title>Please, confirm action</h2>
     <div class="container" mat-dialog-content>
         <p>
-            {{ message.content }}
+            The {{ film.title }} will be remove from schedule list. Are you
+            sure?
         </p>
     </div>
     <div class="buttons" mat-dialog-actions>
         <button class="cancel" mat-button [mat-dialog-close]>
-            {{ button.cancel }}
+            No, thanks
         </button>
         <button
             class="submit"
@@ -15,7 +16,7 @@
             [mat-dialog-close]="film"
             cdkFocusInitial
         >
-            {{ button.submit }}
+            Yes, sure
         </button>
     </div>
 </div>
