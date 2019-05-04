@@ -33,12 +33,12 @@ export class RealtimeDataComponent implements OnInit {
     ngOnInit() {
         this.randomValue = this.generatorValueService.init();
 
-        const d3 = this.d3;
         if (this.parentNativeElement !== null) {
-            this.d3ParentElement = d3.select(this.parentNativeElement);
+            this.d3ParentElement = this.d3.select(this.parentNativeElement);
         }
 
-        d3.select('.content')
+        this.d3
+            .select('.content')
             .selectAll('p')
             .data([4, 8, 15, 16, 23, 42])
             .enter()
