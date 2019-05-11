@@ -39,17 +39,46 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
             this.d3ParentElement = this.d3.select(this.parentNativeElement);
         }
 
+        const margin = { top: 80, right: 100, bottom: 80, left: 80 };
+        const height = 800 - margin.top - margin.bottom;
+        const width = 990 - margin.left - margin.right;
+
         // Add svg to container
         const areaSVG = this.d3
             .select('.content')
             .append('svg')
-            .attr('width', 100 + '%')
-            .attr('height', 500 + 'px');
+            .attr('width', width)
+            .attr('height', height);
+
+        const g = areaSVG
+            .append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+        const xAxisCall = this.d3.axisBottom;
+        const yAxisCall = this.d3.axisLeft;
+
+        const xAxis = g
+            .append('g')
+            .attr('class', 'x axis')
+            .attr('transform', `translate(0, ${height})`);
+
+        const yAxis = g.append('g').attr('class', 'y axis');
+
+        // https://coursehunters.net/course/vizualizacii-dannyh-s-d3-js
+        yAxis
+            .append('text')
+            .attr('class', 'axis-title')
+            .attr('transform', `rotate(-90)`)
+            .attr('y', 6)
+            .attr('dy', '.71em')
+            .style('text-anchor', 'end')
+            .attr('fill', '#5d6971')
+            .text('Value');
 
         const defaultScale = this.d3
             .scaleLinear()
             .domain([0, 1])
-            .range([0, 300]);
+            .range([0, height]);
 
         this.randomValueSubscription = this.randomValue.subscribe(value => {
             this.data = [...this.data, value];
@@ -59,7 +88,8 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                 .enter()
                 .append('circle')
                 .attr('r', 3)
-                .attr('cx', (d, i) => (i + 10) * 10)
+                // tslint:disable-next-line: variable-name
+                .attr('cx', (_d, i) => i + 10)
                 .attr('cy', d => defaultScale(d))
                 .attr('data', d => d);
         });
