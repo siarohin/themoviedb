@@ -20,7 +20,7 @@ export class GeneratorValueService {
      * generate interval 1s
      */
     private generateIntervalValue(): Observable<number> {
-        this.intervalValue$ = interval(1000);
+        this.intervalValue$ = interval(100);
         return this.intervalValue$;
     }
 

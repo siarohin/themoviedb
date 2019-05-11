@@ -54,26 +54,12 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
             .append('g')
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
-        const xAxisCall = this.d3.axisBottom;
-        const yAxisCall = this.d3.axisLeft;
-
-        const xAxis = g
-            .append('g')
-            .attr('class', 'x axis')
-            .attr('transform', `translate(0, ${height})`);
-
-        const yAxis = g.append('g').attr('class', 'y axis');
-
         // https://coursehunters.net/course/vizualizacii-dannyh-s-d3-js
-        yAxis
-            .append('text')
-            .attr('class', 'axis-title')
-            .attr('transform', `rotate(-90)`)
-            .attr('y', 6)
-            .attr('dy', '.71em')
-            .style('text-anchor', 'end')
-            .attr('fill', '#5d6971')
-            .text('Value');
+        g.append('path')
+            .attr('class', 'line')
+            .attr('fill', 'none')
+            .attr('stroke', 'gray')
+            .attr('stroke-width', '3px');
 
         const defaultScale = this.d3
             .scaleLinear()
@@ -83,15 +69,16 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
         this.randomValueSubscription = this.randomValue.subscribe(value => {
             this.data = [...this.data, value];
             areaSVG
-                .selectAll('circle')
+                .selectAll('line')
                 .data([...this.data, value])
                 .enter()
-                .append('circle')
-                .attr('r', 3)
+                .append('line')
                 // tslint:disable-next-line: variable-name
-                .attr('cx', (_d, i) => i + 10)
-                .attr('cy', d => defaultScale(d))
-                .attr('data', d => d);
+                .attr('x1', (_d, i) => i + 10)
+                .attr('x2', (_d, i) => i + 1 + 10)
+                .attr('y1', d => defaultScale(d))
+                .attr('y2', d => defaultScale(1 - d))
+                .attr('stroke', 'black');
         });
     }
 
