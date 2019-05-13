@@ -86,6 +86,21 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .call(d3.axisLeft(y));
 
                 svg.select('.path').remove();
+                svg.selectAll('.dot').remove();
+
+                svg.selectAll('.dot')
+                    .data(randomValue)
+                    .enter()
+                    .append('circle')
+                    .attr('class', 'dot')
+                    .attr('cx', function(d, i) {
+                        return x(i);
+                    })
+                    .attr('cy', function(d) {
+                        return y(d.value);
+                    })
+                    .attr('r', 3)
+                    .attr('fill', '#ffab00');
 
                 svg.append('path')
                     .datum(randomValue)
