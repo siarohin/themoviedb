@@ -56,15 +56,19 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
 
         this.randomValueSubscription = this.randomValue.subscribe(
             randomValue => {
+                // Add new X coords
                 const x = d3
                     .scaleTime()
                     .domain([0, randomValue.length - 1])
                     .range([0, width]);
+
+                // Add new Y coords
                 const y = d3
                     .scaleLinear()
                     .domain([0, 1])
                     .range([height, 0]);
 
+                // Add line
                 const line = d3
                     .line()
                     // tslint:disable-next-line: variable-name
@@ -72,12 +76,14 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .y(d => y(d.value))
                     .curve(d3.curveMonotoneX);
 
+                // Remove X coords
                 svg.select('.xAxis').remove();
+
+                // Remove old Y coords
                 svg.select('.yAxis').remove();
 
                 svg.append('g')
                     .attr('class', 'xAxis')
-                    .attr('transform', 'translate(0,' + height + ')')
                     .attr('transform', 'translate(0,' + height + ')')
                     .call(d3.axisBottom(x));
 
@@ -85,9 +91,13 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .attr('class', 'yAxis')
                     .call(d3.axisLeft(y));
 
+                // Remove old line
                 svg.select('.path').remove();
+
+                // Remove old dots
                 svg.selectAll('.dot').remove();
 
+                // Add new dots to char
                 svg.selectAll('.dot')
                     .data(randomValue)
                     .enter()
@@ -102,6 +112,7 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .attr('r', 3)
                     .attr('fill', '#ffab00');
 
+                // Add new line from array
                 svg.append('path')
                     .datum(randomValue)
                     .attr('d', line)
