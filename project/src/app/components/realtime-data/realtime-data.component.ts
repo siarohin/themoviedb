@@ -5,7 +5,6 @@ import { Observable, Subscription } from 'rxjs';
 import { D3Service, D3, Selection } from 'd3-ng2-service';
 
 import { GeneratorValueService } from '../../core/index';
-import { RandomValueWithDate } from 'src/app/core/services/generator-value.service';
 
 @Component({
     selector: 'app-realtime-data',
@@ -51,14 +50,20 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
             .append('g')
             .attr(
                 'transform',
-                'translate(' + margin.left + ',' + margin.top + ')'
-            );
+                'translate(' + 2 * margin.left + ',' + margin.top + ')'
+            )
+            .attr('class', 'external-container');
+
+        const innerContainer = d3
+            .select('.external-container')
+            .append('g')
+            .attr('class', 'inner-container');
 
         this.randomValueSubscription = this.randomValue.subscribe(
             randomValue => {
                 // Add new X coords
                 const x = d3
-                    .scaleTime()
+                    .scaleLinear()
                     .domain([0, randomValue.length - 1])
                     .range([0, width]);
 
@@ -77,12 +82,21 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .curve(d3.curveMonotoneX);
 
                 // Remove X coords
-                svg.select('.xAxis').remove();
+                innerContainer.select('.xAxis').remove();
 
                 // Remove old Y coords
                 svg.select('.yAxis').remove();
 
-                svg.append('g')
+                // Move x to left on new value
+                innerContainer.data(randomValue, (d, i) => {
+                    return innerContainer.attr(
+                        'transform',
+                        'translate(-' + parseInt(margin.left + i) + ', 0)'
+                    );
+                });
+
+                innerContainer
+                    .append('g')
                     .attr('class', 'xAxis')
                     .attr('transform', 'translate(0,' + height + ')')
                     .call(d3.axisBottom(x));
@@ -98,7 +112,8 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                 svg.selectAll('.dot').remove();
 
                 // Add new dots to char
-                svg.selectAll('.dot')
+                innerContainer
+                    .selectAll('.dot')
                     .data(randomValue)
                     .enter()
                     .append('circle')
@@ -113,7 +128,8 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .attr('fill', '#ffab00');
 
                 // Add new line from array
-                svg.append('path')
+                innerContainer
+                    .append('path')
                     .datum(randomValue)
                     .attr('d', line)
                     .attr('fill', 'none')
