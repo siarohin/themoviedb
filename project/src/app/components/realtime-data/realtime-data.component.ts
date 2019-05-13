@@ -72,17 +72,20 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .y(d => y(d.value))
                     .curve(d3.curveMonotoneX);
 
-                svg.select('.path').remove();
+                svg.select('.xAxis').remove();
+                svg.select('.yAxis').remove();
 
                 svg.append('g')
-                    .attr('class', 'x axis')
+                    .attr('class', 'xAxis')
                     .attr('transform', 'translate(0,' + height + ')')
                     .attr('transform', 'translate(0,' + height + ')')
                     .call(d3.axisBottom(x));
 
                 svg.append('g')
-                    .attr('class', 'y axis')
+                    .attr('class', 'yAxis')
                     .call(d3.axisLeft(y));
+
+                svg.select('.path').remove();
 
                 svg.append('path')
                     .datum(randomValue)
