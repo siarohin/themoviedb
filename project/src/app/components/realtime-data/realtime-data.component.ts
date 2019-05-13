@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { D3Service, D3, Selection } from 'd3-ng2-service';
 
 import { GeneratorValueService } from '../../core/index';
+import { RandomValueWithDate } from 'src/app/core/services/generator-value.service';
 
 @Component({
     selector: 'app-realtime-data',
@@ -15,8 +16,7 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
     private d3: D3;
     private parentNativeElement: any;
     private generatorValueService: GeneratorValueService;
-    private data: Array<number>;
-    private randomValue: Observable<number>;
+    private randomValue: Observable<any>;
     private randomValueSubscription: Subscription;
 
     public d3ParentElement: Selection<any, any, any, any>;
@@ -32,54 +32,67 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.data = [];
-        this.randomValue = this.generatorValueService.init();
+        this.randomValue = this.generatorValueService.getArrayWithRandomValue();
 
         if (this.parentNativeElement !== null) {
             this.d3ParentElement = this.d3.select(this.parentNativeElement);
         }
 
+        const d3 = this.d3;
         const margin = { top: 80, right: 100, bottom: 80, left: 80 };
         const height = 800 - margin.top - margin.bottom;
-        const width = 990 - margin.left - margin.right;
+        const width = window.innerWidth - margin.left - margin.right;
 
-        // Add svg to container
-        const areaSVG = this.d3
+        const svg = d3
             .select('.content')
             .append('svg')
-            .attr('width', width)
-            .attr('height', height);
-
-        const g = areaSVG
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
             .append('g')
-            .attr('transform', `translate(${margin.left}, ${margin.top})`);
+            .attr(
+                'transform',
+                'translate(' + margin.left + ',' + margin.top + ')'
+            );
 
-        // https://coursehunters.net/course/vizualizacii-dannyh-s-d3-js
-        g.append('path')
-            .attr('class', 'line')
-            .attr('fill', 'none')
-            .attr('stroke', 'gray')
-            .attr('stroke-width', '3px');
+        this.randomValueSubscription = this.randomValue.subscribe(
+            randomValue => {
+                const x = d3
+                    .scaleTime()
+                    .domain([0, randomValue.length - 1])
+                    .range([0, width]);
+                const y = d3
+                    .scaleLinear()
+                    .domain([0, 1])
+                    .range([height, 0]);
 
-        const defaultScale = this.d3
-            .scaleLinear()
-            .domain([0, 1])
-            .range([0, height]);
+                const line = d3
+                    .line()
+                    // tslint:disable-next-line: variable-name
+                    .x((_d, i) => x(i))
+                    .y(d => y(d.value))
+                    .curve(d3.curveMonotoneX);
 
-        this.randomValueSubscription = this.randomValue.subscribe(value => {
-            this.data = [...this.data, value];
-            areaSVG
-                .selectAll('line')
-                .data([...this.data, value])
-                .enter()
-                .append('line')
-                // tslint:disable-next-line: variable-name
-                .attr('x1', (_d, i) => i + 10)
-                .attr('x2', (_d, i) => i + 1 + 10)
-                .attr('y1', d => defaultScale(d))
-                .attr('y2', d => defaultScale(1 - d))
-                .attr('stroke', 'black');
-        });
+                svg.select('.path').remove();
+
+                svg.append('g')
+                    .attr('class', 'x axis')
+                    .attr('transform', 'translate(0,' + height + ')')
+                    .attr('transform', 'translate(0,' + height + ')')
+                    .call(d3.axisBottom(x));
+
+                svg.append('g')
+                    .attr('class', 'y axis')
+                    .call(d3.axisLeft(y));
+
+                svg.append('path')
+                    .datum(randomValue)
+                    .attr('d', line)
+                    .attr('fill', 'none')
+                    .attr('stroke', '#ffab00')
+                    .attr('stroke-width', 1)
+                    .attr('class', 'path');
+            }
+        );
     }
 
     ngOnDestroy() {

@@ -1,34 +1,24 @@
-import { interval, Observable, of } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { interval, Observable } from 'rxjs';
+import { map, scan } from 'rxjs/operators';
+
+export interface RandomValueWithDate {
+    value: number;
+    time: Date;
+}
 
 export class GeneratorValueService {
-    private intervalValue$: Observable<number>;
-    private randomValue$: Observable<number>;
-
     constructor() {}
 
     /**
-     * return observable random value every 1s
+     * return array with random value every 1s
      */
-    public init(): Observable<number> {
-        return this.generateIntervalValue().pipe(
-            mergeMap(() => this.generateRandomValue())
+    public getArrayWithRandomValue(): Observable<RandomValueWithDate> {
+        return interval(1000).pipe(
+            map(() => ({
+                value: Math.random(),
+                time: Date.now()
+            })),
+            scan((acc, value) => [...acc, value], [])
         );
-    }
-
-    /**
-     * generate interval 1s
-     */
-    private generateIntervalValue(): Observable<number> {
-        this.intervalValue$ = interval(100);
-        return this.intervalValue$;
-    }
-
-    /**
-     * generate random value
-     */
-    private generateRandomValue(): Observable<number> {
-        this.randomValue$ = of(Math.random());
-        return this.randomValue$;
     }
 }
