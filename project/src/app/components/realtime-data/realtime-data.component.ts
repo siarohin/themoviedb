@@ -38,26 +38,29 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
         }
 
         const d3 = this.d3;
-        const margin = { top: 80, right: 100, bottom: 80, left: 80 };
+        const margin = { top: 80, right: 80, bottom: 80, left: 80 };
         const height = 800 - margin.top - margin.bottom;
         const width = window.innerWidth - margin.left - margin.right;
 
         const svg = d3
             .select('.content')
             .append('svg')
-            .attr('width', width + margin.left + margin.right)
+            .attr('width', width)
             .attr('height', height + margin.top + margin.bottom)
             .append('g')
-            .attr(
-                'transform',
-                'translate(' + 2 * margin.left + ',' + margin.top + ')'
-            )
+            .attr('transform', 'translate(0' + ',' + margin.top + ')')
             .attr('class', 'external-container');
 
         const innerContainer = d3
             .select('.external-container')
             .append('g')
             .attr('class', 'inner-container');
+
+        // Add new Y coords
+        const y = d3
+            .scaleLinear()
+            .domain([0, 1])
+            .range([height, 0]);
 
         this.randomValueSubscription = this.randomValue.subscribe(
             randomValue => {
@@ -66,12 +69,7 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .scaleLinear()
                     .domain([0, randomValue.length - 1])
                     .range([0, width]);
-
-                // Add new Y coords
-                const y = d3
-                    .scaleLinear()
-                    .domain([0, 1])
-                    .range([height, 0]);
+                // .translate;
 
                 // Add line
                 const line = d3
@@ -82,28 +80,25 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .curve(d3.curveMonotoneX);
 
                 // Remove X coords
-                innerContainer.select('.xAxis').remove();
+                svg.select('.xAxis').remove();
 
                 // Remove old Y coords
                 svg.select('.yAxis').remove();
 
                 // Move x to left on new value
-                innerContainer.data(randomValue, (d, i) => {
-                    return innerContainer.attr(
-                        'transform',
-                        'translate(-' + parseInt(margin.left + i) + ', 0)'
-                    );
-                });
+                innerContainer.attr(
+                    'transform',
+                    'translate(-' + margin.left + ', 0)'
+                );
 
-                innerContainer
-                    .append('g')
+                svg.append('g')
                     .attr('class', 'xAxis')
                     .attr('transform', 'translate(0,' + height + ')')
                     .call(d3.axisBottom(x));
 
                 svg.append('g')
                     .attr('class', 'yAxis')
-                    .call(d3.axisLeft(y));
+                    .call(d3.axisRight(y));
 
                 // Remove old line
                 svg.select('.path').remove();
@@ -118,13 +113,13 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .enter()
                     .append('circle')
                     .attr('class', 'dot')
-                    .attr('cx', function(d, i) {
+                    .attr('cx', (_d, i) => {
                         return x(i);
                     })
-                    .attr('cy', function(d) {
+                    .attr('cy', d => {
                         return y(d.value);
                     })
-                    .attr('r', 3)
+                    .attr('r', 1.5)
                     .attr('fill', '#ffab00');
 
                 // Add new line from array
