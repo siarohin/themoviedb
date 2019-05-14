@@ -3,3 +3,4 @@ export { GetFilmsDetailsResponse } from './get-films-detail-response.model';
 export { Film } from './film.model';
 export { ChangeBox } from './change-box.model';
 export { DialogWithTitle } from './dialog-with-title.model';
+export { RandomValueWithDate } from './random-value-with-date.model';

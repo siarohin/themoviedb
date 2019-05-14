@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { D3Service, D3, Selection } from 'd3-ng2-service';
 
-import { GeneratorValueService } from '../../core/index';
+import { GeneratorValueService, RandomValueWithDate } from '../../core/index';
 
 @Component({
     selector: 'app-realtime-data',
@@ -73,7 +73,7 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
 
                 // Add line
                 const line = d3
-                    .line()
+                    .line<RandomValueWithDate>()
                     // tslint:disable-next-line: variable-name
                     .x((_d, i) => x(i))
                     .y(d => y(d.value))
@@ -109,10 +109,11 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                 // Add new dots to char
                 innerContainer
                     .selectAll('.dot')
-                    .data(randomValue)
+                    .data<RandomValueWithDate>(randomValue)
                     .enter()
                     .append('circle')
                     .attr('class', 'dot')
+                    // tslint:disable-next-line: variable-name
                     .attr('cx', (_d, i) => {
                         return x(i);
                     })

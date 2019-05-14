@@ -1,10 +1,7 @@
 import { interval, Observable } from 'rxjs';
 import { map, scan } from 'rxjs/operators';
 
-export interface RandomValueWithDate {
-    value: number;
-    time: Date;
-}
+import { RandomValueWithDate } from '../models/index';
 
 export class GeneratorValueService {
     constructor() {}
