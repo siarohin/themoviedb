@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { D3Service, D3, Selection } from 'd3-ng2-service';
 
@@ -15,7 +15,6 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
     private d3: D3;
     private parentNativeElement: any;
     private generatorValueService: GeneratorValueService;
-    private randomValue: Observable<any>;
     private randomValueSubscription: Subscription;
 
     public d3ParentElement: Selection<any, any, any, any>;
@@ -31,8 +30,6 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.randomValue = this.generatorValueService.getArrayWithRandomValue();
-
         if (this.parentNativeElement !== null) {
             this.d3ParentElement = this.d3.select(this.parentNativeElement);
         }
@@ -62,8 +59,9 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
             .domain([0, 1])
             .range([height, 0]);
 
-        this.randomValueSubscription = this.randomValue.subscribe(
-            randomValue => {
+        this.randomValueSubscription = this.generatorValueService
+            .getArrayWithRandomValue()
+            .subscribe(randomValue => {
                 // Add new X coords
                 const x = d3
                     .scaleLinear()
@@ -132,8 +130,7 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .attr('stroke', '#ffab00')
                     .attr('stroke-width', 1)
                     .attr('class', 'path');
-            }
-        );
+            });
     }
 
     ngOnDestroy() {
