@@ -62,17 +62,21 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
         this.randomValueSubscription = this.generatorValueService
             .getArrayWithRandomValue()
             .subscribe(randomValue => {
+                const timeArray = randomValue.map(values => {
+                    return values.time;
+                });
+
                 // Add new X coords
                 const x = d3
                     .scaleLinear()
-                    .domain([0, randomValue.length - 1])
+                    .domain([d3.min(timeArray), d3.max(timeArray)])
                     .range([0, width]);
 
                 // Add line
                 const line = d3
                     .line<RandomValueWithDate>()
                     // tslint:disable-next-line: variable-name
-                    .x((_d, i) => x(i))
+                    .x(d => x(d.time))
                     .y(d => y(d.value))
                     .curve(d3.curveMonotoneX);
 
@@ -110,9 +114,8 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .enter()
                     .append('circle')
                     .attr('class', 'dot')
-                    // tslint:disable-next-line: variable-name
-                    .attr('cx', (_d, i) => {
-                        return x(i);
+                    .attr('cx', d => {
+                        return x(d.time);
                     })
                     .attr('cy', d => {
                         return y(d.value);

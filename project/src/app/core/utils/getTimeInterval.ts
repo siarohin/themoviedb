@@ -1,3 +1,3 @@
-export const getTimeInterval = (totalTime: number, valueTime: number) => {
-    return Math.round((totalTime - valueTime) / 1000);
+export const getTimeInterval = (valueTime: number) => {
+    return Math.round((Date.now() - valueTime) / 1000);
 };
