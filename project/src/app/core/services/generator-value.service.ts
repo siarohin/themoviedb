@@ -12,13 +12,13 @@ export class GeneratorValueService {
     /**
      * return array with random value every 1s
      */
-    public getArrayWithRandomValue(): Observable<RandomValueWithDate> {
+    public getArrayWithRandomValue(): Observable<Array<RandomValueWithDate>> {
         return interval(1000).pipe(
             map(() => ({
                 value: Math.random(),
                 time: Date.now()
             })),
-            scan((acc, value) => [...acc, value], [])
+            scan((acc, value: RandomValueWithDate) => [...acc, value], [])
         );
     }
 }
