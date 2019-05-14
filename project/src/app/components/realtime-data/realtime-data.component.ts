@@ -4,7 +4,11 @@ import { Subscription } from 'rxjs';
 
 import { D3Service, D3, Selection } from 'd3-ng2-service';
 
-import { GeneratorValueService, RandomValueWithDate } from '../../core/index';
+import {
+    GeneratorValueService,
+    RandomValueWithDate,
+    getTimeInterval
+} from '../../core/index';
 
 @Component({
     selector: 'app-realtime-data',
@@ -65,7 +69,7 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
             .getArrayWithRandomValue()
             .subscribe(randomValue => {
                 const timeArray = randomValue.map(values => {
-                    return Math.round((+values.time - initialTime) / 1000);
+                    return getTimeInterval(initialTime, +values.time);
                 });
 
                 // Add new X coords
@@ -77,8 +81,7 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                 // Add line
                 const line = d3
                     .line<RandomValueWithDate>()
-                    // tslint:disable-next-line: variable-name
-                    .x(d => x(Math.round(+d.time - initialTime) / 1000))
+                    .x(d => x(getTimeInterval(initialTime, +d.time)))
                     .y(d => y(d.value))
                     .curve(d3.curveMonotoneX);
 
@@ -117,7 +120,7 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .append('circle')
                     .attr('class', 'dot')
                     .attr('cx', d => {
-                        return x(Math.round(+d.time - initialTime) / 1000);
+                        return x(getTimeInterval(initialTime, +d.time));
                     })
                     .attr('cy', d => {
                         return y(d.value);
