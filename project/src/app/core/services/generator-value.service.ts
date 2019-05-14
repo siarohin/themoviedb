@@ -2,6 +2,7 @@ import { interval, Observable } from 'rxjs';
 import { map, scan } from 'rxjs/operators';
 
 import { RandomValueWithDate } from '../models/index';
+import { getTimeInterval } from '../utils/index';
 
 export class GeneratorValueService {
     constructor() {}
@@ -16,12 +17,10 @@ export class GeneratorValueService {
                 time: Date.now()
             })),
             scan((acc, value: RandomValueWithDate) => {
-                if (acc.length < 21) {
-                    return [...acc, value];
-                } else {
-                    acc.shift();
-                    return [...acc, value];
-                }
+                const validValues = acc.filter(
+                    values => getTimeInterval(Date.now(), values.time) < 20
+                );
+                return [...validValues, value];
             }, [])
         );
     }
