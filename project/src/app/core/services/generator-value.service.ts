@@ -17,9 +17,10 @@ export class GeneratorValueService {
                 time: Date.now()
             })),
             scan((acc, value: RandomValueWithDate) => {
-                const validValues = acc.filter(
-                    values => getTimeInterval(Date.now(), values.time) < 20
+                const notValidValuesIndex = acc.findIndex(
+                    values => getTimeInterval(Date.now(), values.time) > 20
                 );
+                const validValues = acc.slice(notValidValuesIndex + 1);
                 return [...validValues, value];
             }, [])
         );

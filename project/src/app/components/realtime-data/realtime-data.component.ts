@@ -67,7 +67,6 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
                     .scaleLinear()
                     .domain([0, randomValue.length - 1])
                     .range([0, width]);
-                // .translate;
 
                 // Add line
                 const line = d3
