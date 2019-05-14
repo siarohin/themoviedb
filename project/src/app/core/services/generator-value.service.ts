@@ -15,7 +15,14 @@ export class GeneratorValueService {
                 value: Math.random(),
                 time: Date.now()
             })),
-            scan((acc, value: RandomValueWithDate) => [...acc, value], [])
+            scan((acc, value: RandomValueWithDate) => {
+                if (acc.length < 21) {
+                    return [...acc, value];
+                } else {
+                    acc.shift();
+                    return [...acc, value];
+                }
+            }, [])
         );
     }
 }
