@@ -68,7 +68,7 @@ export class RealtimeDataComponent implements OnInit, OnDestroy {
         this.randomValueSubscription = this.generatorValueService
             .getArrayWithRandomValue()
             .subscribe(randomValue => {
-                const timeArray = randomValue.map(values => {
+                const timeArray: number[] = randomValue.map(values => {
                     return getTimeInterval(initialTime, +values.time);
                 });
 
