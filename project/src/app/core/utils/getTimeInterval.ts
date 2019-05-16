@@ -1,4 +1,4 @@
-export function getTimeInterval(
+export default function getTimeInterval(
     valueTime: number,
     initialTime: number = Date.now()
 ) {
