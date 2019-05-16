@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import { assign } from 'lodash';
 
 import {
     WatchedListActionTypes,
@@ -18,7 +18,7 @@ export function watchedListReducer(
          * get films to watch list from localStorage
          */
         case WatchedListActionTypes.GET_FILMS: {
-            return _.assign(
+            return assign(
                 {},
                 {
                     ...state,
@@ -31,7 +31,7 @@ export function watchedListReducer(
          * get films from state on init
          */
         case WatchedListActionTypes.GET_FILMS_SUCCESS: {
-            return _.assign({}, state, {
+            return assign({}, state, {
                 watchedFilms: action.payload,
                 loading: false,
                 loaded: true
@@ -43,7 +43,7 @@ export function watchedListReducer(
          */
         case WatchedListActionTypes.GET_FILMS_ERROR: {
             const error = action.payload;
-            return _.assign(
+            return assign(
                 {},
                 {
                     ...state,
@@ -58,7 +58,7 @@ export function watchedListReducer(
          * add film to watched list
          */
         case WatchedListActionTypes.CREATE_FILM: {
-            return _.assign(
+            return assign(
                 {},
                 {
                     ...state,
@@ -71,7 +71,7 @@ export function watchedListReducer(
          * add film in state
          */
         case WatchedListActionTypes.CREATE_FILM_SUCCESS: {
-            return _.assign({}, state, {
+            return assign({}, state, {
                 watchedFilms: [...state.watchedFilms, action.payload],
                 loading: false,
                 loaded: true
@@ -83,7 +83,7 @@ export function watchedListReducer(
          */
         case WatchedListActionTypes.CREATE_FILM_ERROR: {
             const error = action.payload;
-            return _.assign(
+            return assign(
                 {},
                 {
                     ...state,
@@ -98,7 +98,7 @@ export function watchedListReducer(
          * delete film from watched list
          */
         case WatchedListActionTypes.DELETE_FILM: {
-            return _.assign(
+            return assign(
                 {},
                 {
                     ...state,
@@ -111,7 +111,7 @@ export function watchedListReducer(
          * film exist in state
          */
         case WatchedListActionTypes.DELETE_FILM_SUCCESS: {
-            return _.assign({}, state, {
+            return assign({}, state, {
                 watchedFilms: action.payload,
                 loading: false,
                 loaded: true
@@ -123,7 +123,7 @@ export function watchedListReducer(
          */
         case WatchedListActionTypes.DELETE_FILM_ERROR: {
             const error = action.payload;
-            return _.assign(
+            return assign(
                 {},
                 {
                     ...state,
